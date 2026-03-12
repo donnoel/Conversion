@@ -6,45 +6,63 @@ import UIKit
 
 struct ConversionsTabView: View {
     @ObservedObject var viewModel: ConversionsViewModel
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var favoritesStore: FavoritesStore
+    @FocusState private var isInputFocused: Bool
+    @State private var isShowingUnitSheet = false
 
-    private var columns: [GridItem] {
-        let isRegular = horizontalSizeClass == .regular
-        let count = isRegular ? 2 : 1
-        return Array(repeating: GridItem(.flexible(), spacing: 12, alignment: .top), count: count)
+    private var isFavorite: Bool {
+        favoritesStore.isFavorite(pairID: viewModel.selectedPair.id)
     }
 
-    private var visibleCountLabel: String {
-        "\(viewModel.visiblePairs.count)"
+    private var pairAccessibilityName: String {
+        viewModel.selectedPair.title.replacingOccurrences(of: "<->", with: "and")
+    }
+
+    private var favoriteAccessibilityLabel: String {
+        let action = isFavorite ? "Remove" : "Add"
+        let destination = isFavorite ? "from favorites" : "to favorites"
+        return "\(action) \(pairAccessibilityName) \(destination)"
+    }
+
+    private var swapAccessibilityLabel: String {
+        "Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)"
+    }
+
+    private var outputAccessibilityLabel: String {
+        guard viewModel.outputText != "--" else {
+            return "No converted value available. Enter \(viewModel.inputUnit) to convert to \(viewModel.outputUnit)"
+        }
+        return "Converted result \(viewModel.outputText) \(viewModel.outputUnit), from \(viewModel.inputUnit)"
+    }
+
+    private var outputDisplayText: String {
+        viewModel.outputText == "--" ? "—" : viewModel.outputText
     }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: LiquidGlassTheme.sectionSpacing) {
-                heroHeader
-                searchField
-                groupPicker
-                sectionHeader
-                visibleContent
+            VStack(spacing: 20) {
+                header
+                converterCard
             }
-            .frame(maxWidth: LiquidGlassTheme.contentWidth, alignment: .leading)
-            .padding(.horizontal, 16)
-            .padding(.top, 12)
-            .padding(.bottom, 20)
-            .frame(maxWidth: .infinity, alignment: .top)
+            .frame(maxWidth: 600)
+            .padding(.horizontal, 20)
+            .padding(.top, 16)
+            .padding(.bottom, 24)
+            .frame(maxWidth: .infinity)
         }
         .scrollDismissesKeyboard(.immediately)
         .navigationTitle("Conversions")
         .background {
-            ZStack {
-                LiquidGlassTheme.canvasGradient(for: colorScheme)
-                    .ignoresSafeArea()
-
-                Rectangle()
-                    .fill(LiquidGlassTheme.screenGlow(for: colorScheme))
-                    .ignoresSafeArea()
-            }
+            LiquidGlassTheme.gentleCanvasGradient(for: colorScheme)
+                .ignoresSafeArea()
+        }
+        .sheet(isPresented: $isShowingUnitSheet) {
+            UnitPickerSheet(
+                viewModel: viewModel,
+                isPresented: $isShowingUnitSheet
+            )
         }
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
@@ -56,157 +74,236 @@ struct ConversionsTabView: View {
         }
     }
 
-    private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Convert at a glance")
-                    .font(.system(.title2, design: .rounded).weight(.semibold))
-                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.98) : .primary)
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Easy conversion")
+                .font(.system(.title2, design: .rounded).weight(.semibold))
+                .foregroundStyle(.primary)
+
+            Text("Type once, see the answer instantly.")
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var converterCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(viewModel.selectedPair.title)
+                        .font(.system(.headline, design: .rounded).weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+
+                    Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
+                        .font(.system(.caption, design: .rounded).weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                }
 
                 Spacer(minLength: 8)
 
-                Text(visibleCountLabel)
-                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.88) : .primary.opacity(0.75))
-                    .padding(.horizontal, 9)
-                    .padding(.vertical, 5)
-                    .background(
-                        Capsule(style: .continuous)
-                            .fill(.ultraThinMaterial)
-                    )
-                    .accessibilityLabel("\(viewModel.visiblePairs.count) visible converters")
-            }
-
-            Text("Quick, reversible unit conversion with a clean one-screen workflow.")
-                .font(.subheadline)
-                .foregroundStyle(colorScheme == .dark ? .white.opacity(0.72) : .primary.opacity(0.72))
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: LiquidGlassTheme.cardCornerRadius, style: .continuous)
-                .fill(LiquidGlassTheme.heroBackground(for: colorScheme))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: LiquidGlassTheme.cardCornerRadius, style: .continuous)
-                .strokeBorder(LiquidGlassTheme.cardStroke(for: colorScheme), lineWidth: 0.7)
-        )
-    }
-
-    private var sectionHeader: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text(viewModel.visibleSectionTitle)
-                .font(.system(.title3, design: .rounded).weight(.semibold))
-                .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
-
-            if viewModel.isSearching {
-                Text("\(viewModel.visiblePairs.count) matches")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("\(viewModel.visiblePairs.count) search matches")
-            }
-
-            Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 2)
-    }
-
-    @ViewBuilder
-    private var visibleContent: some View {
-        if viewModel.visiblePairs.isEmpty {
-            ContentUnavailableView(
-                "No Matches",
-                systemImage: "magnifyingglass",
-                description: Text("Try a different search term.")
-            )
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
-        } else {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
-                ForEach(viewModel.visiblePairs) { pair in
-                    ConverterCardView(pair: pair)
-                }
-            }
-        }
-    }
-
-    private var searchField: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.secondary)
-
-            TextField("Search conversions", text: $viewModel.searchText)
-                .font(.system(.body, design: .rounded))
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-                .accessibilityLabel("Search conversions")
-                .accessibilityHint("Search by converter name, unit, or category")
-                .accessibilityIdentifier("conversions.searchField")
-
-            if !viewModel.searchText.isEmpty {
-                Button {
-                    viewModel.searchText = ""
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary.opacity(0.9))
-                        .frame(width: 24, height: 24)
+                Button(action: toggleFavorite) {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(isFavorite ? LiquidGlassTheme.favoriteTint : .secondary.opacity(0.8))
+                        .frame(width: 36, height: 36)
+                        .background(
+                            Circle()
+                                .fill(Color.white.opacity(colorScheme == .dark ? 0.12 : 0.55))
+                        )
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Clear search")
-                .accessibilityIdentifier("conversions.clearSearch")
+                .accessibilityLabel(favoriteAccessibilityLabel)
+                .accessibilityIdentifier("converter.favorite.\(viewModel.selectedPair.id)")
             }
+
+            HStack(spacing: 10) {
+                unitButton(title: "From", value: viewModel.inputUnit)
+
+                Button(action: swapUnits) {
+                    Image(systemName: "arrow.left.arrow.right")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(LiquidGlassTheme.tint)
+                        .frame(width: 38, height: 38)
+                        .background(
+                            Circle()
+                                .fill(Color.white.opacity(colorScheme == .dark ? 0.14 : 0.72))
+                        )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(swapAccessibilityLabel)
+                .accessibilityIdentifier("converter.swap.\(viewModel.selectedPair.id)")
+
+                unitButton(title: "To", value: viewModel.outputUnit)
+            }
+
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    TextField("Enter value", text: $viewModel.inputText)
+                        .font(.system(.title2, design: .rounded).weight(.medium).monospacedDigit())
+                        .keyboardType(.numbersAndPunctuation)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .focused($isInputFocused)
+                        .accessibilityLabel("Input value in \(viewModel.inputUnit)")
+                        .accessibilityIdentifier("converter.input.\(viewModel.selectedPair.id)")
+
+                    Text(viewModel.inputUnit)
+                        .font(.system(.title3, design: .rounded).weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
+
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text("→")
+                        .font(.system(.title3, design: .rounded).weight(.semibold))
+                        .foregroundStyle(LiquidGlassTheme.tint.opacity(0.9))
+
+                    Text(outputDisplayText)
+                        .font(.system(.title, design: .rounded).weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .monospacedDigit()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.65)
+                        .accessibilityIdentifier("converter.output.\(viewModel.selectedPair.id)")
+
+                    Text(viewModel.outputUnit)
+                        .font(.system(.title3, design: .rounded).weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(outputAccessibilityLabel)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(Color.white.opacity(colorScheme == .dark ? 0.09 : 0.60))
+            )
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 11)
-        .liquidGlassSurfaceStyle(cornerRadius: LiquidGlassTheme.controlCornerRadius)
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .liquidGlassCardStyle()
+        .accessibilityIdentifier("converter.card.\(viewModel.selectedPair.id)")
     }
 
-    private var groupPicker: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 7) {
-                ForEach(viewModel.groups, id: \.id) { group in
-                    let isSelected = viewModel.selectedGroup == group
+    private func unitButton(title: String, value: String) -> some View {
+        Button {
+            isShowingUnitSheet = true
+        } label: {
+            VStack(spacing: 2) {
+                Text(title)
+                    .font(.system(.caption2, design: .rounded).weight(.medium))
+                    .foregroundStyle(.secondary)
 
-                    Button {
-                        viewModel.selectedGroup = group
-                    } label: {
-                        Text(group.title)
-                            .font(.system(.subheadline, design: .rounded).weight(isSelected ? .semibold : .medium))
-                            .foregroundStyle(isSelected ? LiquidGlassTheme.tint : .secondary)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 9)
-                            .background(
-                                RoundedRectangle(cornerRadius: LiquidGlassTheme.chipCornerRadius, style: .continuous)
-                                    .fill(LiquidGlassTheme.chipFill(isSelected: isSelected, colorScheme: colorScheme))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: LiquidGlassTheme.chipCornerRadius, style: .continuous)
-                                    .strokeBorder(
-                                        LiquidGlassTheme.chipStroke(isSelected: isSelected, colorScheme: colorScheme),
-                                        lineWidth: 0.6
-                                    )
-                            )
-                    }
-                    .buttonStyle(.plain)
-                    .frame(minHeight: 38)
-                    .accessibilityLabel("\(group.title) group")
-                    .accessibilityValue(isSelected ? "Selected" : "Not selected")
-                    .accessibilityHint(isSelected ? "Current group" : "Shows \(group.title) converters")
-                    .accessibilityIdentifier("conversions.group.\(group.id)")
-                }
+                Text(value)
+                    .font(.system(.body, design: .rounded).weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
-            .padding(.horizontal, 2)
+            .frame(maxWidth: .infinity)
+            .frame(minHeight: 42)
+            .padding(.horizontal, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.55))
+            )
         }
-        .accessibilityLabel("Conversion groups")
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(title) unit \(value). Opens unit picker")
+    }
+
+    private func toggleFavorite() {
+        favoritesStore.toggle(pairID: viewModel.selectedPair.id)
+    }
+
+    private func swapUnits() {
+        withAnimation(.easeInOut(duration: 0.2)) {
+            viewModel.swapUnits()
+        }
     }
 
     private func dismissKeyboard() {
+        isInputFocused = false
 #if canImport(UIKit)
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 #endif
+    }
+}
+
+private struct UnitPickerSheet: View {
+    @ObservedObject var viewModel: ConversionsViewModel
+    @Binding var isPresented: Bool
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        NavigationStack {
+            List {
+                if viewModel.isSearching {
+                    Section("Search Results") {
+                        pairRows(viewModel.unitPickerSearchResults)
+                    }
+                } else {
+                    ForEach(viewModel.unitPickerSections, id: \.category) { section in
+                        Section(section.category.title) {
+                            pairRows(section.pairs)
+                        }
+                    }
+                }
+            }
+            .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .background(LiquidGlassTheme.gentleCanvasGradient(for: colorScheme))
+            .navigationTitle("Choose Units")
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $viewModel.searchText, prompt: "Search units")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        isPresented = false
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func pairRows(_ pairs: [ConversionPair]) -> some View {
+        ForEach(pairs) { pair in
+            Button {
+                viewModel.selectPair(pair)
+                viewModel.searchText = ""
+                isPresented = false
+            } label: {
+                HStack(spacing: 10) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(pair.title)
+                            .font(.system(.body, design: .rounded).weight(.medium))
+                            .foregroundStyle(.primary)
+
+                        Text("\(pair.unitA) ↔ \(pair.unitB)")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer(minLength: 8)
+
+                    if viewModel.selectedPairID == pair.id {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(LiquidGlassTheme.tint)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Choose \(pair.title)")
+            .accessibilityIdentifier("units.row.\(pair.id)")
+        }
     }
 }
 

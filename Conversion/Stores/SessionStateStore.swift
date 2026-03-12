@@ -25,10 +25,15 @@ final class SessionStateStore: ObservableObject {
         didSet { defaults.set(searchText, forKey: searchTextKey) }
     }
 
+    @Published var lastUsedPairID: String {
+        didSet { defaults.set(lastUsedPairID, forKey: lastUsedPairIDKey) }
+    }
+
     private let defaults: UserDefaults
     private let selectedTabKey = "session.selectedTab.v1"
     private let selectedGroupIDKey = "session.selectedGroupID.v1"
     private let searchTextKey = "session.searchText.v1"
+    private let lastUsedPairIDKey = "session.lastUsedPairID.v1"
     private let converterStateKey = "session.converterStates.v1"
     private var converterStates: [String: ConverterSessionState]
 
@@ -41,6 +46,7 @@ final class SessionStateStore: ObservableObject {
             defaults.removeObject(forKey: selectedTabKey)
             defaults.removeObject(forKey: selectedGroupIDKey)
             defaults.removeObject(forKey: searchTextKey)
+            defaults.removeObject(forKey: lastUsedPairIDKey)
             defaults.removeObject(forKey: converterStateKey)
         }
 
@@ -55,6 +61,7 @@ final class SessionStateStore: ObservableObject {
 
         selectedGroupID = defaults.string(forKey: selectedGroupIDKey) ?? ""
         searchText = defaults.string(forKey: searchTextKey) ?? ""
+        lastUsedPairID = defaults.string(forKey: lastUsedPairIDKey) ?? ""
 
         if
             let data = defaults.data(forKey: converterStateKey),
@@ -95,5 +102,6 @@ final class SessionStateStore: ObservableObject {
         state.inputText = inputText
         converterStates[pairID] = state
         saveConverterStates()
+        lastUsedPairID = pairID
     }
 }

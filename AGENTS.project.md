@@ -11,12 +11,12 @@ Conversion is a personal-use Apple-platform utility app focused on fast, elegant
 ## Current product phase (Phase 1 implemented)
 Current scope is Phase 1.
 1) MVP scope
-- Category-first conversion browsing
-- Focused browsing with `All` + alphabetized category groups and lightweight search
-- Inline reversible converter cards
+- Home-first focused converter surface
+- Unit-picker sheet with category sections and lightweight search
+- Inline reversible conversion with clear from/to units
 - Favorites tab with persisted favorites
 - Local-only persistence
-- Last-session state restoration for tab/group/search and per-card converter state
+- Last-session state restoration for tab/search, last-used pair, and per-pair converter state
 
 2) Architecture boundaries
 - SwiftUI + MVVM
@@ -39,8 +39,8 @@ Current scope is Phase 1.
   - `ConversionApp` -> `ContentView` -> `RootTabView`
   - Tab-based structure: `Conversions`, `Favorites`
 - Core view models/services
-  - `ConversionsViewModel` for selected-group (`All` + categories), search, and pair presentation
-  - `ConverterCardViewModel` for card input/swap/output state + session restore hooks
+  - `ConversionsViewModel` for selected pair, search, input/swap/output state, and session restore hooks
+  - `ConverterCardViewModel` remains used by favorites card rendering
   - `FavoritesStore` (`@MainActor`) with `FavoritesPersistenceService` actor for persistence
   - `SessionStateStore` (`@MainActor`) for lightweight local browsing/converter session restore
 - Data flow and persistence
@@ -56,11 +56,11 @@ Current scope is Phase 1.
 - Every supported pair is reversible inline via swap control.
 - Conversions update immediately as the user types.
 - Favorites toggle instantly and persist locally across launches.
-- Categories remain the primary browsing structure.
+- Users can pick any supported pair quickly from the unit-picker sheet.
 
 ## UX rules
 - No forced detail navigation for basic conversion.
-- Keep converter cards readable and stable while editing.
+- Keep the home converter readable and stable while editing.
 - Use clear unit labels and concise output formatting.
 - Keep interactions subtle and touch-targets comfortable.
 

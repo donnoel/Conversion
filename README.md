@@ -13,13 +13,12 @@
 A polished Apple-native unit conversion app for iPhone and iPad, built with SwiftUI + MVVM.
 
 ## Phase 1 features
-- Category-first conversion browsing
-- Focused browsing with `All` + alphabetized groups + lightweight search
-- Inline converter cards (no forced detail navigation)
-- Reversible conversion direction per card
+- Friendly home converter with one focused conversion surface
+- Dedicated unit-picker sheet with search and category sections
+- Reversible conversion direction inline
 - Favorites tab with one-tap favorite toggles
 - Local persistence of favorites
-- Last-session state restoration (tab, group, search, per-card input/swap state)
+- Last-session state restoration (tab, last used pair, search, per-pair input/swap state)
 - Instant conversion updates while typing
 - Clean numeric output formatting
 
@@ -45,8 +44,9 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 ## Architecture
 - `ConversionCatalog` is the single source of truth for supported converters.
 - `ConversionRule` is backed by Foundation `Measurement` / `Unit` conversions.
-- `ConverterCardViewModel` handles per-card input, swap state, and output.
+- `ConversionsViewModel` handles selected pair, input, swap state, search, and output.
 - `FavoritesStore` + `FavoritesPersistenceService` handle local favorites persistence.
+- `SessionStateStore` restores tab/search state plus last-used pair and per-pair session state.
 
 ## Build and test
 Build:

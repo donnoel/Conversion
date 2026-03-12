@@ -8,12 +8,14 @@ final class SessionStateStoreTests: XCTestCase {
         defaults.set(RootTab.favorites.rawValue, forKey: "session.selectedTab.v1")
         defaults.set("all", forKey: "session.selectedGroupID.v1")
         defaults.set("meters", forKey: "session.searchText.v1")
+        defaults.set("speed.mph-kph", forKey: "session.lastUsedPairID.v1")
 
         let store = SessionStateStore(defaults: defaults)
 
         XCTAssertEqual(store.selectedTab, .favorites)
         XCTAssertEqual(store.selectedGroupID, "all")
         XCTAssertEqual(store.searchText, "meters")
+        XCTAssertEqual(store.lastUsedPairID, "speed.mph-kph")
     }
 
     func testPersistsAndRestoresConverterSessionState() {

@@ -2,6 +2,7 @@ import SwiftUI
 
 enum LiquidGlassTheme {
     static let tint = Color(red: 0.16, green: 0.46, blue: 0.84)
+    static let favoriteTint = Color(red: 0.55, green: 0.64, blue: 0.82)
     static let softTint = Color(red: 0.72, green: 0.84, blue: 0.96)
     static let surfaceStroke = Color.white.opacity(0.20)
     static let cardCornerRadius: CGFloat = 24
@@ -29,6 +30,30 @@ enum LiquidGlassTheme {
                 Color(red: 0.95, green: 0.97, blue: 1.0),
                 Color(red: 0.90, green: 0.94, blue: 0.99),
                 Color(red: 0.87, green: 0.92, blue: 0.98)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    static func gentleCanvasGradient(for colorScheme: ColorScheme) -> LinearGradient {
+        if colorScheme == .dark {
+            return LinearGradient(
+                colors: [
+                    Color(red: 0.09, green: 0.11, blue: 0.16),
+                    Color(red: 0.13, green: 0.17, blue: 0.25),
+                    Color(red: 0.19, green: 0.16, blue: 0.22)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+
+        return LinearGradient(
+            colors: [
+                Color(red: 0.96, green: 0.98, blue: 1.0),
+                Color(red: 0.92, green: 0.95, blue: 1.0),
+                Color(red: 0.96, green: 0.93, blue: 0.98)
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
