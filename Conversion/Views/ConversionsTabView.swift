@@ -26,17 +26,21 @@ struct ConversionsTabView: View {
             LiquidGlassTheme.homeCanvasGradient(for: colorScheme)
                 .ignoresSafeArea()
 
-            VStack(spacing: 14) {
-                Text("\(viewModel.inputUnit.uppercased()) ↔ \(viewModel.outputUnit.uppercased())")
-                    .font(.system(size: 28, weight: .semibold, design: .default))
-                    .kerning(0.8)
-                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.94) : .primary)
+            VStack(spacing: 18) {
+                Spacer(minLength: 0)
+
+                Text("\(viewModel.inputUnit) ↔ \(viewModel.outputUnit)")
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.88) : .primary.opacity(0.72))
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-                    .padding(.top, 18)
                     .accessibilityLabel("Current conversion \(viewModel.inputUnit) to \(viewModel.outputUnit)")
 
-                TextField("Enter \(viewModel.inputUnit)", text: $viewModel.inputText)
+                Text("From \(viewModel.inputUnit)")
+                    .font(.system(.caption, design: .rounded).weight(.medium))
+                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.72) : .secondary)
+
+                TextField("Enter value", text: $viewModel.inputText)
                     .font(.system(size: 52, weight: .semibold, design: .rounded).monospacedDigit())
                     .foregroundStyle(colorScheme == .dark ? .white : .primary)
                     .multilineTextAlignment(.center)
@@ -57,6 +61,10 @@ struct ConversionsTabView: View {
                     .frame(maxWidth: 380)
                     .accessibilityLabel("Input value in \(viewModel.inputUnit)")
                     .accessibilityIdentifier("converter.input.\(viewModel.selectedPair.id)")
+
+                Text("To \(viewModel.outputUnit)")
+                    .font(.system(.caption, design: .rounded).weight(.medium))
+                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.72) : .secondary)
 
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text(outputDisplayText)
