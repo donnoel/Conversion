@@ -12,6 +12,7 @@ Conversion is a personal-use Apple-platform utility app focused on fast, elegant
 Current scope is Phase 1.
 1) MVP scope
 - Category-first conversion browsing
+- Focused single-category browsing with lightweight search
 - Inline reversible converter cards
 - Favorites tab with persisted favorites
 - Local-only persistence
@@ -37,7 +38,7 @@ Current scope is Phase 1.
   - `ConversionApp` -> `ContentView` -> `RootTabView`
   - Tab-based structure: `Conversions`, `Favorites`
 - Core view models/services
-  - `ConversionsViewModel` for category/pair presentation
+  - `ConversionsViewModel` for selected-category + search-driven pair presentation
   - `ConverterCardViewModel` for card input/swap/output state
   - `FavoritesStore` (`@MainActor`) with `FavoritesPersistenceService` actor for persistence
 - Data flow and persistence

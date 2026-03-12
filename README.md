@@ -1,9 +1,20 @@
 # Conversion
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Swift-6.0-orange?logo=swift&logoColor=white" alt="Swift 6.0">
+  <img src="https://img.shields.io/badge/UI-SwiftUI-blue?logo=apple&logoColor=white" alt="SwiftUI">
+  <img src="https://img.shields.io/badge/Platforms-iPhone_|_iPad-0A84FF?logo=apple&logoColor=white" alt="iPhone and iPad">
+  <img src="https://img.shields.io/badge/iOS-26.0%2B-5E5CE6" alt="iOS 26.0+">
+  <img src="https://img.shields.io/badge/Architecture-MVVM-8E8E93" alt="MVVM">
+  <img src="https://img.shields.io/badge/Categories-8-34C759" alt="8 categories">
+  <img src="https://img.shields.io/badge/Pairs-17-A2845E" alt="17 conversion pairs">
+</p>
+
 A polished Apple-native unit conversion app for iPhone and iPad, built with SwiftUI + MVVM.
 
 ## Phase 1 features
 - Category-first conversion browsing
+- Focused browsing with selected category + lightweight search
 - Inline converter cards (no forced detail navigation)
 - Reversible conversion direction per card
 - Favorites tab with one-tap favorite toggles
