@@ -7,10 +7,17 @@ import UIKit
 struct ConversionsTabView: View {
     @ObservedObject var viewModel: ConversionsViewModel
     @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var favoritesStore: FavoritesStore
     @FocusState private var isInputFocused: Bool
 
     private var outputDisplayText: String {
         viewModel.outputText == "--" ? "—" : viewModel.outputText
+    }
+
+    private var favoritePairs: [ConversionPair] {
+        viewModel.allPairs
+            .filter { favoritesStore.isFavorite(pairID: $0.id) }
+            .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
     }
 
     private var outputAccessibilityLabel: String {
@@ -56,6 +63,18 @@ struct ConversionsTabView: View {
                     .accessibilityIdentifier("converter.swap.\(viewModel.selectedPair.id)")
                 }
                 .padding(.top, 16)
+
+                if !favoritePairs.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(favoritePairs) { pair in
+                                favoriteChip(for: pair)
+                            }
+                        }
+                        .padding(.horizontal, 2)
+                    }
+                    .padding(.top, 12)
+                }
 
                 Spacer(minLength: 30)
 
@@ -127,6 +146,33 @@ struct ConversionsTabView: View {
 #if canImport(UIKit)
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 #endif
+    }
+
+    private func favoriteChip(for pair: ConversionPair) -> some View {
+        let isSelected = pair.id == viewModel.selectedPairID
+
+        return Button {
+            viewModel.selectPair(pair)
+            dismissKeyboard()
+        } label: {
+            Text("\(pair.unitA.uppercased()) \u{2194} \(pair.unitB.uppercased())")
+                .font(.system(.caption, design: .rounded).weight(.semibold))
+                .foregroundStyle(isSelected ? .white : (colorScheme == .dark ? .white.opacity(0.9) : .primary))
+                .lineLimit(1)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule(style: .continuous)
+                        .fill(isSelected ? LiquidGlassTheme.tint.opacity(0.95) : Color.white.opacity(colorScheme == .dark ? 0.16 : 0.62))
+                )
+                .overlay(
+                    Capsule(style: .continuous)
+                        .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.18 : 0.48), lineWidth: isSelected ? 0 : 0.7)
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Open favorite conversion \(pair.unitA) to \(pair.unitB)")
+        .accessibilityIdentifier("home.favorite.\(pair.id)")
     }
 }
 
