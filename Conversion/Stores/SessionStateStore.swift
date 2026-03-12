@@ -35,7 +35,9 @@ final class SessionStateStore: ObservableObject {
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
 
-        if ProcessInfo.processInfo.arguments.contains("-ui-testing-reset-state") {
+        let arguments = ProcessInfo.processInfo.arguments
+
+        if arguments.contains("-ui-testing-reset-state") {
             defaults.removeObject(forKey: selectedTabKey)
             defaults.removeObject(forKey: selectedGroupIDKey)
             defaults.removeObject(forKey: searchTextKey)
@@ -62,6 +64,8 @@ final class SessionStateStore: ObservableObject {
         } else {
             converterStates = [:]
         }
+
+        applyUITestingSeedIfNeeded(arguments: arguments)
     }
 
     func converterState(for pairID: String) -> ConverterSessionState? {
@@ -76,5 +80,20 @@ final class SessionStateStore: ObservableObject {
     private func saveConverterStates() {
         guard let data = try? JSONEncoder().encode(converterStates) else { return }
         defaults.set(data, forKey: converterStateKey)
+    }
+
+    private func applyUITestingSeedIfNeeded(arguments: [String]) {
+        guard let seedIndex = arguments.firstIndex(of: "-ui-testing-seed-converter") else {
+            return
+        }
+        guard arguments.count > seedIndex + 2 else { return }
+
+        let pairID = arguments[seedIndex + 1]
+        let inputText = arguments[seedIndex + 2]
+
+        var state = converterStates[pairID] ?? ConverterSessionState(inputText: "", isReversed: false)
+        state.inputText = inputText
+        converterStates[pairID] = state
+        saveConverterStates()
     }
 }

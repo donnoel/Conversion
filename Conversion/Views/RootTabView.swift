@@ -32,6 +32,8 @@ struct RootTabView: View {
             }
         }
         .tint(LiquidGlassTheme.tint)
+        .toolbarBackground(.visible, for: .tabBar)
+        .toolbarBackground(.ultraThinMaterial, for: .tabBar)
         .environmentObject(favoritesStore)
         .environmentObject(sessionStateStore)
     }

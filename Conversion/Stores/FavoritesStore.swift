@@ -35,7 +35,7 @@ final class FavoritesStore: ObservableObject {
         loadTask = Task { [weak self] in
             guard let self else { return }
             let ids = await persistence.loadFavorites()
-            self.favoriteIDs = ids
+            self.favoriteIDs.formUnion(ids)
         }
     }
 
