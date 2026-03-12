@@ -6,25 +6,16 @@ enum ConversionDirection: Sendable {
 }
 
 enum ConversionRule: Hashable, Sendable {
-    case linear(multiplier: Double)
-    case affine(scale: Double, offset: Double)
+    case measurement(unitA: MeasurementUnit, unitB: MeasurementUnit)
 
     func convert(_ value: Double, direction: ConversionDirection) -> Double {
         switch self {
-        case let .linear(multiplier):
+        case let .measurement(unitA, unitB):
             switch direction {
             case .unitAToUnitB:
-                value * multiplier
+                unitA.convertedValue(value, to: unitB)
             case .unitBToUnitA:
-                value / multiplier
-            }
-
-        case let .affine(scale, offset):
-            switch direction {
-            case .unitAToUnitB:
-                (value * scale) + offset
-            case .unitBToUnitA:
-                (value - offset) / scale
+                unitB.convertedValue(value, to: unitA)
             }
         }
     }
