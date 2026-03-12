@@ -6,14 +6,38 @@ struct UnitsTabView: View {
     @EnvironmentObject private var favoritesStore: FavoritesStore
     @EnvironmentObject private var sessionStateStore: SessionStateStore
 
+    private var favoritePairs: [ConversionPair] {
+        viewModel.allPairs
+            .filter { favoritesStore.isFavorite(pairID: $0.id) }
+            .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+    }
+
     var body: some View {
+        let favoriteIDs = Set(favoritePairs.map(\.id))
+
         List {
+            if !favoritePairs.isEmpty {
+                Section("Favorites") {
+                    pairRows(favoritePairs)
+                }
+            }
+
             if viewModel.isSearching {
-                Section("Search Results") {
-                    pairRows(viewModel.unitPickerSearchResults)
+                let searchResults = viewModel.unitPickerSearchResults
+                    .filter { !favoriteIDs.contains($0.id) }
+                if !searchResults.isEmpty {
+                    Section("Search Results") {
+                        pairRows(searchResults)
+                    }
                 }
             } else {
-                ForEach(viewModel.unitPickerSections, id: \.category) { section in
+                let sections = viewModel.unitPickerSections.compactMap { section -> (category: ConversionCategory, pairs: [ConversionPair])? in
+                    let remainingPairs = section.pairs.filter { !favoriteIDs.contains($0.id) }
+                    guard !remainingPairs.isEmpty else { return nil }
+                    return (section.category, remainingPairs)
+                }
+
+                ForEach(sections, id: \.category) { section in
                     Section(section.category.title) {
                         pairRows(section.pairs)
                     }

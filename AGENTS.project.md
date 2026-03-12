@@ -14,7 +14,7 @@ Current scope is Phase 1.
 - Home-first focused converter surface
 - Units tab with category sections and lightweight search
 - Inline reversible conversion with clear from/to units
-- Favorites surfaced on Home and managed in Units
+- Favorites surfaced at the top of Units and managed there
 - Local-only persistence
 - Last-session state restoration for tab/search, last-used pair, and per-pair converter state
 

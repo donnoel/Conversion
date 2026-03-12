@@ -15,7 +15,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 ## Phase 1 features
 - Friendly home converter with one focused conversion surface
 - Dedicated `Units` tab with search and category sections
-- Favorite units shown at the top of Home for quick one-tap switching
+- Favorite units shown at the top of the `Units` tab for quick switching
 - Reversible conversion direction inline
 - Favorite toggles available in the Units list
 - Local persistence of favorites
