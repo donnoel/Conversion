@@ -4,6 +4,7 @@ struct ConverterCardView: View {
     let pair: ConversionPair
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var favoritesStore: FavoritesStore
     @EnvironmentObject private var sessionStateStore: SessionStateStore
     @StateObject private var viewModel: ConverterCardViewModel
@@ -28,14 +29,14 @@ struct ConverterCardView: View {
     }
 
     private var swapAccessibilityLabel: String {
-        "Swap conversion direction for \(pairAccessibilityName)"
+        "Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)"
     }
 
     private var outputAccessibilityLabel: String {
         guard viewModel.outputText != "--" else {
             return "No converted value available. Enter \(viewModel.inputUnit) to convert to \(viewModel.outputUnit)"
         }
-        return "Result \(viewModel.outputText) \(viewModel.outputUnit), converted from \(viewModel.inputUnit)"
+        return "Converted result \(viewModel.outputText) \(viewModel.outputUnit), from \(viewModel.inputUnit)"
     }
 
     private var hasOutputValue: Bool {
@@ -43,114 +44,129 @@ struct ConverterCardView: View {
     }
 
     private var outputDisplayText: String {
-        hasOutputValue ? viewModel.outputText : "Enter value"
+        hasOutputValue ? viewModel.outputText : "—"
     }
 
-    private var directionText: String {
-        "\(viewModel.inputUnit) → \(viewModel.outputUnit)"
+    private var outputColor: Color {
+        hasOutputValue ? LiquidGlassTheme.tint : .secondary
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 1.5) {
-            HStack(spacing: 8) {
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(pair.title)
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-
-                    Text(directionText)
-                        .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                        .accessibilityLabel("Converting \(viewModel.inputUnit) to \(viewModel.outputUnit)")
-                }
-
-                Spacer(minLength: 8)
-
-                Button(action: toggleFavorite) {
-                    Image(systemName: isFavorite ? "star.fill" : "star")
-                        .font(.system(size: 10.5, weight: .semibold))
-                        .foregroundStyle(isFavorite ? Color.yellow.opacity(0.74) : .secondary.opacity(0.8))
-                        .frame(width: 20, height: 20)
-                        .background(Circle().fill(Color.white.opacity(0.05)))
-                        .frame(width: 30, height: 30)
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(favoriteAccessibilityLabel)
-                .accessibilityIdentifier("converter.favorite.\(pair.id)")
-            }
-            .frame(minHeight: 30)
-
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("Input")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 38, alignment: .leading)
-
-                TextField("Value", text: $viewModel.inputText)
-                    .font(.system(.body, design: .rounded).weight(.medium).monospacedDigit())
-                    .textFieldStyle(.plain)
-                    .keyboardType(.numbersAndPunctuation)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .layoutPriority(1)
-                    .accessibilityLabel("Input value in \(viewModel.inputUnit)")
-                    .accessibilityIdentifier("converter.input.\(pair.id)")
-
-                Text(viewModel.inputUnit)
-                    .font(.callout.weight(.semibold))
-                    .foregroundStyle(.secondary)
-            }
-            .frame(minHeight: 18)
-
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("Output")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(hasOutputValue ? LiquidGlassTheme.tint : .secondary)
-                    .frame(width: 38, alignment: .leading)
-
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(outputDisplayText)
-                        .font(.system(.title3, design: .rounded).weight(.semibold))
-                        .foregroundStyle(hasOutputValue ? LiquidGlassTheme.tint : .secondary)
-                        .monospacedDigit()
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                        .accessibilityIdentifier("converter.output.\(pair.id)")
-
-                    Text(viewModel.outputUnit)
-                        .font(.callout.weight(.semibold))
-                        .foregroundStyle(hasOutputValue ? .secondary : .tertiary)
-                        .lineLimit(1)
-                }
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel(outputAccessibilityLabel)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                Button(action: swapUnits) {
-                    Image(systemName: "arrow.left.arrow.right")
-                        .font(.system(size: 10.5, weight: .semibold))
-                        .foregroundStyle(hasOutputValue ? LiquidGlassTheme.tint : .secondary)
-                        .frame(width: 20, height: 20)
-                        .background(Circle().fill(Color.white.opacity(0.05)))
-                        .frame(width: 30, height: 30)
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(swapAccessibilityLabel)
-                .accessibilityIdentifier("converter.swap.\(pair.id)")
-            }
-            .frame(minHeight: 20)
+        VStack(alignment: .leading, spacing: 12) {
+            titleRow
+            conversionBody
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 4)
-        .frame(minHeight: 72)
+        .padding(.horizontal, LiquidGlassTheme.cardPadding)
+        .padding(.vertical, 14)
+        .frame(minHeight: 128)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .liquidGlassCardStyle()
         .accessibilityIdentifier("converter.card.\(pair.id)")
         .onAppear {
             viewModel.connectSessionStateStore(sessionStateStore)
+        }
+    }
+
+    private var titleRow: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(pair.title)
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.86) : .primary.opacity(0.82))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+
+                Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .accessibilityLabel("Converting \(viewModel.inputUnit) to \(viewModel.outputUnit)")
+            }
+
+            Spacer(minLength: 8)
+
+            Button(action: toggleFavorite) {
+                Image(systemName: isFavorite ? "star.fill" : "star")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(isFavorite ? LiquidGlassTheme.tint.opacity(0.95) : .secondary.opacity(0.8))
+                    .frame(width: 28, height: 28)
+                    .background(
+                        Circle()
+                            .fill(isFavorite ? LiquidGlassTheme.tint.opacity(0.14) : Color.white.opacity(0.06))
+                    )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(favoriteAccessibilityLabel)
+            .accessibilityIdentifier("converter.favorite.\(pair.id)")
+        }
+    }
+
+    private var conversionBody: some View {
+        HStack(alignment: .bottom, spacing: 12) {
+            VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("From")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        TextField("Value", text: $viewModel.inputText)
+                            .font(.system(.title3, design: .rounded).weight(.medium).monospacedDigit())
+                            .textFieldStyle(.plain)
+                            .keyboardType(.numbersAndPunctuation)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .layoutPriority(1)
+                            .accessibilityLabel("Input value in \(viewModel.inputUnit)")
+                            .accessibilityIdentifier("converter.input.\(pair.id)")
+
+                        Text(viewModel.inputUnit)
+                            .font(.system(.callout, design: .rounded).weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("To")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(outputColor)
+
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text(outputDisplayText)
+                            .font(.system(.title2, design: .rounded).weight(.semibold))
+                            .foregroundStyle(outputColor)
+                            .monospacedDigit()
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                            .accessibilityIdentifier("converter.output.\(pair.id)")
+
+                        Text(viewModel.outputUnit)
+                            .font(.system(.body, design: .rounded).weight(.semibold))
+                            .foregroundStyle(hasOutputValue ? .secondary : .tertiary)
+                            .lineLimit(1)
+                    }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(outputAccessibilityLabel)
+                }
+            }
+
+            Spacer(minLength: 0)
+
+            Button(action: swapUnits) {
+                Image(systemName: "arrow.left.arrow.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(hasOutputValue ? LiquidGlassTheme.tint : .secondary)
+                    .frame(width: 32, height: 32)
+                    .background(
+                        Circle()
+                            .fill(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.24))
+                    )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(swapAccessibilityLabel)
+            .accessibilityIdentifier("converter.swap.\(pair.id)")
         }
     }
 
