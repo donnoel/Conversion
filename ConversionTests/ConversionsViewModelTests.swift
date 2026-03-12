@@ -74,7 +74,7 @@ final class ConversionsViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.searchText, "speed")
     }
 
-    func testViewModelRestoresLastUsedPairAndItsState() {
+    func testViewModelClearsRestoredInputValueOnRelaunch() {
         let defaults = makeDefaults()
         defaults.set("speed.mph-kph", forKey: "session.lastUsedPairID.v1")
 
@@ -86,7 +86,7 @@ final class ConversionsViewModelTests: XCTestCase {
         let viewModel = ConversionsViewModel(sessionStateStore: sessionStore)
 
         XCTAssertEqual(viewModel.selectedPairID, "speed.mph-kph")
-        XCTAssertEqual(viewModel.inputText, "10")
+        XCTAssertEqual(viewModel.inputText, "")
         XCTAssertTrue(viewModel.isReversed)
     }
 

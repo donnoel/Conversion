@@ -26,7 +26,7 @@ struct ConversionsTabView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                VStack(spacing: 4) {
+                VStack(spacing: 10) {
                     Text("Conversion")
                         .font(.system(.caption, design: .rounded).weight(.semibold))
                         .textCase(.uppercase)
@@ -38,7 +38,7 @@ struct ConversionsTabView: View {
                         }
                     } label: {
                         HStack(spacing: 8) {
-                            Text("\(viewModel.inputUnit.uppercased()) to \(viewModel.outputUnit.uppercased())")
+                            Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
                                 .font(.system(.title2, design: .rounded).weight(.bold))
                                 .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
                                 .lineLimit(1)

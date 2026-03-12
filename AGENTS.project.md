@@ -16,7 +16,7 @@ Current scope is Phase 1.
 - Inline reversible conversion with clear from/to units
 - Favorites surfaced at the top of Units and managed there
 - Local-only persistence
-- Last-session state restoration for tab/search, last-used pair, and per-pair converter state
+- Last-session state restoration for tab/search, last-used pair, and per-pair direction state (input clears on relaunch)
 
 2) Architecture boundaries
 - SwiftUI + MVVM

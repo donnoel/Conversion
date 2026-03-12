@@ -75,6 +75,7 @@ final class SessionStateStore: ObservableObject {
             converterStates = [:]
         }
 
+        clearPersistedInputValues()
         applyUITestingSeedIfNeeded(arguments: arguments)
     }
 
@@ -90,6 +91,18 @@ final class SessionStateStore: ObservableObject {
     private func saveConverterStates() {
         guard let data = try? JSONEncoder().encode(converterStates) else { return }
         defaults.set(data, forKey: converterStateKey)
+    }
+
+    private func clearPersistedInputValues() {
+        let clearedStates = converterStates.mapValues { state in
+            var updatedState = state
+            updatedState.inputText = ""
+            return updatedState
+        }
+
+        guard clearedStates != converterStates else { return }
+        converterStates = clearedStates
+        saveConverterStates()
     }
 
     private func applyUITestingSeedIfNeeded(arguments: [String]) {

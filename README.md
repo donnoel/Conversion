@@ -19,7 +19,8 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - Reversible conversion direction inline
 - Favorite toggles available in the Units list
 - Local persistence of favorites
-- Last-session state restoration (tab, last used pair, search, per-pair input/swap state)
+- Last-session state restoration (tab, last used pair, search, per-pair swap direction)
+- Converter input value is cleared when the app relaunches
 - Instant conversion updates while typing
 - Clean numeric output formatting
 

@@ -26,7 +26,7 @@ final class SessionStateStoreTests: XCTestCase {
         XCTAssertEqual(store.selectedTab, .units)
     }
 
-    func testPersistsAndRestoresConverterSessionState() {
+    func testClearsPersistedConverterInputOnRelaunch() {
         let defaults = makeDefaults()
 
         let store = SessionStateStore(defaults: defaults)
@@ -38,7 +38,7 @@ final class SessionStateStoreTests: XCTestCase {
         let restoredStore = SessionStateStore(defaults: defaults)
         XCTAssertEqual(
             restoredStore.converterState(for: "length.cm-in"),
-            ConverterSessionState(inputText: "25.5", isReversed: true)
+            ConverterSessionState(inputText: "", isReversed: true)
         )
     }
 
