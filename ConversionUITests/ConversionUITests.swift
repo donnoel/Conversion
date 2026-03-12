@@ -8,6 +8,7 @@ final class ConversionUITests: XCTestCase {
     @MainActor
     func testInlineConversionAndFavoriteAppearsInFavoritesTab() throws {
         let app = XCUIApplication()
+        app.launchArguments.append("-ui-testing-reset-state")
         app.launch()
 
         let inputField = app.textFields["Value"].firstMatch

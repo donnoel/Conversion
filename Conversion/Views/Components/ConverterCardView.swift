@@ -5,6 +5,7 @@ struct ConverterCardView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @EnvironmentObject private var favoritesStore: FavoritesStore
+    @EnvironmentObject private var sessionStateStore: SessionStateStore
     @StateObject private var viewModel: ConverterCardViewModel
 
     init(pair: ConversionPair) {
@@ -27,7 +28,7 @@ struct ConverterCardView: View {
     }
 
     private var swapAccessibilityLabel: String {
-        "Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)"
+        "Swap \(pairAccessibilityName)"
     }
 
     private var outputAccessibilityLabel: String {
@@ -141,6 +142,9 @@ struct ConverterCardView: View {
         .padding(14)
         .liquidGlassCardStyle()
         .accessibilityIdentifier("converter.card.\(pair.id)")
+        .onAppear {
+            viewModel.connectSessionStateStore(sessionStateStore)
+        }
     }
 
     private func toggleFavorite() {
@@ -163,4 +167,5 @@ struct ConverterCardView: View {
         .padding()
         .background(LiquidGlassTheme.canvasGradient(for: .dark).ignoresSafeArea())
         .environmentObject(FavoritesStore())
+        .environmentObject(SessionStateStore())
 }

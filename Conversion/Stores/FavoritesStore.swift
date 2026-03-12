@@ -7,6 +7,10 @@ actor FavoritesPersistenceService {
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
+
+        if ProcessInfo.processInfo.arguments.contains("-ui-testing-reset-state") {
+            defaults.removeObject(forKey: favoritesKey)
+        }
     }
 
     func loadFavorites() -> Set<String> {

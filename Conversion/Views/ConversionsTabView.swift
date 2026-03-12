@@ -15,7 +15,7 @@ struct ConversionsTabView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 searchField
-                categoryPicker
+                groupPicker
 
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .firstTextBaseline) {
@@ -99,16 +99,16 @@ struct ConversionsTabView: View {
         .liquidGlassSurfaceStyle(cornerRadius: 16)
     }
 
-    private var categoryPicker: some View {
+    private var groupPicker: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ForEach(viewModel.categories) { category in
-                    let isSelected = viewModel.selectedCategory == category
+                ForEach(viewModel.groups, id: \.id) { group in
+                    let isSelected = viewModel.selectedGroup == group
 
                     Button {
-                        viewModel.selectedCategory = category
+                        viewModel.selectedGroup = group
                     } label: {
-                        Text(category.title)
+                        Text(group.title)
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(isSelected ? .white : .primary)
                             .padding(.horizontal, 14)
@@ -132,16 +132,16 @@ struct ConversionsTabView: View {
                             )
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("\(category.title) category")
+                    .accessibilityLabel("\(group.title) group")
                     .accessibilityValue(isSelected ? "Selected" : "Not selected")
-                    .accessibilityHint(isSelected ? "Current category" : "Shows \(category.title) converters")
-                    .accessibilityIdentifier("conversions.category.\(category.id)")
+                    .accessibilityHint(isSelected ? "Current group" : "Shows \(group.title) converters")
+                    .accessibilityIdentifier("conversions.group.\(group.id)")
                 }
             }
             .padding(.vertical, 2)
             .padding(.horizontal, 2)
         }
-        .accessibilityLabel("Conversion categories")
+        .accessibilityLabel("Conversion groups")
     }
 }
 
@@ -149,5 +149,6 @@ struct ConversionsTabView: View {
     NavigationStack {
         ConversionsTabView(viewModel: ConversionsViewModel())
             .environmentObject(FavoritesStore())
+            .environmentObject(SessionStateStore())
     }
 }

@@ -14,11 +14,12 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 
 ## Phase 1 features
 - Category-first conversion browsing
-- Focused browsing with selected category + lightweight search
+- Focused browsing with `All` + alphabetized groups + lightweight search
 - Inline converter cards (no forced detail navigation)
 - Reversible conversion direction per card
 - Favorites tab with one-tap favorite toggles
 - Local persistence of favorites
+- Last-session state restoration (tab, group, search, per-card input/swap state)
 - Instant conversion updates while typing
 - Clean numeric output formatting
 

@@ -2,13 +2,23 @@ import SwiftUI
 
 struct RootTabView: View {
     @StateObject private var favoritesStore = FavoritesStore()
-    @StateObject private var conversionsViewModel = ConversionsViewModel()
+    @StateObject private var sessionStateStore: SessionStateStore
+    @StateObject private var conversionsViewModel: ConversionsViewModel
+
+    init() {
+        let sessionStateStore = SessionStateStore()
+        _sessionStateStore = StateObject(wrappedValue: sessionStateStore)
+        _conversionsViewModel = StateObject(
+            wrappedValue: ConversionsViewModel(sessionStateStore: sessionStateStore)
+        )
+    }
 
     var body: some View {
-        TabView {
+        TabView(selection: $sessionStateStore.selectedTab) {
             NavigationStack {
                 ConversionsTabView(viewModel: conversionsViewModel)
             }
+            .tag(RootTab.conversions)
             .tabItem {
                 Label("Conversions", systemImage: "arrow.left.arrow.right")
             }
@@ -16,12 +26,14 @@ struct RootTabView: View {
             NavigationStack {
                 FavoritesTabView()
             }
+            .tag(RootTab.favorites)
             .tabItem {
                 Label("Favorites", systemImage: "star")
             }
         }
         .tint(LiquidGlassTheme.tint)
         .environmentObject(favoritesStore)
+        .environmentObject(sessionStateStore)
     }
 }
 

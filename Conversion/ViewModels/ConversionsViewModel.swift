@@ -3,20 +3,49 @@ import Foundation
 
 @MainActor
 final class ConversionsViewModel: ObservableObject {
-    let categories: [ConversionCategory]
-    @Published var selectedCategory: ConversionCategory
-    @Published var searchText: String = ""
+    let groups: [ConversionBrowseGroup]
+    @Published var selectedGroup: ConversionBrowseGroup {
+        didSet {
+            sessionStateStore?.selectedGroupID = selectedGroup.id
+        }
+    }
+    @Published var searchText: String {
+        didSet {
+            sessionStateStore?.searchText = searchText
+        }
+    }
+
+    private let sessionStateStore: SessionStateStore?
 
     init(
         categories: [ConversionCategory] = ConversionCategory.allCases,
-        defaultCategory: ConversionCategory = .length
+        defaultCategory: ConversionCategory = .length,
+        sessionStateStore: SessionStateStore? = nil
     ) {
-        self.categories = categories
-        self.selectedCategory = categories.contains(defaultCategory) ? defaultCategory : (categories.first ?? .length)
+        self.groups = ConversionBrowseGroup.orderedGroups(from: categories)
+        self.sessionStateStore = sessionStateStore
+
+        if
+            let store = sessionStateStore,
+            let restoredGroup = ConversionBrowseGroup.from(id: store.selectedGroupID, availableCategories: categories),
+            groups.contains(restoredGroup)
+        {
+            self.selectedGroup = restoredGroup
+        } else {
+            let fallbackCategory = categories.contains(defaultCategory) ? defaultCategory : (categories.first ?? .length)
+            self.selectedGroup = .category(fallbackCategory)
+        }
+
+        self.searchText = sessionStateStore?.searchText ?? ""
     }
 
-    func pairs(for category: ConversionCategory) -> [ConversionPair] {
-        ConversionCatalog.pairs(for: category)
+    func pairs(for group: ConversionBrowseGroup) -> [ConversionPair] {
+        switch group {
+        case .all:
+            return ConversionCatalog.allPairs
+        case let .category(category):
+            return ConversionCatalog.pairs(for: category)
+        }
     }
 
     var isSearching: Bool {
@@ -25,14 +54,14 @@ final class ConversionsViewModel: ObservableObject {
 
     var visiblePairs: [ConversionPair] {
         guard isSearching else {
-            return pairs(for: selectedCategory)
+            return pairs(for: selectedGroup)
         }
 
         return ConversionCatalog.allPairs.filter(matchesSearch)
     }
 
     var visibleSectionTitle: String {
-        isSearching ? "Search Results" : selectedCategory.title
+        isSearching ? "Search Results" : selectedGroup.title
     }
 
     private var normalizedSearchText: String {

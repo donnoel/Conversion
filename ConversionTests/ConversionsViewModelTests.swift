@@ -1,24 +1,41 @@
+import Foundation
 import XCTest
 @testable import Conversion
 
 @MainActor
 final class ConversionsViewModelTests: XCTestCase {
-    func testDefaultSelectedCategoryIsLength() {
+    func testDefaultSelectedGroupIsLengthCategory() {
         let viewModel = ConversionsViewModel()
-        XCTAssertEqual(viewModel.selectedCategory, .length)
+        XCTAssertEqual(viewModel.selectedGroup, .category(.length))
     }
 
-    func testVisiblePairsUsesSelectedCategoryWhenSearchIsEmpty() {
+    func testGroupsOrderHasAllFirstThenAlphabetizedCategories() {
         let viewModel = ConversionsViewModel()
-        viewModel.selectedCategory = .power
+        XCTAssertEqual(
+            viewModel.groups.map(\.title),
+            ["All", "Angle", "Area", "Length", "Power", "Speed", "Temperature", "Volume", "Weight / Mass"]
+        )
+    }
+
+    func testVisiblePairsUsesSelectedGroupWhenSearchIsEmpty() {
+        let viewModel = ConversionsViewModel()
+        viewModel.selectedGroup = .category(.power)
 
         let visibleIDs = Set(viewModel.visiblePairs.map(\.id))
         XCTAssertEqual(visibleIDs, ["power.hp-kw"])
     }
 
+    func testVisiblePairsIncludesAllPairsWhenAllGroupIsSelectedAndSearchIsEmpty() {
+        let viewModel = ConversionsViewModel()
+        viewModel.selectedGroup = .all
+
+        XCTAssertEqual(viewModel.visiblePairs.count, ConversionCatalog.allPairs.count)
+        XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), Set(ConversionCatalog.allPairs.map(\.id)))
+    }
+
     func testSearchFiltersAcrossFullCatalogNotJustSelectedCategory() {
         let viewModel = ConversionsViewModel()
-        viewModel.selectedCategory = .power
+        viewModel.selectedGroup = .category(.power)
         viewModel.searchText = "cm"
 
         let visibleIDs = Set(viewModel.visiblePairs.map(\.id))
@@ -35,7 +52,7 @@ final class ConversionsViewModelTests: XCTestCase {
 
     func testClearingSearchReturnsToSelectedCategory() {
         let viewModel = ConversionsViewModel()
-        viewModel.selectedCategory = .temperature
+        viewModel.selectedGroup = .category(.temperature)
         viewModel.searchText = "feet"
         XCTAssertTrue(viewModel.isSearching)
 
@@ -43,5 +60,24 @@ final class ConversionsViewModelTests: XCTestCase {
 
         XCTAssertFalse(viewModel.isSearching)
         XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), ["temp.c-f"])
+    }
+
+    func testViewModelRestoresSelectedGroupAndSearchFromSessionStore() {
+        let defaults = makeDefaults()
+        defaults.set("all", forKey: "session.selectedGroupID.v1")
+        defaults.set("speed", forKey: "session.searchText.v1")
+        let sessionStore = SessionStateStore(defaults: defaults)
+
+        let viewModel = ConversionsViewModel(sessionStateStore: sessionStore)
+
+        XCTAssertEqual(viewModel.selectedGroup, .all)
+        XCTAssertEqual(viewModel.searchText, "speed")
+    }
+
+    private func makeDefaults() -> UserDefaults {
+        let suiteName = "ConversionsViewModelTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        return defaults
     }
 }

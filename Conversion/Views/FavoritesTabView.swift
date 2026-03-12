@@ -48,5 +48,6 @@ struct FavoritesTabView: View {
     NavigationStack {
         FavoritesTabView()
             .environmentObject(FavoritesStore())
+            .environmentObject(SessionStateStore())
     }
 }
