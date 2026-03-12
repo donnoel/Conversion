@@ -1,6 +1,7 @@
 import XCTest
 
 final class ConversionUITests: XCTestCase {
+    @MainActor
     func testExample() throws {
         let app = XCUIApplication()
         app.launch()

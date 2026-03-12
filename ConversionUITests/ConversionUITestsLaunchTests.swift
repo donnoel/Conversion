@@ -5,6 +5,7 @@ final class ConversionUITestsLaunchTests: XCTestCase {
         true
     }
 
+    @MainActor
     func testLaunch() throws {
         let app = XCUIApplication()
         app.launch()

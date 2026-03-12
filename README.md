@@ -1,35 +1,60 @@
 # Conversion
 
-<p align="center">
-  <img src="https://img.shields.io/badge/SwiftUI-app-orange?logo=swift">
-  <img src="https://img.shields.io/badge/Platform-multiplatform-blue">
-</p>
+A polished Apple-native unit conversion app for iPhone and iPad, built with SwiftUI + MVVM.
 
-## Overview
-Conversion is a SwiftUI app scaffold created by **ProjectPilot**. This README is intentionally minimal and will grow as the project evolves.
+## Phase 1 features
+- Category-first conversion browsing
+- Inline converter cards (no forced detail navigation)
+- Reversible conversion direction per card
+- Favorites tab with one-tap favorite toggles
+- Local persistence of favorites
+- Instant conversion updates while typing
+- Clean numeric output formatting
 
-- Template profile: **Starter App**
+## Supported conversion pairs (reversible)
+- `cm <-> inches`
+- `kg <-> lbs`
+- `Celsius <-> Fahrenheit`
+- `mm <-> inches`
+- `meters <-> feet`
+- `km <-> miles`
+- `cm <-> feet`
+- `grams <-> ounces`
+- `inches <-> feet`
+- `liters <-> gallons`
+- `pounds <-> ounces`
+- `mph <-> kph`
+- `acres <-> square feet`
+- `radians <-> degrees`
+- `hp <-> kw`
+- `meters <-> yards`
+- `mL <-> cups`
 
-## Requirements
-- macOS with Xcode installed
-- Swift / SwiftUI
+## Architecture
+- `ConversionCatalog` is the single source of truth for supported converters.
+- `ConversionRule` encapsulates linear and affine formulas.
+- `ConverterCardViewModel` handles per-card input, swap state, and output.
+- `FavoritesStore` + `FavoritesPersistenceService` handle local favorites persistence.
 
-## Getting Started
-1. Open `Conversion.xcodeproj`
-2. Select a destination (Mac, iPhone Simulator, etc.)
-3. Build and Run
-
-## Project Structure
-```text
-Conversion/
-├── Conversion/
-├── ConversionTests/
-└── ConversionUITests/
+## Build and test
+Build:
+```bash
+xcodebuild -scheme Conversion -project Conversion.xcodeproj -destination 'generic/platform=iOS Simulator' build
 ```
 
-## Roadmap
-- [ ] Define app goals and core flows
-- [ ] Add real UI and data model
-- [ ] Add tests for key behaviors
-## Credits
-Created with **ProjectPilot**.
+Run unit tests:
+```bash
+xcodebuild -scheme Conversion -project Conversion.xcodeproj -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:ConversionTests -skip-testing:ConversionUITests test
+```
+
+## Project structure
+```text
+Conversion/
+├── Models/
+├── Stores/
+├── Utilities/
+├── ViewModels/
+├── Views/
+├── ConversionApp.swift
+└── ContentView.swift
+```
