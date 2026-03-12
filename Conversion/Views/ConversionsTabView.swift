@@ -107,14 +107,6 @@ struct ConversionsTabView: View {
             .padding(.vertical, 20)
         }
         .toolbar(.hidden, for: .navigationBar)
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") {
-                    dismissKeyboard()
-                }
-            }
-        }
         .simultaneousGesture(
             TapGesture().onEnded {
                 dismissKeyboard()
