@@ -36,7 +36,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - `inches <-> feet`
 - `liters <-> gallons`
 - `pounds <-> ounces`
-- `mph <-> kph`
+- `mph <-> kph` (defaults to `kph -> mph` when opened)
 - `acres <-> square feet`
 - `radians <-> degrees`
 - `hp <-> kw`

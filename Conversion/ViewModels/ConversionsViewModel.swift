@@ -168,7 +168,7 @@ final class ConversionsViewModel: ObservableObject {
 
         isRestoringPairState = true
         inputText = restoredState.inputText
-        isReversed = restoredState.isReversed
+        isReversed = preferredInitialDirection(for: selectedPairID, restoredIsReversed: restoredState.isReversed)
         isRestoringPairState = false
     }
 
@@ -189,5 +189,14 @@ final class ConversionsViewModel: ObservableObject {
         }
 
         return allPairs[0].id
+    }
+
+    private func preferredInitialDirection(for pairID: String, restoredIsReversed: Bool) -> Bool {
+        // Speed converter is intentionally biased to kph -> mph on open.
+        if pairID == "speed.mph-kph" {
+            return true
+        }
+
+        return restoredIsReversed
     }
 }

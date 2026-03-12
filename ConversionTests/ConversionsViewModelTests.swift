@@ -90,6 +90,23 @@ final class ConversionsViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.isReversed)
     }
 
+    func testSpeedConverterAlwaysOpensAsKphToMph() {
+        let defaults = makeDefaults()
+        defaults.set("speed.mph-kph", forKey: "session.lastUsedPairID.v1")
+
+        let state = ["speed.mph-kph": ConverterSessionState(inputText: "", isReversed: false)]
+        let encodedState = try! JSONEncoder().encode(state)
+        defaults.set(encodedState, forKey: "session.converterStates.v1")
+
+        let sessionStore = SessionStateStore(defaults: defaults)
+        let viewModel = ConversionsViewModel(sessionStateStore: sessionStore)
+
+        XCTAssertEqual(viewModel.selectedPairID, "speed.mph-kph")
+        XCTAssertTrue(viewModel.isReversed)
+        XCTAssertEqual(viewModel.inputUnit, "kph")
+        XCTAssertEqual(viewModel.outputUnit, "mph")
+    }
+
     private func makeDefaults() -> UserDefaults {
         let suiteName = "ConversionsViewModelTests.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!
