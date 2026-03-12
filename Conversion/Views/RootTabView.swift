@@ -20,15 +20,15 @@ struct RootTabView: View {
             }
             .tag(RootTab.conversions)
             .tabItem {
-                Label("Conversions", systemImage: "arrow.left.arrow.right")
+                Label("Conversion", systemImage: "arrow.left.arrow.right")
             }
 
             NavigationStack {
-                FavoritesTabView()
+                UnitsTabView(viewModel: conversionsViewModel)
             }
-            .tag(RootTab.favorites)
+            .tag(RootTab.units)
             .tabItem {
-                Label("Favorites", systemImage: "star")
+                Label("Units", systemImage: "square.grid.2x2")
             }
         }
         .tint(LiquidGlassTheme.tint)

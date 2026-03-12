@@ -6,7 +6,7 @@ final class ConversionUITests: XCTestCase {
     }
 
     @MainActor
-    func testInlineConversionAndFavoriteAppearsInFavoritesTab() throws {
+    func testInlineConversionFavoriteAndUnitSelectionFlow() throws {
         let app = XCUIApplication()
         app.launchArguments.append("-ui-testing-reset-state")
         app.launchArguments += ["-ui-testing-seed-converter", "length.cm-in", "10"]
@@ -15,20 +15,17 @@ final class ConversionUITests: XCTestCase {
         let outputValue = app.staticTexts["3.937008"]
         XCTAssertTrue(outputValue.waitForExistence(timeout: 3))
 
-        let addFavoriteButton = app.buttons["Add cm and inches to favorites"]
-        if addFavoriteButton.waitForExistence(timeout: 2) {
-            addFavoriteButton.tap()
-        } else {
-            XCTAssertTrue(app.buttons["Remove cm and inches from favorites"].waitForExistence(timeout: 2))
-        }
+        let unitsTab = app.tabBars.buttons["Units"]
+        XCTAssertTrue(unitsTab.waitForExistence(timeout: 2))
+        unitsTab.tap()
 
-        dismissKeyboardIfNeeded(in: app)
+        let unitsFavoriteButton = app.buttons["units.favorite.length.cm-in"]
+        XCTAssertTrue(unitsFavoriteButton.waitForExistence(timeout: 2))
+        unitsFavoriteButton.tap()
 
-        let favoritesTab = app.tabBars.buttons["Favorites"]
-        XCTAssertTrue(favoritesTab.waitForExistence(timeout: 2))
-        favoritesTab.tap()
-
-        XCTAssertFalse(app.staticTexts["No Favorites Yet"].waitForExistence(timeout: 1))
+        let speedRowLabel = app.staticTexts["mph <-> kph"]
+        scrollToElementIfNeeded(speedRowLabel, in: app)
+        XCTAssertTrue(speedRowLabel.waitForExistence(timeout: 2))
     }
 
     @MainActor
@@ -48,6 +45,15 @@ final class ConversionUITests: XCTestCase {
         }
 
         app.tap()
+    }
+
+    @MainActor
+    private func scrollToElementIfNeeded(_ element: XCUIElement, in app: XCUIApplication) {
+        guard !element.exists else { return }
+
+        for _ in 0..<8 where !element.exists {
+            app.swipeUp()
+        }
     }
 
 }

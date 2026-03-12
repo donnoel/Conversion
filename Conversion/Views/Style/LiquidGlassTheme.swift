@@ -60,6 +60,30 @@ enum LiquidGlassTheme {
         )
     }
 
+    static func homeCanvasGradient(for colorScheme: ColorScheme) -> LinearGradient {
+        if colorScheme == .dark {
+            return LinearGradient(
+                colors: [
+                    Color(red: 0.12, green: 0.16, blue: 0.26),
+                    Color(red: 0.20, green: 0.17, blue: 0.30),
+                    Color(red: 0.11, green: 0.22, blue: 0.30)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+
+        return LinearGradient(
+            colors: [
+                Color(red: 0.86, green: 0.93, blue: 1.00),
+                Color(red: 0.94, green: 0.88, blue: 0.96),
+                Color(red: 0.84, green: 0.95, blue: 0.96)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
     static func screenGlow(for colorScheme: ColorScheme) -> some ShapeStyle {
         if colorScheme == .dark {
             return RadialGradient(

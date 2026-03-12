@@ -12,9 +12,9 @@ Conversion is a personal-use Apple-platform utility app focused on fast, elegant
 Current scope is Phase 1.
 1) MVP scope
 - Home-first focused converter surface
-- Unit-picker sheet with category sections and lightweight search
+- Units tab with category sections and lightweight search
 - Inline reversible conversion with clear from/to units
-- Favorites tab with persisted favorites
+- Favorites surfaced on Home and managed in Units
 - Local-only persistence
 - Last-session state restoration for tab/search, last-used pair, and per-pair converter state
 
@@ -37,7 +37,7 @@ Current scope is Phase 1.
 ## Architecture snapshot (current)
 - App entry and navigation model
   - `ConversionApp` -> `ContentView` -> `RootTabView`
-  - Tab-based structure: `Conversions`, `Favorites`
+  - Tab-based structure: `Conversion`, `Units`
 - Core view models/services
   - `ConversionsViewModel` for selected pair, search, input/swap/output state, and session restore hooks
   - `ConverterCardViewModel` remains used by favorites card rendering

@@ -5,17 +5,25 @@ import XCTest
 final class SessionStateStoreTests: XCTestCase {
     func testRestoresSavedBrowsingAndTabState() {
         let defaults = makeDefaults()
-        defaults.set(RootTab.favorites.rawValue, forKey: "session.selectedTab.v1")
+        defaults.set(RootTab.units.rawValue, forKey: "session.selectedTab.v1")
         defaults.set("all", forKey: "session.selectedGroupID.v1")
         defaults.set("meters", forKey: "session.searchText.v1")
         defaults.set("speed.mph-kph", forKey: "session.lastUsedPairID.v1")
 
         let store = SessionStateStore(defaults: defaults)
 
-        XCTAssertEqual(store.selectedTab, .favorites)
+        XCTAssertEqual(store.selectedTab, .units)
         XCTAssertEqual(store.selectedGroupID, "all")
         XCTAssertEqual(store.searchText, "meters")
         XCTAssertEqual(store.lastUsedPairID, "speed.mph-kph")
+    }
+
+    func testMigratesOldFavoritesTabStateToUnits() {
+        let defaults = makeDefaults()
+        defaults.set("favorites", forKey: "session.selectedTab.v1")
+
+        let store = SessionStateStore(defaults: defaults)
+        XCTAssertEqual(store.selectedTab, .units)
     }
 
     func testPersistsAndRestoresConverterSessionState() {

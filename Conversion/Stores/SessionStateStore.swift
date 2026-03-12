@@ -3,7 +3,7 @@ import Foundation
 
 enum RootTab: String, Sendable {
     case conversions
-    case favorites
+    case units
 }
 
 struct ConverterSessionState: Codable, Equatable, Sendable {
@@ -50,11 +50,14 @@ final class SessionStateStore: ObservableObject {
             defaults.removeObject(forKey: converterStateKey)
         }
 
-        if
-            let rawTab = defaults.string(forKey: selectedTabKey),
-            let restoredTab = RootTab(rawValue: rawTab)
-        {
-            selectedTab = restoredTab
+        if let rawTab = defaults.string(forKey: selectedTabKey) {
+            if let restoredTab = RootTab(rawValue: rawTab) {
+                selectedTab = restoredTab
+            } else if rawTab == "favorites" {
+                selectedTab = .units
+            } else {
+                selectedTab = .conversions
+            }
         } else {
             selectedTab = .conversions
         }
