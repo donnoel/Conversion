@@ -23,9 +23,9 @@ final class ConversionUITests: XCTestCase {
         XCTAssertTrue(unitsFavoriteButton.waitForExistence(timeout: 2))
         unitsFavoriteButton.tap()
 
-        let speedRowLabel = app.staticTexts["mph <-> kph"]
-        scrollToElementIfNeeded(speedRowLabel, in: app)
-        XCTAssertTrue(speedRowLabel.waitForExistence(timeout: 2))
+        let speedRow = app.otherElements["units.row.speed.mph-kph"]
+        scrollToElementIfNeeded(speedRow, in: app)
+        XCTAssertTrue(speedRow.waitForExistence(timeout: 2))
     }
 
     @MainActor

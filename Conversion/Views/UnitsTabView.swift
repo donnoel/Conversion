@@ -57,7 +57,7 @@ struct UnitsTabView: View {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
-                        Text(pair.title)
+                        Text(displayTitle(for: pair))
                             .font(.system(.body, design: .rounded).weight(.medium))
                             .foregroundStyle(.primary)
 
@@ -102,18 +102,56 @@ struct UnitsTabView: View {
                 sessionStateStore.selectedTab = .conversions
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("Choose \(pair.title)")
+            .accessibilityLabel("Choose \(displayTitle(for: pair))")
             .accessibilityHint("Opens this converter on the home screen")
             .accessibilityIdentifier("units.row.\(pair.id)")
         }
     }
 
     private func favoriteAccessibilityLabel(for pair: ConversionPair) -> String {
-        let pairName = pair.title.replacingOccurrences(of: "<->", with: "and")
+        let pairName = displayTitle(for: pair).replacingOccurrences(of: "<->", with: "and")
         if favoritesStore.isFavorite(pairID: pair.id) {
             return "Remove \(pairName) from favorites"
         }
         return "Add \(pairName) to favorites"
+    }
+
+    private func displayTitle(for pair: ConversionPair) -> String {
+        let unitAName = fullUnitName(for: pair.unitA)
+        let unitBName = fullUnitName(for: pair.unitB)
+        return "\(unitAName) <-> \(unitBName)"
+    }
+
+    private func fullUnitName(for symbol: String) -> String {
+        switch symbol {
+        case "cm": "centimeters"
+        case "in": "inches"
+        case "kg": "kilograms"
+        case "lb": "pounds"
+        case "C": "Celsius"
+        case "F": "Fahrenheit"
+        case "mm": "millimeters"
+        case "m": "meters"
+        case "ft": "feet"
+        case "km": "kilometers"
+        case "mi": "miles"
+        case "g": "grams"
+        case "oz": "ounces"
+        case "L": "liters"
+        case "gal": "gallons"
+        case "mph": "miles per hour"
+        case "kph": "kilometers per hour"
+        case "ac": "acres"
+        case "sq ft": "square feet"
+        case "rad": "radians"
+        case "deg": "degrees"
+        case "hp": "horsepower"
+        case "kw": "kilowatts"
+        case "yd": "yards"
+        case "mL": "milliliters"
+        case "cup": "cups"
+        default: symbol
+        }
     }
 }
 
