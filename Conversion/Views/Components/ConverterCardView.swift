@@ -44,7 +44,7 @@ struct ConverterCardView: View {
     }
 
     private var outputDisplayText: String {
-        hasOutputValue ? viewModel.outputText : "—"
+        hasOutputValue ? viewModel.outputText : ""
     }
 
     private var outputColor: Color {

@@ -10,7 +10,7 @@ struct ConversionsTabView: View {
     @FocusState private var isInputFocused: Bool
 
     private var outputDisplayText: String {
-        viewModel.outputText == "--" ? "—" : viewModel.outputText
+        viewModel.outputText == "--" ? "" : viewModel.outputText
     }
 
     private var outputAccessibilityLabel: String {
