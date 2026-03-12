@@ -26,13 +26,21 @@ struct ConversionsTabView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                Text("\(viewModel.inputUnit) ↔ \(viewModel.outputUnit)")
-                    .font(.system(.title2, design: .rounded).weight(.semibold))
-                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-                    .padding(.top, 16)
-                    .accessibilityLabel("Current conversion \(viewModel.inputUnit) to \(viewModel.outputUnit)")
+                VStack(spacing: 4) {
+                    Text("Conversion")
+                        .font(.system(.caption, design: .rounded).weight(.semibold))
+                        .textCase(.uppercase)
+                        .foregroundStyle(colorScheme == .dark ? .white.opacity(0.72) : .secondary)
+
+                    Text("\(viewModel.inputUnit.uppercased()) to \(viewModel.outputUnit.uppercased())")
+                        .font(.system(.title2, design: .rounded).weight(.bold))
+                        .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                }
+                .padding(.top, 16)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Current conversion \(viewModel.inputUnit) to \(viewModel.outputUnit)")
 
                 Spacer(minLength: 30)
 
