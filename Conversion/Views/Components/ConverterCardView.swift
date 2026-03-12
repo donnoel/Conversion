@@ -16,37 +16,72 @@ struct ConverterCardView: View {
         favoritesStore.isFavorite(pairID: pair.id)
     }
 
+    private var pairAccessibilityName: String {
+        pair.title.replacingOccurrences(of: "<->", with: "and")
+    }
+
+    private var favoriteAccessibilityLabel: String {
+        let action = isFavorite ? "Remove" : "Add"
+        let destination = isFavorite ? "from favorites" : "to favorites"
+        return "\(action) \(pairAccessibilityName) \(destination)"
+    }
+
+    private var swapAccessibilityLabel: String {
+        "Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)"
+    }
+
+    private var outputAccessibilityLabel: String {
+        guard viewModel.outputText != "--" else {
+            return "Converted value unavailable"
+        }
+        return "Converted result \(viewModel.outputText) \(viewModel.outputUnit)"
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack(alignment: .top, spacing: 12) {
-                Text(pair.title)
-                    .font(.headline.weight(.semibold))
-                    .foregroundStyle(.primary)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .center, spacing: 10) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(pair.title)
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+
+                    Text("\(viewModel.inputUnit) ↔ \(viewModel.outputUnit)")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                }
 
                 Spacer(minLength: 8)
 
                 HStack(spacing: 8) {
                     Button(action: toggleFavorite) {
                         Image(systemName: isFavorite ? "star.fill" : "star")
-                            .font(.headline)
+                            .font(.subheadline.weight(.semibold))
                             .foregroundStyle(isFavorite ? .yellow : .secondary)
                             .frame(width: 44, height: 44)
+                            .background(.thinMaterial, in: Circle())
+                            .overlay(Circle().strokeBorder(Color.white.opacity(0.18), lineWidth: 1))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+                    .accessibilityLabel(favoriteAccessibilityLabel)
+                    .accessibilityIdentifier("converter.favorite.\(pair.id)")
 
                     Button(action: swapUnits) {
                         Image(systemName: "arrow.left.arrow.right.circle.fill")
-                            .font(.title3)
+                            .font(.title3.weight(.semibold))
                             .foregroundStyle(LiquidGlassTheme.tint)
                             .frame(width: 44, height: 44)
+                            .background(.thinMaterial, in: Circle())
+                            .overlay(Circle().strokeBorder(Color.white.opacity(0.18), lineWidth: 1))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Swap units")
+                    .accessibilityLabel(swapAccessibilityLabel)
+                    .accessibilityIdentifier("converter.swap.\(pair.id)")
                 }
             }
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text("Input")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.secondary)
@@ -57,17 +92,18 @@ struct ConverterCardView: View {
                         .keyboardType(.numbersAndPunctuation)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                        .accessibilityLabel("Input value")
+                        .accessibilityLabel("Input value in \(viewModel.inputUnit)")
+                        .accessibilityIdentifier("converter.input.\(pair.id)")
 
                     Text(viewModel.inputUnit)
                         .font(.headline.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
             }
-            .padding(12)
-            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .padding(11)
+            .liquidGlassSurfaceStyle(cornerRadius: 12)
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text("Output")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.secondary)
@@ -78,19 +114,33 @@ struct ConverterCardView: View {
                         .monospacedDigit()
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
+                        .accessibilityIdentifier("converter.output.\(pair.id)")
 
                     Text(viewModel.outputUnit)
                         .font(.headline.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .accessibilityLabel("Output \(viewModel.outputText) \(viewModel.outputUnit)")
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(outputAccessibilityLabel)
             }
-            .padding(12)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .padding(11)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(LiquidGlassTheme.tint.opacity(0.10))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .strokeBorder(Color.white.opacity(0.20), lineWidth: 1)
+                    )
+            )
         }
-        .padding(16)
+        .padding(14)
         .liquidGlassCardStyle()
+        .accessibilityIdentifier("converter.card.\(pair.id)")
     }
 
     private func toggleFavorite() {

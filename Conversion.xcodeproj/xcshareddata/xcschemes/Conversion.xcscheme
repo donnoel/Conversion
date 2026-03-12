@@ -38,6 +38,16 @@
                ReferencedContainer = "container:Conversion.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5A63FFE32F44E19C00885BD6"
+               BuildableName = "ConversionUITests.xctest"
+               BlueprintName = "ConversionUITests"
+               ReferencedContainer = "container:Conversion.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

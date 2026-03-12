@@ -43,7 +43,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 
 ## Architecture
 - `ConversionCatalog` is the single source of truth for supported converters.
-- `ConversionRule` encapsulates linear and affine formulas.
+- `ConversionRule` is backed by Foundation `Measurement` / `Unit` conversions.
 - `ConverterCardViewModel` handles per-card input, swap state, and output.
 - `FavoritesStore` + `FavoritesPersistenceService` handle local favorites persistence.
 

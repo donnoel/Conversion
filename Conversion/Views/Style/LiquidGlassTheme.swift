@@ -2,6 +2,7 @@ import SwiftUI
 
 enum LiquidGlassTheme {
     static let tint = Color(red: 0.30, green: 0.56, blue: 0.83)
+    static let surfaceStroke = Color.white.opacity(0.20)
 
     static func canvasGradient(for colorScheme: ColorScheme) -> LinearGradient {
         if colorScheme == .dark {
@@ -29,8 +30,8 @@ enum LiquidGlassTheme {
 
     static let cardHighlight = LinearGradient(
         colors: [
-            Color.white.opacity(0.30),
-            Color.white.opacity(0.06)
+            Color.white.opacity(0.24),
+            Color.white.opacity(0.05)
         ],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
@@ -38,6 +39,8 @@ enum LiquidGlassTheme {
 }
 
 struct LiquidGlassCardModifier: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
     func body(content: Content) -> some View {
         content
             .background(
@@ -48,12 +51,44 @@ struct LiquidGlassCardModifier: ViewModifier {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .strokeBorder(LiquidGlassTheme.cardHighlight, lineWidth: 1)
             )
-            .shadow(color: .black.opacity(0.15), radius: 18, x: 0, y: 12)
+            .shadow(
+                color: .black.opacity(colorScheme == .dark ? 0.22 : 0.10),
+                radius: 12,
+                x: 0,
+                y: 8
+            )
+    }
+}
+
+struct LiquidGlassSurfaceModifier: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+    let cornerRadius: CGFloat
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                .thinMaterial,
+                in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .strokeBorder(LiquidGlassTheme.surfaceStroke, lineWidth: 1)
+            )
+            .shadow(
+                color: .black.opacity(colorScheme == .dark ? 0.18 : 0.07),
+                radius: 8,
+                x: 0,
+                y: 4
+            )
     }
 }
 
 extension View {
     func liquidGlassCardStyle() -> some View {
         modifier(LiquidGlassCardModifier())
+    }
+
+    func liquidGlassSurfaceStyle(cornerRadius: CGFloat = 14) -> some View {
+        modifier(LiquidGlassSurfaceModifier(cornerRadius: cornerRadius))
     }
 }

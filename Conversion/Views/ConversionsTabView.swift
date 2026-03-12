@@ -29,7 +29,14 @@ struct ConversionsTabView: View {
                                 .foregroundStyle(.secondary)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
-                                .background(.thinMaterial, in: Capsule())
+                                .background(
+                                    Capsule()
+                                        .fill(.thinMaterial)
+                                        .overlay(
+                                            Capsule()
+                                                .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                        )
+                                )
                                 .accessibilityLabel("\(viewModel.visiblePairs.count) results")
                         }
                     }
@@ -64,11 +71,15 @@ struct ConversionsTabView: View {
         HStack(spacing: 10) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(.secondary)
+                .font(.subheadline.weight(.semibold))
 
             TextField("Search conversions", text: $viewModel.searchText)
+                .font(.body.weight(.medium))
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .accessibilityLabel("Search conversions")
+                .accessibilityHint("Search by converter name, unit, or category")
+                .accessibilityIdentifier("conversions.searchField")
 
             if !viewModel.searchText.isEmpty {
                 Button {
@@ -80,10 +91,12 @@ struct ConversionsTabView: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Clear search")
+                .accessibilityIdentifier("conversions.clearSearch")
             }
         }
-        .padding(12)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .padding(.horizontal, 13)
+        .padding(.vertical, 12)
+        .liquidGlassSurfaceStyle(cornerRadius: 16)
     }
 
     private var categoryPicker: some View {
@@ -105,21 +118,30 @@ struct ConversionsTabView: View {
                                 Group {
                                     if isSelected {
                                         Capsule()
-                                            .fill(LiquidGlassTheme.tint)
+                                            .fill(LiquidGlassTheme.tint.gradient)
+                                            .shadow(color: LiquidGlassTheme.tint.opacity(0.35), radius: 8, x: 0, y: 4)
                                     } else {
                                         Capsule()
                                             .fill(.thinMaterial)
+                                            .overlay(
+                                                Capsule()
+                                                    .strokeBorder(Color.white.opacity(0.18), lineWidth: 1)
+                                            )
                                     }
                                 }
                             )
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel(category.title)
+                    .accessibilityLabel("\(category.title) category")
                     .accessibilityValue(isSelected ? "Selected" : "Not selected")
+                    .accessibilityHint(isSelected ? "Current category" : "Shows \(category.title) converters")
+                    .accessibilityIdentifier("conversions.category.\(category.id)")
                 }
             }
             .padding(.vertical, 2)
+            .padding(.horizontal, 2)
         }
+        .accessibilityLabel("Conversion categories")
     }
 }
 

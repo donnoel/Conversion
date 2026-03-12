@@ -25,6 +25,7 @@ struct FavoritesTabView: View {
                 )
                 .foregroundStyle(colorScheme == .dark ? .white.opacity(0.92) : .primary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .accessibilityIdentifier("favorites.empty")
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, alignment: .leading, spacing: 14) {
@@ -35,6 +36,7 @@ struct FavoritesTabView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 20)
                 }
+                .accessibilityIdentifier("favorites.list")
             }
         }
         .navigationTitle("Favorites")
