@@ -32,15 +32,30 @@ struct ConversionsTabView: View {
                         .textCase(.uppercase)
                         .foregroundStyle(colorScheme == .dark ? .white.opacity(0.72) : .secondary)
 
-                    Text("\(viewModel.inputUnit.uppercased()) to \(viewModel.outputUnit.uppercased())")
-                        .font(.system(.title2, design: .rounded).weight(.bold))
-                        .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            viewModel.swapUnits()
+                        }
+                    } label: {
+                        HStack(spacing: 8) {
+                            Text("\(viewModel.inputUnit.uppercased()) to \(viewModel.outputUnit.uppercased())")
+                                .font(.system(.title2, design: .rounded).weight(.bold))
+                                .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+
+                            Image(systemName: "arrow.left.arrow.right")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(colorScheme == .dark ? .white.opacity(0.82) : .secondary)
+                                .accessibilityHidden(true)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)")
+                    .accessibilityHint("Swaps the conversion direction")
+                    .accessibilityIdentifier("converter.swap.\(viewModel.selectedPair.id)")
                 }
                 .padding(.top, 16)
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel("Current conversion \(viewModel.inputUnit) to \(viewModel.outputUnit)")
 
                 Spacer(minLength: 30)
 
@@ -84,23 +99,6 @@ struct ConversionsTabView: View {
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(outputAccessibilityLabel)
 
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            viewModel.swapUnits()
-                        }
-                    } label: {
-                        Label("Swap Units", systemImage: "arrow.left.arrow.right")
-                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(
-                                Capsule(style: .continuous)
-                                    .fill(Color.white.opacity(colorScheme == .dark ? 0.16 : 0.62))
-                            )
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)")
-                    .accessibilityIdentifier("converter.swap.\(viewModel.selectedPair.id)")
                 }
 
                 Spacer(minLength: 0)
