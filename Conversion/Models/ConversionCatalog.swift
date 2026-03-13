@@ -4,7 +4,7 @@ enum ConversionCatalog {
     static let allPairs: [ConversionPair] = [
         ConversionPair(id: "length.cm-in", title: "cm <-> inches", category: .length, unitA: "cm", unitB: "in", rule: .measurement(unitA: .length(.centimeters), unitB: .length(.inches))),
         ConversionPair(id: "weight.kg-lb", title: "kg <-> lbs", category: .weightMass, unitA: "kg", unitB: "lb", rule: .measurement(unitA: .mass(.kilograms), unitB: .mass(.pounds))),
-        ConversionPair(id: "temp.c-f", title: "Celsius <-> Fahrenheit", category: .temperature, unitA: "C", unitB: "F", rule: .measurement(unitA: .temperature(.celsius), unitB: .temperature(.fahrenheit))),
+        ConversionPair(id: "temp.c-f", title: "celsius <-> fahrenheit", category: .temperature, unitA: "c", unitB: "f", rule: .measurement(unitA: .temperature(.celsius), unitB: .temperature(.fahrenheit))),
         ConversionPair(id: "length.mm-in", title: "mm <-> inches", category: .length, unitA: "mm", unitB: "in", rule: .measurement(unitA: .length(.millimeters), unitB: .length(.inches))),
         ConversionPair(id: "length.m-ft", title: "meters <-> feet", category: .length, unitA: "m", unitB: "ft", rule: .measurement(unitA: .length(.meters), unitB: .length(.feet))),
         ConversionPair(id: "length.km-mi", title: "km <-> miles", category: .length, unitA: "km", unitB: "mi", rule: .measurement(unitA: .length(.kilometers), unitB: .length(.miles))),
