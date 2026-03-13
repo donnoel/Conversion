@@ -13,7 +13,7 @@ enum ConversionCatalog {
         ConversionPair(id: "length.in-ft", title: "inches <-> feet", category: .length, unitA: "in", unitB: "ft", rule: .measurement(unitA: .length(.inches), unitB: .length(.feet))),
         ConversionPair(id: "volume.l-gal", title: "liters <-> gallons", category: .volume, unitA: "L", unitB: "gal", rule: .measurement(unitA: .volume(.liters), unitB: .volume(.gallons))),
         ConversionPair(id: "weight.lb-oz", title: "pounds <-> ounces", category: .weightMass, unitA: "lb", unitB: "oz", rule: .measurement(unitA: .mass(.pounds), unitB: .mass(.ounces))),
-        ConversionPair(id: "speed.mph-kph", title: "mph <-> kph", category: .speed, unitA: "mph", unitB: "kph", rule: .measurement(unitA: .speed(.milesPerHour), unitB: .speed(.kilometersPerHour))),
+        ConversionPair(id: "speed.mph-kph", title: "kph <-> mph", category: .speed, unitA: "kph", unitB: "mph", rule: .measurement(unitA: .speed(.kilometersPerHour), unitB: .speed(.milesPerHour))),
         ConversionPair(id: "area.acre-sqft", title: "acres <-> square feet", category: .area, unitA: "ac", unitB: "sq ft", rule: .measurement(unitA: .area(.acres), unitB: .area(.squareFeet))),
         ConversionPair(id: "angle.rad-deg", title: "radians <-> degrees", category: .angle, unitA: "rad", unitB: "deg", rule: .measurement(unitA: .angle(.radians), unitB: .angle(.degrees))),
         ConversionPair(id: "power.hp-kw", title: "hp <-> kw", category: .power, unitA: "hp", unitB: "kw", rule: .measurement(unitA: .power(.horsepower), unitB: .power(.kilowatts))),

@@ -57,7 +57,7 @@ Current scope is Phase 1.
 - Conversions update immediately as the user types.
 - Favorites toggle instantly and persist locally across launches.
 - Users can pick any supported pair quickly from the unit-picker sheet.
-- The `mph <-> kph` pair opens as `kph -> mph` by default.
+- The `kph <-> mph` pair opens as `kph -> mph` by default.
 
 ## UX rules
 - No forced detail navigation for basic conversion.

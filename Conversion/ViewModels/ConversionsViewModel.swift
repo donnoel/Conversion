@@ -194,7 +194,7 @@ final class ConversionsViewModel: ObservableObject {
     private func preferredInitialDirection(for pairID: String, restoredIsReversed: Bool) -> Bool {
         // Speed converter is intentionally biased to kph -> mph on open.
         if pairID == "speed.mph-kph" {
-            return true
+            return false
         }
 
         return restoredIsReversed
