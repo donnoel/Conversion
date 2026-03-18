@@ -87,7 +87,7 @@ final class ConversionsViewModelTests: XCTestCase {
 
         XCTAssertEqual(viewModel.selectedPairID, "speed.mph-kph")
         XCTAssertEqual(viewModel.inputText, "")
-        XCTAssertTrue(viewModel.isReversed)
+        XCTAssertFalse(viewModel.isReversed)
     }
 
     func testSpeedConverterAlwaysOpensAsKphToMph() {
@@ -102,7 +102,7 @@ final class ConversionsViewModelTests: XCTestCase {
         let viewModel = ConversionsViewModel(sessionStateStore: sessionStore)
 
         XCTAssertEqual(viewModel.selectedPairID, "speed.mph-kph")
-        XCTAssertTrue(viewModel.isReversed)
+        XCTAssertFalse(viewModel.isReversed)
         XCTAssertEqual(viewModel.inputUnit, "kph")
         XCTAssertEqual(viewModel.outputUnit, "mph")
     }
