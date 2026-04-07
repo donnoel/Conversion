@@ -63,7 +63,7 @@ struct UnitsTabView: View {
 
                         if pair.id == viewModel.selectedPairID {
                             Image(systemName: "checkmark.circle.fill")
-                                .font(.caption.weight(.semibold))
+                                .font(.system(.caption, design: .rounded).weight(.semibold))
                                 .foregroundStyle(LiquidGlassTheme.tint)
                                 .accessibilityHidden(true)
                         }

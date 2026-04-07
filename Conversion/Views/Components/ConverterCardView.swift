@@ -77,7 +77,7 @@ struct ConverterCardView: View {
                     .minimumScaleFactor(0.8)
 
                 Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
-                    .font(.caption.weight(.medium))
+                    .font(.system(.caption, design: .rounded).weight(.medium))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
@@ -107,7 +107,7 @@ struct ConverterCardView: View {
             VStack(alignment: .leading, spacing: 10) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("From")
-                        .font(.caption.weight(.medium))
+                        .font(.system(.caption, design: .rounded).weight(.medium))
                         .foregroundStyle(.secondary)
 
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
@@ -130,7 +130,7 @@ struct ConverterCardView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("To")
-                        .font(.caption.weight(.medium))
+                        .font(.system(.caption, design: .rounded).weight(.medium))
                         .foregroundStyle(outputColor)
 
                     HStack(alignment: .firstTextBaseline, spacing: 6) {

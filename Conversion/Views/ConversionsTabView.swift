@@ -39,7 +39,7 @@ struct ConversionsTabView: View {
                     } label: {
                         HStack(spacing: 8) {
                             Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
-                                .font(.system(.title2, design: .rounded).weight(.bold))
+                                .font(.system(.title2, design: .rounded).weight(.semibold))
                                 .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.8)
@@ -84,7 +84,7 @@ struct ConversionsTabView: View {
 
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text(outputDisplayText)
-                            .font(.system(size: 58, weight: .bold, design: .rounded))
+                            .font(.system(size: 58, weight: .semibold, design: .rounded))
                             .foregroundStyle(colorScheme == .dark ? .white.opacity(0.96) : .primary)
                             .monospacedDigit()
                             .lineLimit(1)

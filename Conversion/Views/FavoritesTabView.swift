@@ -95,7 +95,7 @@ struct FavoritesTabView: View {
             }
 
             Text("Keep your most-used conversions close at hand.")
-                .font(.subheadline)
+                .font(.system(.subheadline, design: .rounded))
                 .foregroundStyle(colorScheme == .dark ? .white.opacity(0.72) : .primary.opacity(0.72))
         }
         .padding(.horizontal, 16)
