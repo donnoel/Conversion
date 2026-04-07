@@ -47,7 +47,7 @@ final class ConversionsViewModelTests: XCTestCase {
         viewModel.searchText = "volume"
 
         let visibleIDs = Set(viewModel.visiblePairs.map(\.id))
-        XCTAssertEqual(visibleIDs, ["volume.l-gal", "volume.ml-cup"])
+        XCTAssertEqual(visibleIDs, ["volume.floz-ml", "volume.l-gal", "volume.ml-cup"])
     }
 
     func testClearingSearchReturnsToSelectedCategory() {
@@ -59,7 +59,7 @@ final class ConversionsViewModelTests: XCTestCase {
         viewModel.searchText = ""
 
         XCTAssertFalse(viewModel.isSearching)
-        XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), ["temp.c-f"])
+        XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), ["temp.c-f", "temp.c-k"])
     }
 
     func testViewModelRestoresSelectedGroupAndSearchFromSessionStore() {

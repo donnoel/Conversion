@@ -7,6 +7,7 @@ final class ConversionMathTests: XCTestCase {
             "length.cm-in",
             "weight.kg-lb",
             "temp.c-f",
+            "temp.c-k",
             "length.mm-in",
             "length.m-ft",
             "length.km-mi",
@@ -16,11 +17,14 @@ final class ConversionMathTests: XCTestCase {
             "volume.l-gal",
             "weight.lb-oz",
             "speed.mph-kph",
+            "speed.mph-ms",
             "area.acre-sqft",
+            "area.sqft-sqm",
             "angle.rad-deg",
             "power.hp-kw",
             "length.m-yd",
-            "volume.ml-cup"
+            "volume.ml-cup",
+            "volume.floz-ml"
         ]
 
         XCTAssertEqual(Set(ConversionCatalog.allPairs.map(\.id)), expectedIDs)

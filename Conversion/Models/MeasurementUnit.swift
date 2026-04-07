@@ -78,11 +78,13 @@ enum MassUnit: Hashable, Sendable {
 enum TemperatureUnit: Hashable, Sendable {
     case celsius
     case fahrenheit
+    case kelvin
 
     var foundationUnit: UnitTemperature {
         switch self {
         case .celsius: .celsius
         case .fahrenheit: .fahrenheit
+        case .kelvin: .kelvin
         }
     }
 }
@@ -92,6 +94,7 @@ enum VolumeUnit: Hashable, Sendable {
     case liters
     case gallons
     case cups
+    case fluidOunces
 
     var foundationUnit: UnitVolume {
         switch self {
@@ -99,6 +102,7 @@ enum VolumeUnit: Hashable, Sendable {
         case .liters: .liters
         case .gallons: .gallons
         case .cups: .cups
+        case .fluidOunces: .fluidOunces
         }
     }
 }
@@ -106,11 +110,13 @@ enum VolumeUnit: Hashable, Sendable {
 enum SpeedUnit: Hashable, Sendable {
     case milesPerHour
     case kilometersPerHour
+    case metersPerSecond
 
     var foundationUnit: UnitSpeed {
         switch self {
         case .milesPerHour: .milesPerHour
         case .kilometersPerHour: .kilometersPerHour
+        case .metersPerSecond: .metersPerSecond
         }
     }
 }
@@ -118,11 +124,13 @@ enum SpeedUnit: Hashable, Sendable {
 enum AreaUnit: Hashable, Sendable {
     case acres
     case squareFeet
+    case squareMeters
 
     var foundationUnit: UnitArea {
         switch self {
         case .acres: .acres
         case .squareFeet: .squareFeet
+        case .squareMeters: .squareMeters
         }
     }
 }
