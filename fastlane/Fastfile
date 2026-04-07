@@ -1,0 +1,18 @@
+default_platform(:ios)
+
+platform :ios do
+
+  lane :screenshots do
+    sh <<-CMD
+      xcodebuild \
+      -scheme Conversion \
+      -project /Users/donnoel/Development/Conversion/Conversion.xcodeproj \
+      -destination 'platform=iOS Simulator,id=71B0FA2F-475B-462E-8918-9C4FD752F980' \
+      -only-testing:ConversionUITests/ScreenshotTests \
+      FASTLANE_SNAPSHOT=YES \
+      FASTLANE_LANGUAGE=en-US \
+      build test
+    CMD
+  end
+
+end
