@@ -36,7 +36,7 @@ struct RootTabView: View {
             }
             .tag(RootTab.toolkit)
             .tabItem {
-                Label("Toolkit", systemImage: "sparkles")
+                Label("Toolkit", systemImage: "wrench.and.screwdriver")
             }
         }
         .tint(LiquidGlassTheme.tint)
