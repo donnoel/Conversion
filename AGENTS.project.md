@@ -13,6 +13,7 @@ Current scope is Phase 1.
 1) MVP scope
 - Home-first focused converter surface
 - Units tab with category sections and lightweight search
+- Toolkit tab for one-input multi-convert within a selected category
 - Inline reversible conversion with clear from/to units
 - Favorites surfaced at the top of Units and managed there
 - Local-only persistence
@@ -37,9 +38,10 @@ Current scope is Phase 1.
 ## Architecture snapshot (current)
 - App entry and navigation model
   - `ConversionApp` -> `ContentView` -> `RootTabView`
-  - Tab-based structure: `Conversion`, `Units`
+  - Tab-based structure: `Conversion`, `Units`, `Toolkit`
 - Core view models/services
   - `ConversionsViewModel` for selected pair, search, input/swap/output state, and session restore hooks
+  - `ToolkitViewModel` for category/source-unit selection and one-input multi-convert outputs
   - `ConverterCardViewModel` remains used by favorites card rendering
   - `FavoritesStore` (`@MainActor`) with `FavoritesPersistenceService` actor for persistence
   - `SessionStateStore` (`@MainActor`) for lightweight local browsing/converter session restore

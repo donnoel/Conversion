@@ -30,6 +30,14 @@ struct RootTabView: View {
             .tabItem {
                 Label("Units", systemImage: "square.grid.2x2")
             }
+
+            NavigationStack {
+                ToolkitTabView()
+            }
+            .tag(RootTab.toolkit)
+            .tabItem {
+                Label("Toolkit", systemImage: "sparkles")
+            }
         }
         .tint(LiquidGlassTheme.tint)
         .toolbarBackground(.visible, for: .tabBar)

@@ -18,6 +18,14 @@ final class SessionStateStoreTests: XCTestCase {
         XCTAssertEqual(store.lastUsedPairID, "speed.mph-kph")
     }
 
+    func testRestoresToolkitTabState() {
+        let defaults = makeDefaults()
+        defaults.set(RootTab.toolkit.rawValue, forKey: "session.selectedTab.v1")
+
+        let store = SessionStateStore(defaults: defaults)
+        XCTAssertEqual(store.selectedTab, .toolkit)
+    }
+
     func testMigratesOldFavoritesTabStateToUnits() {
         let defaults = makeDefaults()
         defaults.set("favorites", forKey: "session.selectedTab.v1")

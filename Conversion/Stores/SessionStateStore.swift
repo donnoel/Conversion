@@ -4,6 +4,7 @@ import Foundation
 enum RootTab: String, Sendable {
     case conversions
     case units
+    case toolkit
 }
 
 struct ConverterSessionState: Codable, Equatable, Sendable {

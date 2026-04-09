@@ -15,6 +15,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 ## Phase 1 features
 - Friendly home converter with one focused conversion surface
 - Dedicated `Units` tab with search and category sections
+- Dedicated `Toolkit` tab for one-input, many-output conversion within a chosen category
 - Favorite units shown at the top of the `Units` tab for quick switching
 - Reversible conversion direction inline
 - Favorite toggles available in the Units list
@@ -51,6 +52,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - `ConversionCatalog` is the single source of truth for supported converters.
 - `ConversionRule` is backed by Foundation `Measurement` / `Unit` conversions.
 - `ConversionsViewModel` handles selected pair, input, swap state, search, and output.
+- `ToolkitViewModel` handles category/source-unit selection and multi-output conversion rows.
 - `FavoritesStore` + `FavoritesPersistenceService` handle local favorites persistence.
 - `SessionStateStore` restores tab/search state plus last-used pair and per-pair session state.
 
