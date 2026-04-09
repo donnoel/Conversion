@@ -366,7 +366,7 @@
 					"-framework",
 					AppIntents,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = convert;
+				PRODUCT_BUNDLE_IDENTIFIER = dn.conversion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -419,7 +419,7 @@
 					"-framework",
 					AppIntents,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = convert;
+				PRODUCT_BUNDLE_IDENTIFIER = dn.conversion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

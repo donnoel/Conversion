@@ -1,4 +1,4 @@
-# Conversion
+# Easy Unit
 
 <p align="center">
   <img src="https://img.shields.io/badge/Swift-6.0-orange?logo=swift&logoColor=white" alt="Swift 6.0">
