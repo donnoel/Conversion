@@ -23,7 +23,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - Last-session state restoration (tab, last used pair, search, per-pair swap direction)
 - Converter input value is cleared when the app relaunches
 - Instant conversion updates while typing
-- Clean numeric output formatting
+- Clean numeric output formatting capped at 3 fractional digits
 
 ## Supported conversion pairs (reversible)
 - `cm <-> inches`

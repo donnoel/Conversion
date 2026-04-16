@@ -29,6 +29,7 @@ Current scope is Phase 1.
 - Zero build warnings
 - Stable keyboard/input behavior during typing
 - Deterministic conversion rules from one catalog source
+- Conversion results display at most 3 fractional digits for readability
 
 4) Testing priorities
 - Conversion rule coverage and reversibility

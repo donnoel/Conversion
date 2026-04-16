@@ -6,7 +6,7 @@ enum NumberFormatting {
         return normalized.formatted(
             .number
                 .grouping(.automatic)
-                .precision(.fractionLength(0 ... 6))
+                .precision(.fractionLength(0 ... 3))
                 .locale(locale)
         )
     }
