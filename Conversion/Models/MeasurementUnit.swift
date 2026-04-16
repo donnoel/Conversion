@@ -6,6 +6,7 @@ enum MeasurementUnit: Hashable, Sendable {
     case temperature(TemperatureUnit)
     case volume(VolumeUnit)
     case speed(SpeedUnit)
+    case pressure(PressureUnit)
     case area(AreaUnit)
     case angle(AngleUnit)
     case power(PowerUnit)
@@ -21,6 +22,8 @@ enum MeasurementUnit: Hashable, Sendable {
         case let (.volume(from), .volume(to)):
             return Measurement(value: value, unit: from.foundationUnit).converted(to: to.foundationUnit).value
         case let (.speed(from), .speed(to)):
+            return Measurement(value: value, unit: from.foundationUnit).converted(to: to.foundationUnit).value
+        case let (.pressure(from), .pressure(to)):
             return Measurement(value: value, unit: from.foundationUnit).converted(to: to.foundationUnit).value
         case let (.area(from), .area(to)):
             return Measurement(value: value, unit: from.foundationUnit).converted(to: to.foundationUnit).value
@@ -90,16 +93,24 @@ enum TemperatureUnit: Hashable, Sendable {
 }
 
 enum VolumeUnit: Hashable, Sendable {
+    case teaspoons
+    case tablespoons
     case milliliters
     case liters
+    case pints
+    case quarts
     case gallons
     case cups
     case fluidOunces
 
     var foundationUnit: UnitVolume {
         switch self {
+        case .teaspoons: .teaspoons
+        case .tablespoons: .tablespoons
         case .milliliters: .milliliters
         case .liters: .liters
+        case .pints: .pints
+        case .quarts: .quarts
         case .gallons: .gallons
         case .cups: .cups
         case .fluidOunces: .fluidOunces
@@ -123,14 +134,30 @@ enum SpeedUnit: Hashable, Sendable {
 
 enum AreaUnit: Hashable, Sendable {
     case acres
+    case hectares
     case squareFeet
     case squareMeters
 
     var foundationUnit: UnitArea {
         switch self {
         case .acres: .acres
+        case .hectares: .hectares
         case .squareFeet: .squareFeet
         case .squareMeters: .squareMeters
+        }
+    }
+}
+
+enum PressureUnit: Hashable, Sendable {
+    case poundsPerSquareInch
+    case bars
+    case kilopascals
+
+    var foundationUnit: UnitPressure {
+        switch self {
+        case .poundsPerSquareInch: .poundsForcePerSquareInch
+        case .bars: .bars
+        case .kilopascals: .kilopascals
         }
     }
 }

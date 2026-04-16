@@ -6,8 +6,8 @@
   <img src="https://img.shields.io/badge/Platforms-iPhone_|_iPad-0A84FF?logo=apple&logoColor=white" alt="iPhone and iPad">
   <img src="https://img.shields.io/badge/iOS-26.0%2B-5E5CE6" alt="iOS 26.0+">
   <img src="https://img.shields.io/badge/Architecture-MVVM-8E8E93" alt="MVVM">
-  <img src="https://img.shields.io/badge/Categories-8-34C759" alt="8 categories">
-  <img src="https://img.shields.io/badge/Pairs-21-A2845E" alt="21 conversion pairs">
+  <img src="https://img.shields.io/badge/Categories-9-34C759" alt="9 categories">
+  <img src="https://img.shields.io/badge/Pairs-34-A2845E" alt="34 conversion pairs">
 </p>
 
 A polished Apple-native unit conversion app for iPhone and iPad, built with SwiftUI + MVVM.
@@ -27,19 +27,32 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 
 ## Supported conversion pairs (reversible)
 - `cm <-> inches`
+- `meters <-> centimeters`
 - `kg <-> lbs`
+- `kg <-> grams`
 - `celsius <-> fahrenheit`
 - `celsius <-> kelvin`
 - `mm <-> inches`
 - `meters <-> feet`
 - `km <-> miles`
+- `miles <-> feet`
 - `cm <-> feet`
+- `lb <-> grams`
 - `grams <-> ounces`
 - `inches <-> feet`
+- `tsp <-> mL`
+- `tbsp <-> mL`
 - `liters <-> gallons`
+- `pt <-> L`
+- `qt <-> L`
 - `pounds <-> ounces`
 - `kph <-> mph` (defaults to `kph -> mph` when opened)
+- `kph <-> m/s`
 - `mph <-> m/s`
+- `psi <-> bar`
+- `psi <-> kPa`
+- `bar <-> kPa`
+- `acres <-> hectares`
 - `acres <-> square feet`
 - `square feet <-> square meters`
 - `radians <-> degrees`

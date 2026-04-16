@@ -34,6 +34,7 @@ Current scope is Phase 1.
 - Conversion rule coverage and reversibility
 - Temperature formula correctness
 - Numeric input parsing and output formatting behavior
+- Toolkit unit exposure/order for newly added symbols
 
 ## Architecture snapshot (current)
 - App entry and navigation model
@@ -60,6 +61,8 @@ Current scope is Phase 1.
 - Favorites toggle instantly and persist locally across launches.
 - Users can pick any supported pair quickly from the unit-picker sheet.
 - The `kph <-> mph` pair opens as `kph -> mph` by default.
+- Supported conversion catalog now contains 34 reversible pairs across 9 categories.
+- Pair-first expansion rule: add new support by extending `ConversionCatalog` within existing categories so `Units` and `Toolkit` derive availability automatically.
 
 ## UX rules
 - No forced detail navigation for basic conversion.
@@ -83,6 +86,17 @@ Current scope is Phase 1.
 - Add focused UI tests for key inline conversion and favorites flows.
 - Improve card-level accessibility copy and VoiceOver polish.
 - Consider optional per-card input history/reset controls (if needed).
+
+## Supported pairs snapshot
+- Length: `cm <-> inches`, `meters <-> centimeters`, `mm <-> inches`, `meters <-> feet`, `km <-> miles`, `miles <-> feet`, `cm <-> feet`, `inches <-> feet`, `meters <-> yards`
+- Weight / Mass: `kg <-> lbs`, `kg <-> grams`, `lb <-> grams`, `grams <-> ounces`, `pounds <-> ounces`
+- Temperature: `celsius <-> fahrenheit`, `celsius <-> kelvin`
+- Volume: `tsp <-> mL`, `tbsp <-> mL`, `liters <-> gallons`, `pt <-> L`, `qt <-> L`, `mL <-> cups`, `fl oz <-> mL`
+- Speed: `kph <-> mph`, `kph <-> m/s`, `mph <-> m/s`
+- Pressure: `psi <-> bar`, `psi <-> kPa`, `bar <-> kPa`
+- Area: `acres <-> hectares`, `acres <-> square feet`, `square feet <-> square meters`
+- Angle: `radians <-> degrees`
+- Power: `hp <-> kw`
 
 ## Output expectations per patch
 Provide:

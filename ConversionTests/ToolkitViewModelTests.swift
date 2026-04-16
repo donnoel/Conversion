@@ -24,6 +24,26 @@ final class ToolkitViewModelTests: XCTestCase {
         XCTAssertEqual(metersPerSecondValue ?? 0, 27.777_778, accuracy: 0.000_1)
     }
 
+    func testVolumeCategoryExposesNewUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .volume)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "L")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["L", "qt", "pt", "gal", "cup", "fl oz", "tbsp", "tsp", "mL"])
+    }
+
+    func testAreaCategoryExposesNewHectaresUnit() {
+        let viewModel = ToolkitViewModel(defaultCategory: .area)
+
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["ha", "ac", "sq m", "sq ft"])
+    }
+
+    func testPressureCategoryExposesExpectedUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .pressure)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "psi")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["psi", "bar", "kPa"])
+    }
+
     func testInvalidInputReturnsNoComputedOutputValues() {
         let viewModel = ToolkitViewModel(defaultCategory: .volume)
         viewModel.sourceUnitSymbol = "L"

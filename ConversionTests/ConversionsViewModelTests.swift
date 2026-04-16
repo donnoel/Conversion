@@ -13,7 +13,7 @@ final class ConversionsViewModelTests: XCTestCase {
         let viewModel = ConversionsViewModel()
         XCTAssertEqual(
             viewModel.groups.map(\.title),
-            ["All", "Angle", "Area", "Length", "Power", "Speed", "Temperature", "Volume", "Weight / Mass"]
+            ["All", "Angle", "Area", "Length", "Power", "Pressure", "Speed", "Temperature", "Volume", "Weight / Mass"]
         )
     }
 
@@ -39,7 +39,7 @@ final class ConversionsViewModelTests: XCTestCase {
         viewModel.searchText = "cm"
 
         let visibleIDs = Set(viewModel.visiblePairs.map(\.id))
-        XCTAssertEqual(visibleIDs, ["length.cm-in", "length.cm-ft"])
+        XCTAssertEqual(visibleIDs, ["length.cm-in", "length.cm-ft", "length.m-cm"])
     }
 
     func testSearchMatchesCategoryTitle() {
@@ -47,7 +47,21 @@ final class ConversionsViewModelTests: XCTestCase {
         viewModel.searchText = "volume"
 
         let visibleIDs = Set(viewModel.visiblePairs.map(\.id))
-        XCTAssertEqual(visibleIDs, ["volume.floz-ml", "volume.l-gal", "volume.ml-cup"])
+        XCTAssertEqual(visibleIDs, ["volume.floz-ml", "volume.l-gal", "volume.ml-cup", "volume.pt-l", "volume.qt-l", "volume.tbsp-ml", "volume.tsp-ml"])
+    }
+
+    func testSearchMatchesNewUnitSymbolsNaturally() {
+        let viewModel = ConversionsViewModel()
+        viewModel.searchText = "tsp"
+
+        XCTAssertEqual(viewModel.visiblePairs.map(\.id), ["volume.tsp-ml"])
+    }
+
+    func testSearchMatchesPressureSymbolsNaturally() {
+        let viewModel = ConversionsViewModel()
+        viewModel.searchText = "psi"
+
+        XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), ["pressure.psi-bar", "pressure.psi-kpa"])
     }
 
     func testClearingSearchReturnsToSelectedCategory() {
@@ -105,6 +119,25 @@ final class ConversionsViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.isReversed)
         XCTAssertEqual(viewModel.inputUnit, "kph")
         XCTAssertEqual(viewModel.outputUnit, "mph")
+    }
+
+    func testLengthUnitPickerSectionIncludesNewPairsAlphabetically() {
+        let viewModel = ConversionsViewModel()
+
+        let lengthSection = try! XCTUnwrap(viewModel.unitPickerSections.first(where: { $0.category == .length }))
+        let lengthIDs = lengthSection.pairs.map(\.id)
+
+        XCTAssertTrue(lengthIDs.contains("length.m-cm"))
+        XCTAssertTrue(lengthIDs.contains("length.mi-ft"))
+        XCTAssertEqual(lengthSection.pairs.first?.id, "length.cm-ft")
+    }
+
+    func testPressureUnitPickerSectionAppearsInAlphabeticalCategoryOrder() throws {
+        let viewModel = ConversionsViewModel()
+
+        let pressureSection = try XCTUnwrap(viewModel.unitPickerSections.first(where: { $0.category == .pressure }))
+
+        XCTAssertEqual(pressureSection.pairs.map(\.id), ["pressure.bar-kpa", "pressure.psi-bar", "pressure.psi-kpa"])
     }
 
     private func makeDefaults() -> UserDefaults {

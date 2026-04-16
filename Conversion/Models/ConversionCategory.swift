@@ -6,6 +6,7 @@ enum ConversionCategory: String, CaseIterable, Identifiable, Sendable {
     case temperature
     case volume
     case speed
+    case pressure
     case area
     case angle
     case power
@@ -26,6 +27,8 @@ enum ConversionCategory: String, CaseIterable, Identifiable, Sendable {
             "Volume"
         case .speed:
             "Speed"
+        case .pressure:
+            "Pressure"
         case .area:
             "Area"
         case .angle:
