@@ -55,24 +55,35 @@ struct UnitsTabView: View {
     private func pairRows(_ pairs: [ConversionPair]) -> some View {
         ForEach(pairs) { pair in
             HStack(spacing: 12) {
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack(spacing: 6) {
-                        Text(displayTitle(for: pair))
-                            .font(.system(.body, design: .rounded).weight(.medium))
-                            .foregroundStyle(.primary)
+                Button {
+                    viewModel.selectPair(pair)
+                    sessionStateStore.selectedTab = .conversions
+                } label: {
+                    VStack(alignment: .leading, spacing: 3) {
+                        HStack(spacing: 6) {
+                            Text(displayTitle(for: pair))
+                                .font(.system(.body, design: .rounded).weight(.medium))
+                                .foregroundStyle(.primary)
 
-                        if pair.id == viewModel.selectedPairID {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.system(.caption, design: .rounded).weight(.semibold))
-                                .foregroundStyle(LiquidGlassTheme.tint)
-                                .accessibilityHidden(true)
+                            if pair.id == viewModel.selectedPairID {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(.caption, design: .rounded).weight(.semibold))
+                                    .foregroundStyle(LiquidGlassTheme.tint)
+                                    .accessibilityHidden(true)
+                            }
                         }
-                    }
 
-                    Text("\(pair.unitA) ↔ \(pair.unitB)")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundStyle(.secondary)
+                        Text("\(pair.unitA) ↔ \(pair.unitB)")
+                            .font(.system(.caption, design: .rounded))
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Choose \(displayTitle(for: pair))")
+                .accessibilityHint("Opens this converter on the home screen")
+                .accessibilityIdentifier("units.row.\(pair.id)")
 
                 Spacer(minLength: 8)
 
@@ -96,15 +107,6 @@ struct UnitsTabView: View {
                 .accessibilityLabel(favoriteAccessibilityLabel(for: pair))
                 .accessibilityIdentifier("units.favorite.\(pair.id)")
             }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                viewModel.selectPair(pair)
-                sessionStateStore.selectedTab = .conversions
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("Choose \(displayTitle(for: pair))")
-            .accessibilityHint("Opens this converter on the home screen")
-            .accessibilityIdentifier("units.row.\(pair.id)")
         }
     }
 
