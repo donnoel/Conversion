@@ -30,11 +30,14 @@ final class SessionStateStore: ObservableObject {
         didSet { defaults.set(lastUsedPairID, forKey: lastUsedPairIDKey) }
     }
 
+    @Published private(set) var recentPairIDs: [String]
+
     private let defaults: UserDefaults
     private let selectedTabKey = "session.selectedTab.v1"
     private let selectedGroupIDKey = "session.selectedGroupID.v1"
     private let searchTextKey = "session.searchText.v1"
     private let lastUsedPairIDKey = "session.lastUsedPairID.v1"
+    private let recentPairIDsKey = "session.recentPairIDs.v1"
     private let converterStateKey = "session.converterStates.v1"
     private var converterStates: [String: ConverterSessionState]
 
@@ -48,6 +51,7 @@ final class SessionStateStore: ObservableObject {
             defaults.removeObject(forKey: selectedGroupIDKey)
             defaults.removeObject(forKey: searchTextKey)
             defaults.removeObject(forKey: lastUsedPairIDKey)
+            defaults.removeObject(forKey: recentPairIDsKey)
             defaults.removeObject(forKey: converterStateKey)
         }
 
@@ -66,6 +70,7 @@ final class SessionStateStore: ObservableObject {
         selectedGroupID = defaults.string(forKey: selectedGroupIDKey) ?? ""
         searchText = defaults.string(forKey: searchTextKey) ?? ""
         lastUsedPairID = defaults.string(forKey: lastUsedPairIDKey) ?? ""
+        recentPairIDs = defaults.stringArray(forKey: recentPairIDsKey) ?? []
 
         if
             let data = defaults.data(forKey: converterStateKey),
@@ -87,6 +92,15 @@ final class SessionStateStore: ObservableObject {
     func setConverterState(_ state: ConverterSessionState, for pairID: String) {
         converterStates[pairID] = state
         saveConverterStates()
+    }
+
+    func recordRecentPairID(_ pairID: String) {
+        guard !pairID.isEmpty else { return }
+
+        var updatedIDs = recentPairIDs.filter { $0 != pairID }
+        updatedIDs.insert(pairID, at: 0)
+        recentPairIDs = Array(updatedIDs.prefix(5))
+        defaults.set(recentPairIDs, forKey: recentPairIDsKey)
     }
 
     private func saveConverterStates() {

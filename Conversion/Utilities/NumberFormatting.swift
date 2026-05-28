@@ -10,6 +10,16 @@ enum NumberFormatting {
                 .locale(locale)
         )
     }
+
+    static func precise(_ value: Double, locale: Locale = .autoupdatingCurrent) -> String {
+        let normalized = abs(value) < 0.000_000_000_1 ? 0.0 : value
+        return normalized.formatted(
+            .number
+                .grouping(.automatic)
+                .precision(.fractionLength(0 ... 8))
+                .locale(locale)
+        )
+    }
 }
 
 enum NumericInputParser {

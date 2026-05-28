@@ -61,4 +61,15 @@ final class ToolkitViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.sourceUnitSymbol, "c")
         XCTAssertTrue(viewModel.availableUnitSymbols.contains(viewModel.sourceUnitSymbol))
     }
+
+    func testUsesCurrentConverterPairInputAndDirection() throws {
+        let viewModel = ToolkitViewModel(defaultCategory: .length)
+        let pair = try XCTUnwrap(ConversionCatalog.pair(withID: "speed.mph-kph"))
+
+        viewModel.useConverter(pair: pair, inputText: "100", isReversed: true)
+
+        XCTAssertEqual(viewModel.selectedCategory, .speed)
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "mph")
+        XCTAssertEqual(viewModel.inputText, "100")
+    }
 }

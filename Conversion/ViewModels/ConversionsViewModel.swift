@@ -105,12 +105,19 @@ final class ConversionsViewModel: ObservableObject {
     }
 
     var outputText: String {
-        guard let inputValue = NumericInputParser.parse(inputText) else {
+        guard let outputValue else {
             return "--"
         }
 
-        let outputValue = selectedPair.convert(inputValue, isReversed: isReversed)
         return NumberFormatting.display(outputValue)
+    }
+
+    var outputValue: Double? {
+        guard let inputValue = NumericInputParser.parse(inputText) else {
+            return nil
+        }
+
+        return selectedPair.convert(inputValue, isReversed: isReversed)
     }
 
     var unitPickerSections: [(category: ConversionCategory, pairs: [ConversionPair])] {
@@ -140,6 +147,7 @@ final class ConversionsViewModel: ObservableObject {
     func selectPair(_ pair: ConversionPair) {
         guard selectedPairID != pair.id else { return }
         sessionStateStore?.lastUsedPairID = pair.id
+        sessionStateStore?.recordRecentPairID(pair.id)
         selectedPairID = pair.id
     }
 

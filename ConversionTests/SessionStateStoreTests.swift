@@ -50,6 +50,29 @@ final class SessionStateStoreTests: XCTestCase {
         )
     }
 
+    func testRecordsRecentPairsMostRecentFirstAndCapsList() {
+        let defaults = makeDefaults()
+        let store = SessionStateStore(defaults: defaults)
+
+        [
+            "length.cm-in",
+            "weight.kg-lb",
+            "temp.c-f",
+            "volume.tsp-ml",
+            "speed.mph-kph",
+            "pressure.psi-bar",
+            "temp.c-f"
+        ].forEach(store.recordRecentPairID)
+
+        XCTAssertEqual(
+            store.recentPairIDs,
+            ["temp.c-f", "pressure.psi-bar", "speed.mph-kph", "volume.tsp-ml", "weight.kg-lb"]
+        )
+
+        let restoredStore = SessionStateStore(defaults: defaults)
+        XCTAssertEqual(restoredStore.recentPairIDs, store.recentPairIDs)
+    }
+
     private func makeDefaults() -> UserDefaults {
         let suiteName = "SessionStateStoreTests.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!

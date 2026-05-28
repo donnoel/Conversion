@@ -4,6 +4,7 @@ struct RootTabView: View {
     @StateObject private var favoritesStore = FavoritesStore()
     @StateObject private var sessionStateStore: SessionStateStore
     @StateObject private var conversionsViewModel: ConversionsViewModel
+    @StateObject private var toolkitViewModel = ToolkitViewModel()
 
     init() {
         let sessionStateStore = SessionStateStore()
@@ -16,7 +17,10 @@ struct RootTabView: View {
     var body: some View {
         TabView(selection: $sessionStateStore.selectedTab) {
             NavigationStack {
-                ConversionsTabView(viewModel: conversionsViewModel)
+                ConversionsTabView(
+                    viewModel: conversionsViewModel,
+                    toolkitViewModel: toolkitViewModel
+                )
             }
             .tag(RootTab.conversions)
             .tabItem {
@@ -32,7 +36,7 @@ struct RootTabView: View {
             }
 
             NavigationStack {
-                ToolkitTabView()
+                ToolkitTabView(viewModel: toolkitViewModel)
             }
             .tag(RootTab.toolkit)
             .tabItem {

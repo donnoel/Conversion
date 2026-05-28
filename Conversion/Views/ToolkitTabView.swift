@@ -5,7 +5,7 @@ import UIKit
 #endif
 
 struct ToolkitTabView: View {
-    @StateObject private var viewModel = ToolkitViewModel()
+    @ObservedObject var viewModel: ToolkitViewModel
     @Environment(\.colorScheme) private var colorScheme
     @FocusState private var isInputFocused: Bool
 
@@ -168,6 +168,8 @@ struct ToolkitTabView: View {
                             .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.14 : 0.38), lineWidth: 0.6)
                     )
                     .accessibilityIdentifier("toolkit.output.\(result.unitSymbol)")
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(outputAccessibilityLabel(for: result))
                 }
             }
         }
@@ -182,10 +184,18 @@ struct ToolkitTabView: View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 #endif
     }
+
+    private func outputAccessibilityLabel(for result: ToolkitConversionResult) -> String {
+        guard result.outputValue != nil else {
+            return "\(result.unitName), no converted value"
+        }
+
+        return "\(result.outputText) \(result.unitName)"
+    }
 }
 
 #Preview {
     NavigationStack {
-        ToolkitTabView()
+        ToolkitTabView(viewModel: ToolkitViewModel())
     }
 }

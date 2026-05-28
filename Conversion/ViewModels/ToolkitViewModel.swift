@@ -133,6 +133,17 @@ final class ToolkitViewModel: ObservableObject {
         Self.unitDisplayNames[symbol] ?? symbol
     }
 
+    func useConverter(pair: ConversionPair, inputText: String, isReversed: Bool) {
+        selectedCategory = pair.category
+        let sourceSymbol = isReversed ? pair.unitB : pair.unitA
+
+        if availableUnitSymbols.contains(sourceSymbol) {
+            sourceUnitSymbol = sourceSymbol
+        }
+
+        self.inputText = inputText
+    }
+
     private func convert(value: Double, from sourceSymbol: String, to targetSymbol: String) -> Double? {
         guard
             let units = unitsByCategory[selectedCategory],

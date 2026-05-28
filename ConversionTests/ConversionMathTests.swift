@@ -113,4 +113,9 @@ final class ConversionMathTests: XCTestCase {
         XCTAssertEqual(NumberFormatting.display(10.5, locale: locale), "10.5")
         XCTAssertEqual(NumberFormatting.display(1_500.125, locale: locale), "1500.125")
     }
+
+    func testPreciseNumberFormattingKeepsAdditionalUsefulDigits() {
+        let locale = Locale(identifier: "en_US_POSIX")
+        XCTAssertEqual(NumberFormatting.precise(1.0 / 3.0, locale: locale), "0.33333333")
+    }
 }
