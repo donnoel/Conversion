@@ -62,7 +62,7 @@ Current scope is Phase 1.
 - Favorites toggle instantly and persist locally across launches.
 - Users can pick any supported pair quickly from the unit-picker sheet.
 - The `kph <-> mph` pair opens as `kph -> mph` by default.
-- Supported conversion catalog now contains 34 reversible pairs across 9 categories.
+- Supported conversion catalog now contains 54 reversible pairs across 14 categories.
 - Pair-first expansion rule: add new support by extending `ConversionCatalog` within existing categories so `Units` and `Toolkit` derive availability automatically.
 
 ## UX rules
@@ -93,11 +93,17 @@ Current scope is Phase 1.
 - Weight / Mass: `kg <-> lbs`, `kg <-> grams`, `lb <-> grams`, `grams <-> ounces`, `pounds <-> ounces`
 - Temperature: `celsius <-> fahrenheit`, `celsius <-> kelvin`
 - Volume: `tsp <-> mL`, `tbsp <-> mL`, `liters <-> gallons`, `pt <-> L`, `qt <-> L`, `mL <-> cups`, `fl oz <-> mL`
+- Cooking Volume: `cups <-> tablespoons`, `cups <-> teaspoons`, `cups <-> pints`, `gallons <-> quarts`
 - Speed: `kph <-> mph`, `kph <-> m/s`, `mph <-> m/s`
 - Pressure: `psi <-> bar`, `psi <-> kPa`, `bar <-> kPa`
 - Area: `acres <-> hectares`, `acres <-> square feet`, `square feet <-> square meters`
 - Angle: `radians <-> degrees`
 - Power: `hp <-> kw`
+- Time: `seconds <-> minutes`, `minutes <-> hours`, `hours <-> days`
+- Data: `KB <-> MB`, `MB <-> GB`, `GB <-> TB`
+- Fuel Economy: `mpg <-> L/100km`, `mpg <-> km/L`, `L/100km <-> km/L`
+- Energy: `joules <-> calories`, `calories <-> kilocalories`, `Wh <-> kWh`, `kilocalories <-> kWh`
+- Torque: `Nm <-> lb-ft`, `lb-ft <-> in-lb`, `Nm <-> in-lb`
 
 ## Output expectations per patch
 Provide:

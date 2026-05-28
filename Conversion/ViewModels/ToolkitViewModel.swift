@@ -44,7 +44,12 @@ final class ToolkitViewModel: ObservableObject {
         .pressure: ["psi", "bar", "kPa"],
         .area: ["ha", "ac", "sq m", "sq ft"],
         .angle: ["deg", "rad"],
-        .power: ["kw", "hp"]
+        .power: ["kw", "hp"],
+        .time: ["day", "hr", "min", "sec"],
+        .data: ["TB", "GB", "MB", "KB"],
+        .fuelEconomy: ["mpg", "L/100km", "km/L"],
+        .energy: ["kWh", "Wh", "kcal", "cal", "J"],
+        .torque: ["Nm", "lb-ft", "in-lb"]
     ]
 
     private static let unitDisplayNames: [String: String] = [
@@ -85,7 +90,26 @@ final class ToolkitViewModel: ObservableObject {
         "yd": "yards",
         "mL": "milliliters",
         "fl oz": "fluid ounces",
-        "cup": "cups"
+        "cup": "cups",
+        "sec": "seconds",
+        "min": "minutes",
+        "hr": "hours",
+        "day": "days",
+        "KB": "kilobytes",
+        "MB": "megabytes",
+        "GB": "gigabytes",
+        "TB": "terabytes",
+        "mpg": "miles per gallon",
+        "L/100km": "liters per 100 kilometers",
+        "km/L": "kilometers per liter",
+        "J": "joules",
+        "cal": "calories",
+        "kcal": "kilocalories",
+        "Wh": "watt-hours",
+        "kWh": "kilowatt-hours",
+        "Nm": "newton-meters",
+        "lb-ft": "pound-feet",
+        "in-lb": "inch-pounds"
     ]
 
     var categories: [ConversionCategory] {

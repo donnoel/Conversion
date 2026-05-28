@@ -37,7 +37,27 @@ final class ConversionMathTests: XCTestCase {
             "power.hp-kw",
             "length.m-yd",
             "volume.ml-cup",
-            "volume.floz-ml"
+            "volume.floz-ml",
+            "volume.cup-tbsp",
+            "volume.cup-tsp",
+            "volume.cup-pt",
+            "volume.gal-qt",
+            "time.sec-min",
+            "time.min-hr",
+            "time.hr-day",
+            "data.kb-mb",
+            "data.mb-gb",
+            "data.gb-tb",
+            "fuel.mpg-l100km",
+            "fuel.mpg-kml",
+            "fuel.l100km-kml",
+            "energy.j-cal",
+            "energy.cal-kcal",
+            "energy.wh-kwh",
+            "energy.kcal-kwh",
+            "torque.nm-lbft",
+            "torque.lbft-lbin",
+            "torque.nm-lbin"
         ]
 
         XCTAssertEqual(Set(ConversionCatalog.allPairs.map(\.id)), expectedIDs)
@@ -76,7 +96,13 @@ final class ConversionMathTests: XCTestCase {
             ("pressure.psi-bar", 1, false, 0.068_948, 0.000_001),
             ("pressure.psi-kpa", 1, false, 6.894_76, 0.000_01),
             ("pressure.bar-kpa", 1, false, 100, 0.000_001),
-            ("area.ac-ha", 1, false, 0.404_686, 0.000_001)
+            ("area.ac-ha", 1, false, 0.404_686, 0.000_001),
+            ("volume.cup-tbsp", 1, false, 16, 0.000_001),
+            ("volume.cup-tsp", 1, false, 48, 0.000_001),
+            ("time.hr-day", 48, false, 2, 0.000_001),
+            ("data.gb-tb", 1_500, false, 1.5, 0.000_001),
+            ("energy.kcal-kwh", 860.420_65, false, 1, 0.000_01),
+            ("torque.nm-lbft", 100, false, 73.756_214, 0.000_001)
         ]
 
         for testCase in cases {
@@ -92,6 +118,16 @@ final class ConversionMathTests: XCTestCase {
                 "Unexpected conversion for \(testCase.id)"
             )
         }
+    }
+
+    func testFuelEconomyConversionsUseReciprocalFormulas() throws {
+        let mpgToLiters = try XCTUnwrap(ConversionCatalog.pair(withID: "fuel.mpg-l100km"))
+        XCTAssertEqual(mpgToLiters.convert(25, isReversed: false), 9.408_583, accuracy: 0.000_001)
+        XCTAssertEqual(mpgToLiters.convert(9.408_583, isReversed: true), 25, accuracy: 0.000_001)
+
+        let litersToKilometers = try XCTUnwrap(ConversionCatalog.pair(withID: "fuel.l100km-kml"))
+        XCTAssertEqual(litersToKilometers.convert(5, isReversed: false), 20, accuracy: 0.000_001)
+        XCTAssertEqual(litersToKilometers.convert(20, isReversed: true), 5, accuracy: 0.000_001)
     }
 
     func testNumericInputParserTypingStates() throws {

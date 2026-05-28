@@ -35,7 +35,27 @@ enum ConversionCatalog {
         ConversionPair(id: "power.hp-kw", title: "hp <-> kw", category: .power, unitA: "hp", unitB: "kw", rule: .measurement(unitA: .power(.horsepower), unitB: .power(.kilowatts))),
         ConversionPair(id: "length.m-yd", title: "meters <-> yards", category: .length, unitA: "m", unitB: "yd", rule: .measurement(unitA: .length(.meters), unitB: .length(.yards))),
         ConversionPair(id: "volume.ml-cup", title: "mL <-> cups", category: .volume, unitA: "mL", unitB: "cup", rule: .measurement(unitA: .volume(.milliliters), unitB: .volume(.cups))),
-        ConversionPair(id: "volume.floz-ml", title: "fl oz <-> mL", category: .volume, unitA: "fl oz", unitB: "mL", rule: .measurement(unitA: .volume(.fluidOunces), unitB: .volume(.milliliters)))
+        ConversionPair(id: "volume.floz-ml", title: "fl oz <-> mL", category: .volume, unitA: "fl oz", unitB: "mL", rule: .measurement(unitA: .volume(.fluidOunces), unitB: .volume(.milliliters))),
+        ConversionPair(id: "volume.cup-tbsp", title: "cups <-> tablespoons", category: .volume, unitA: "cup", unitB: "tbsp", rule: .measurement(unitA: .volume(.cups), unitB: .volume(.tablespoons))),
+        ConversionPair(id: "volume.cup-tsp", title: "cups <-> teaspoons", category: .volume, unitA: "cup", unitB: "tsp", rule: .measurement(unitA: .volume(.cups), unitB: .volume(.teaspoons))),
+        ConversionPair(id: "volume.cup-pt", title: "cups <-> pints", category: .volume, unitA: "cup", unitB: "pt", rule: .measurement(unitA: .volume(.cups), unitB: .volume(.pints))),
+        ConversionPair(id: "volume.gal-qt", title: "gallons <-> quarts", category: .volume, unitA: "gal", unitB: "qt", rule: .measurement(unitA: .volume(.gallons), unitB: .volume(.quarts))),
+        ConversionPair(id: "time.sec-min", title: "seconds <-> minutes", category: .time, unitA: "sec", unitB: "min", rule: .measurement(unitA: .time(.seconds), unitB: .time(.minutes))),
+        ConversionPair(id: "time.min-hr", title: "minutes <-> hours", category: .time, unitA: "min", unitB: "hr", rule: .measurement(unitA: .time(.minutes), unitB: .time(.hours))),
+        ConversionPair(id: "time.hr-day", title: "hours <-> days", category: .time, unitA: "hr", unitB: "day", rule: .measurement(unitA: .time(.hours), unitB: .time(.days))),
+        ConversionPair(id: "data.kb-mb", title: "KB <-> MB", category: .data, unitA: "KB", unitB: "MB", rule: .measurement(unitA: .data(.kilobytes), unitB: .data(.megabytes))),
+        ConversionPair(id: "data.mb-gb", title: "MB <-> GB", category: .data, unitA: "MB", unitB: "GB", rule: .measurement(unitA: .data(.megabytes), unitB: .data(.gigabytes))),
+        ConversionPair(id: "data.gb-tb", title: "GB <-> TB", category: .data, unitA: "GB", unitB: "TB", rule: .measurement(unitA: .data(.gigabytes), unitB: .data(.terabytes))),
+        ConversionPair(id: "fuel.mpg-l100km", title: "mpg <-> L/100km", category: .fuelEconomy, unitA: "mpg", unitB: "L/100km", rule: .measurement(unitA: .fuelEconomy(.milesPerGallon), unitB: .fuelEconomy(.litersPer100Kilometers))),
+        ConversionPair(id: "fuel.mpg-kml", title: "mpg <-> km/L", category: .fuelEconomy, unitA: "mpg", unitB: "km/L", rule: .measurement(unitA: .fuelEconomy(.milesPerGallon), unitB: .fuelEconomy(.kilometersPerLiter))),
+        ConversionPair(id: "fuel.l100km-kml", title: "L/100km <-> km/L", category: .fuelEconomy, unitA: "L/100km", unitB: "km/L", rule: .measurement(unitA: .fuelEconomy(.litersPer100Kilometers), unitB: .fuelEconomy(.kilometersPerLiter))),
+        ConversionPair(id: "energy.j-cal", title: "joules <-> calories", category: .energy, unitA: "J", unitB: "cal", rule: .measurement(unitA: .energy(.joules), unitB: .energy(.calories))),
+        ConversionPair(id: "energy.cal-kcal", title: "calories <-> kilocalories", category: .energy, unitA: "cal", unitB: "kcal", rule: .measurement(unitA: .energy(.calories), unitB: .energy(.kilocalories))),
+        ConversionPair(id: "energy.wh-kwh", title: "Wh <-> kWh", category: .energy, unitA: "Wh", unitB: "kWh", rule: .measurement(unitA: .energy(.wattHours), unitB: .energy(.kilowattHours))),
+        ConversionPair(id: "energy.kcal-kwh", title: "kilocalories <-> kWh", category: .energy, unitA: "kcal", unitB: "kWh", rule: .measurement(unitA: .energy(.kilocalories), unitB: .energy(.kilowattHours))),
+        ConversionPair(id: "torque.nm-lbft", title: "Nm <-> lb-ft", category: .torque, unitA: "Nm", unitB: "lb-ft", rule: .measurement(unitA: .torque(.newtonMeters), unitB: .torque(.poundFeet))),
+        ConversionPair(id: "torque.lbft-lbin", title: "lb-ft <-> in-lb", category: .torque, unitA: "lb-ft", unitB: "in-lb", rule: .measurement(unitA: .torque(.poundFeet), unitB: .torque(.poundInches))),
+        ConversionPair(id: "torque.nm-lbin", title: "Nm <-> in-lb", category: .torque, unitA: "Nm", unitB: "in-lb", rule: .measurement(unitA: .torque(.newtonMeters), unitB: .torque(.poundInches)))
     ]
 
     static func pairs(for category: ConversionCategory) -> [ConversionPair] {

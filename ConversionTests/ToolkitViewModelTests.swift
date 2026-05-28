@@ -44,6 +44,41 @@ final class ToolkitViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.availableUnitSymbols, ["psi", "bar", "kPa"])
     }
 
+    func testTimeCategoryExposesExpectedUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .time)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "day")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["day", "hr", "min", "sec"])
+    }
+
+    func testDataCategoryExposesExpectedUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .data)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "TB")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["TB", "GB", "MB", "KB"])
+    }
+
+    func testFuelEconomyCategoryExposesExpectedUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .fuelEconomy)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "mpg")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["mpg", "L/100km", "km/L"])
+    }
+
+    func testEnergyCategoryExposesExpectedUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .energy)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "kWh")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["kWh", "Wh", "kcal", "cal", "J"])
+    }
+
+    func testTorqueCategoryExposesExpectedUnitsInPreferredOrder() {
+        let viewModel = ToolkitViewModel(defaultCategory: .torque)
+
+        XCTAssertEqual(viewModel.sourceUnitSymbol, "Nm")
+        XCTAssertEqual(viewModel.availableUnitSymbols, ["Nm", "lb-ft", "in-lb"])
+    }
+
     func testInvalidInputReturnsNoComputedOutputValues() {
         let viewModel = ToolkitViewModel(defaultCategory: .volume)
         viewModel.sourceUnitSymbol = "L"

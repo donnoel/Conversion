@@ -10,6 +10,11 @@ enum ConversionCategory: String, CaseIterable, Identifiable, Sendable {
     case area
     case angle
     case power
+    case time
+    case data
+    case fuelEconomy
+    case energy
+    case torque
 
     var id: String {
         rawValue
@@ -35,6 +40,16 @@ enum ConversionCategory: String, CaseIterable, Identifiable, Sendable {
             "Angle"
         case .power:
             "Power"
+        case .time:
+            "Time"
+        case .data:
+            "Data"
+        case .fuelEconomy:
+            "Fuel Economy"
+        case .energy:
+            "Energy"
+        case .torque:
+            "Torque"
         }
     }
 }

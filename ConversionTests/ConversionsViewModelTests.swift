@@ -13,7 +13,7 @@ final class ConversionsViewModelTests: XCTestCase {
         let viewModel = ConversionsViewModel()
         XCTAssertEqual(
             viewModel.groups.map(\.title),
-            ["All", "Angle", "Area", "Length", "Power", "Pressure", "Speed", "Temperature", "Volume", "Weight / Mass"]
+            ["All", "Angle", "Area", "Data", "Energy", "Fuel Economy", "Length", "Power", "Pressure", "Speed", "Temperature", "Time", "Torque", "Volume", "Weight / Mass"]
         )
     }
 
@@ -47,14 +47,14 @@ final class ConversionsViewModelTests: XCTestCase {
         viewModel.searchText = "volume"
 
         let visibleIDs = Set(viewModel.visiblePairs.map(\.id))
-        XCTAssertEqual(visibleIDs, ["volume.floz-ml", "volume.l-gal", "volume.ml-cup", "volume.pt-l", "volume.qt-l", "volume.tbsp-ml", "volume.tsp-ml"])
+        XCTAssertEqual(visibleIDs, ["volume.cup-pt", "volume.cup-tbsp", "volume.cup-tsp", "volume.floz-ml", "volume.gal-qt", "volume.l-gal", "volume.ml-cup", "volume.pt-l", "volume.qt-l", "volume.tbsp-ml", "volume.tsp-ml"])
     }
 
     func testSearchMatchesNewUnitSymbolsNaturally() {
         let viewModel = ConversionsViewModel()
         viewModel.searchText = "tsp"
 
-        XCTAssertEqual(viewModel.visiblePairs.map(\.id), ["volume.tsp-ml"])
+        XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), ["volume.tsp-ml", "volume.cup-tsp"])
     }
 
     func testSearchMatchesPressureSymbolsNaturally() {
