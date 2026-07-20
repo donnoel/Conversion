@@ -1,0 +1,22 @@
+title: Easy Unit
+description: Fast, reversible unit conversion for iPhone and iPad.
+tagline: The unit you have. The unit you need. Nothing in between.
+project_label: Don Noel / Projects
+status_label: Phase 1
+github_url: https://github.com/donnoel/Conversion
+url: https://donnoel.github.io
+baseurl: /Conversion
+lang: en-US
+
+remote_theme: donnoel/projects-theme@v1.0.0
+plugins:
+  - jekyll-remote-theme
+
+exclude:
+  - AGENTS.md
+  - AGENTS.project.md
+  - Conversion
+  - Conversion.xcodeproj
+  - ConversionTests
+  - ConversionUITests
+
