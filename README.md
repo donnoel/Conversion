@@ -92,3 +92,7 @@ Conversion/
 ├── ConversionApp.swift
 └── ContentView.swift
 ```
+
+## Credits
+
+Built with care by **Don Noel** and Codex collaboration.
