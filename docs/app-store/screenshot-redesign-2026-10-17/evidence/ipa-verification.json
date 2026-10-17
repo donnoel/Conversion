@@ -1,0 +1,17 @@
+{
+  "version": "2.2",
+  "build": "3",
+  "bundleID": "dn.conversion",
+  "team": [
+    "H7LG8SK72M"
+  ],
+  "profile": "iOS Team Store Provisioning Profile: dn.conversion",
+  "entitlements": {
+    "application-identifier": "H7LG8SK72M.dn.conversion",
+    "beta-reports-active": true,
+    "com.apple.developer.team-identifier": "H7LG8SK72M",
+    "get-task-allow": false
+  },
+  "privacyMatches": true,
+  "includesExtensions": false
+}

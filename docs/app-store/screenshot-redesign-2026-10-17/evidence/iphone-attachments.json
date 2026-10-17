@@ -1,0 +1,44 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "25A8042B-FD84-4C9C-A5E5-D680A2FCBE2C",
+        "deviceName" : "iPhone 18 Pro Max",
+        "exportedFileName" : "508541CC-8124-4119-8E98-4E6535A411FE.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04-choose_0_4288D436-BAC8-48A4-BA9D-A476822147DA.png",
+        "timestamp" : 1792250777.585
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "25A8042B-FD84-4C9C-A5E5-D680A2FCBE2C",
+        "deviceName" : "iPhone 18 Pro Max",
+        "exportedFileName" : "B1F8D096-C6D2-4DD9-8930-0EDCE1DCF867.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "03-favorites_0_7B918BA8-2D9F-4878-BFBA-DBF56F836B36.png",
+        "timestamp" : 1792250770.277
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "25A8042B-FD84-4C9C-A5E5-D680A2FCBE2C",
+        "deviceName" : "iPhone 18 Pro Max",
+        "exportedFileName" : "3897F9E0-DE84-4C3C-B829-BD831AAAFC5B.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "02-toolkit_0_7F65CD12-23C6-45BA-934B-C856DD4BE939.png",
+        "timestamp" : 1792250757.724
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "25A8042B-FD84-4C9C-A5E5-D680A2FCBE2C",
+        "deviceName" : "iPhone 18 Pro Max",
+        "exportedFileName" : "0905397B-A2B9-4FBE-9999-2B21B6150D8F.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "01-convert_0_7423E189-2EFD-4A97-8049-EEA943E3D7DD.png",
+        "timestamp" : 1792250749.25
+      }
+    ],
+    "testIdentifier" : "ScreenshotTests/test_appStoreCaptures()",
+    "testIdentifierURL" : "test://com.apple.xcode/Conversion/ConversionUITests/ScreenshotTests/test_appStoreCaptures"
+  }
+]

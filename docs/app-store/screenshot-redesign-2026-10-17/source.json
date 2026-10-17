@@ -1,0 +1,26 @@
+{
+  "app": "Easy Units",
+  "appID": "6761770180",
+  "bundleID": "dn.conversion",
+  "team": "H7LG8SK72M",
+  "scheme": "Conversion",
+  "configuration": "Release; simulator capture only ENABLE_TESTABILITY=YES",
+  "sourceRevision": "f7e0587242f382260464ebd0bfbd68e4d104b879",
+  "capturedVersion": "2.1.1",
+  "capturedBuild": "2",
+  "nextMarketingVersion": "2.2",
+  "appSourceChanged": false,
+  "simulators": {
+    "iphone": "iPhone 18 Pro Max / iOS 27.0 / 25A8042B-FD84-4C9C-A5E5-D680A2FCBE2C",
+    "ipad": "iPad Pro 13-inch (M5) / iOS 27.0 / 835D950A-DD3D-4487-B726-F78AC47CB1C1"
+  },
+  "appearance": "Light",
+  "orientation": "Portrait",
+  "captureWorkflow": "XCTest app.screenshot attachments",
+  "approved": true,
+  "liveStateAtCapture": "2.1.1 (2), Ready for Distribution; no editable pending version visible",
+  "liveStateCheckedAtCapture": "2026-10-17",
+  "appStoreWritesAtCapture": false,
+  "approvalRecord": "approval.json",
+  "releaseRecord": "../../APP_STORE_2.2_2026-10-17.md"
+}

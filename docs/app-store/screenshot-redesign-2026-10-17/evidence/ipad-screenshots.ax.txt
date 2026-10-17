@@ -1,0 +1,109 @@
+Window: "App Store Connect", App: Safari.
+0 standard window App Store Connect, ID: SafariWindow?IsSecure=true&UUID=6B3DCCB4-BB21-46D1-B3D7-2444A0BD28D0, Secondary Actions: Raise
+	1 split group
+		2 splitter (disabled, settable, float) -1
+		3 tab group
+			4 scroll area
+				5 HTML content Description: App Store Connect, URL: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/ipad
+					6 container App Store Connect
+						7 heading 1
+							8 link Description: App Store Connect, Value: appstoreconnect.apple.com/
+						9 container Global
+							10 content list
+								11 link Apps, Value: appstoreconnect.apple.com/apps
+								12 link Xcode Cloud, Value: appstoreconnect.apple.com/teams/a7d6ed44-3c4b-4dcf-b24a-a284df0bc533/xcode-cloud
+								13 link Trends, Value: appstoreconnect.apple.com/trends
+								14 link Reports, Value: appstoreconnect.apple.com/itc/payments_and_financial_reports
+								15 link Business, Value: appstoreconnect.apple.com/business
+								16 link Users and Access, Value: appstoreconnect.apple.com/access/users
+						17 button Don Noel Don Noel Account name menu
+					18 pop up button Apps menu, Easy Units, selected
+					19 container Apps
+						20 content list
+							21 link Distribution, Value: appstoreconnect.apple.com/apps/6761770180/distribution
+							22 link Analytics, Value: appstoreconnect.apple.com/apps/6761770180/analytics
+							23 link TestFlight, Value: appstoreconnect.apple.com/teams/a7d6ed44-3c4b-4dcf-b24a-a284df0bc533/apps/6761770180/testflight
+					24 container
+						25 text iOS App 2.2
+						26 heading Media Manager, Value: 2
+							27 text Media Manager
+						28 link iPhone, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/iphone
+						29 link iPad, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/ipad
+						30 link Apple Watch, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/apple-watch
+						31 link iMessage App, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/imessage
+						32 pop up button (disabled) English (U.S.)
+						33 button ?
+						34 text Use app previews and screenshots to visually communicate your app's user experience. Screenshots will automatically scale down to smaller device sizes unless you add specific app previews and screenshots for other device sizes and localizations. Screenshots must show your app in use or primarily depict your app's user experience.
+						35 link Learn more..., Value: developer.apple.com/app-store/asset-best-practices/#screenshots
+						36 heading Required, Value: 3
+							37 text Required
+						38 text App previews and screenshots are required to accurately represent your app on these devices.
+						39 button DropZone
+						40 text iPad 13" display
+						41 container
+							42 Draggable item. Press space bar to lift Screenshot 01-convert.png
+							43 Draggable item. Press space bar to lift Screenshot 02-toolkit.png
+							44 Draggable item. Press space bar to lift Screenshot 03-favorites.png
+							45 Draggable item. Press space bar to lift Screenshot 04-choose.png
+						46 text 0 of 3 App Previews
+						47 text 4 of 10 App Screenshots
+						48 pop up button Browse Assets
+						49 button Upload
+						50 pop up button Remove All
+						51 text Drag and drop to add assets or choose from your Asset Library for iPad 12.9" or 13" displays. Supported sizes for app previews include 1600 × 1200px and 1200 × 1600px. For app screenshots, supported sizes include 2732 × 2048px, 2048 × 2732px, 2752 × 2064px and 2064 × 2752px.
+						52 heading Optional, Value: 3
+							53 text Optional
+						54 text You can add app previews and screenshots to better represent your app on these devices.
+						55 button DropZone
+						56 button (collapsed) iPad Pro (2nd Gen) 12.9" display, Secondary Actions: Expand
+							57 container iPad Pro (2nd Gen) 12.9" display
+						58 button DropZone
+						59 button (collapsed) iPad 11" display, Secondary Actions: Expand
+							60 container iPad 11" display
+						61 button DropZone
+						62 button (collapsed) iPad 10.5" display, Secondary Actions: Expand
+							63 container iPad 10.5" display
+						64 button DropZone
+						65 button (collapsed) iPad 9.7" display, Secondary Actions: Expand
+							66 container iPad 9.7" display
+					67 container
+						68 link App Store Connect, Value: appstoreconnect.apple.com/apps
+						69 container
+							70 text Copyright © 2026 Apple Inc. All rights reserved. |
+						71 container
+							72 link Terms of Service, Value: appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/wa/termsOfService
+							73 text |
+						74 container
+							75 link Privacy Policy, Value: apple.com/legal/privacy
+							76 text |
+						77 link Contact Us, Value: appstoreconnect.apple.com/contact-us
+				78 scroll bar (settable, float) 0
+	79 toolbar
+		80 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			81 button Description: show sidebar, Help: Show sidebar, ID: SidebarButton
+			82 menu button Description: Tab Group picker, ID: TabGroupPickerButton?TabGroup=
+		83 container BackForwardSegmentedControl
+			84 button Description: Go back, Help: Show the previous page, ID: BackButton
+			85 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		86 button Description: Start Page, Secondary Actions: Move previous, Move next, Remove from toolbar
+		87 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			88 button Page Menu, ID: AssistantButton
+			89 button (disabled) Add page to Favorites, ID: OneStepBookmarkingButton
+			90 text field (settable) Description: smart search field, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD, Value: https://appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/ipad
+			91 button Reload this page, ID: ReloadButton
+		92 button Description: Downloads, ID: DownloadsButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		93 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		94 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		95 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	96 close button
+	97 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	98 minimize button
+99 menu bar
+	100 Safari
+	101 File
+	102 Edit
+	103 View, ID: SafariViewMenu
+	104 History
+	105 Bookmarks, ID: SafariBookmarksMenu
+	106 Window, ID: SafariWindowMenu
+	107 Help, ID: SafariHelpMenu

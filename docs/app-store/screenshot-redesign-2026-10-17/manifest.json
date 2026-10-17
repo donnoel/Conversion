@@ -1,0 +1,138 @@
+[
+  {
+    "caption": "Everyday units. Instant answers.",
+    "detail": "Type a value. Convert as you go.",
+    "file": "iphone/01-convert.png",
+    "height": 2868,
+    "platform": "iphone",
+    "raw": "raw/iphone-convert.png",
+    "sequence": 1,
+    "sourceCrop": [
+      0,
+      140,
+      1320,
+      2728
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 1320
+  },
+  {
+    "caption": "One value. Related units.",
+    "detail": "See related units together in Toolkit.",
+    "file": "iphone/02-toolkit.png",
+    "height": 2868,
+    "platform": "iphone",
+    "raw": "raw/iphone-toolkit.png",
+    "sequence": 2,
+    "sourceCrop": [
+      0,
+      140,
+      1320,
+      2728
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 1320
+  },
+  {
+    "caption": "Your favorites, ready to use.",
+    "detail": "Keep your go-to pairs at the top of Units.",
+    "file": "iphone/03-favorites.png",
+    "height": 2868,
+    "platform": "iphone",
+    "raw": "raw/iphone-favorites.png",
+    "sequence": 3,
+    "sourceCrop": [
+      0,
+      140,
+      1320,
+      2728
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 1320
+  },
+  {
+    "caption": "Find the right units.",
+    "detail": "Browse categories or search for a pair.",
+    "file": "iphone/04-choose.png",
+    "height": 2868,
+    "platform": "iphone",
+    "raw": "raw/iphone-choose.png",
+    "sequence": 4,
+    "sourceCrop": [
+      0,
+      140,
+      1320,
+      2728
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 1320
+  },
+  {
+    "caption": "Everyday units. Instant answers.",
+    "detail": "Type a value. Convert as you go.",
+    "file": "ipad/01-convert.png",
+    "height": 2752,
+    "platform": "ipad",
+    "raw": "raw/ipad-convert.png",
+    "sequence": 1,
+    "sourceCrop": [
+      0,
+      54,
+      2064,
+      2698
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 2064
+  },
+  {
+    "caption": "One value. Related units.",
+    "detail": "See related units together in Toolkit.",
+    "file": "ipad/02-toolkit.png",
+    "height": 2752,
+    "platform": "ipad",
+    "raw": "raw/ipad-toolkit.png",
+    "sequence": 2,
+    "sourceCrop": [
+      0,
+      54,
+      2064,
+      2698
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 2064
+  },
+  {
+    "caption": "Your favorites, ready to use.",
+    "detail": "Keep your go-to pairs at the top of Units.",
+    "file": "ipad/03-favorites.png",
+    "height": 2752,
+    "platform": "ipad",
+    "raw": "raw/ipad-favorites.png",
+    "sequence": 3,
+    "sourceCrop": [
+      0,
+      54,
+      2064,
+      2698
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 2064
+  },
+  {
+    "caption": "Find the right units.",
+    "detail": "Browse categories or search for a pair.",
+    "file": "ipad/04-choose.png",
+    "height": 2752,
+    "platform": "ipad",
+    "raw": "raw/ipad-choose.png",
+    "sequence": 4,
+    "sourceCrop": [
+      430,
+      690,
+      1204,
+      1360
+    ],
+    "status": "approved by Don Noel; upload in progress",
+    "width": 2064
+  }
+]

@@ -1,0 +1,173 @@
+{
+  "status": "approved exports verified; see release record for live publication status",
+  "validated": true,
+  "count": 8,
+  "platforms": [
+    "iPhone",
+    "iPad"
+  ],
+  "specificationChecked": "2026-10-17",
+  "specificationURL": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications",
+  "files": [
+    {
+      "file": "iphone/01-convert.png",
+      "sha256": "815c749ad34d3f68a66d39ef7d2df6098aa396c166ce14e7d7e40573d7ae673f",
+      "width": 1320,
+      "height": 2868,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/iphone-convert.png",
+      "rawSha256": "635bd577a5a58354ca1c6db59cf9129e3b9e822c330bd886b05c7b14319671c3",
+      "caption": "Everyday units. Instant answers.",
+      "detail": "Type a value. Convert as you go.",
+      "sourceCrop": [
+        0,
+        140,
+        1320,
+        2728
+      ]
+    },
+    {
+      "file": "iphone/02-toolkit.png",
+      "sha256": "0fa0d63d6e5277ae39ca79411f75f15ee54d96d4dd96389daf9a65ce0502ed98",
+      "width": 1320,
+      "height": 2868,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/iphone-toolkit.png",
+      "rawSha256": "6b171893635b7100ac60a3a878d5042c85d5ab6ac5280d41b5a993be0bec0349",
+      "caption": "One value. Related units.",
+      "detail": "See related units together in Toolkit.",
+      "sourceCrop": [
+        0,
+        140,
+        1320,
+        2728
+      ]
+    },
+    {
+      "file": "iphone/03-favorites.png",
+      "sha256": "14c1342aba1369df97f7ca52db65ba1de132dbf8c7a487fe496325fbf8ddd6b4",
+      "width": 1320,
+      "height": 2868,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/iphone-favorites.png",
+      "rawSha256": "ca45846331fec1746ec1ccd9c9f286f3b09540725ea943d98beccedf87d9c80a",
+      "caption": "Your favorites, ready to use.",
+      "detail": "Keep your go-to pairs at the top of Units.",
+      "sourceCrop": [
+        0,
+        140,
+        1320,
+        2728
+      ]
+    },
+    {
+      "file": "iphone/04-choose.png",
+      "sha256": "49799dc22083eb7751282e1d72d61a45e22c0e7a5f4f5de46f9eb79855f0e3bf",
+      "width": 1320,
+      "height": 2868,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/iphone-choose.png",
+      "rawSha256": "65cf09dddc2298604fcec3dcc9ddc7bd2ac4cb681c8b468d61cee243f3e0829a",
+      "caption": "Find the right units.",
+      "detail": "Browse categories or search for a pair.",
+      "sourceCrop": [
+        0,
+        140,
+        1320,
+        2728
+      ]
+    },
+    {
+      "file": "ipad/01-convert.png",
+      "sha256": "1cb3ed0cfcdadbf0619d1bf99d5cef6eb069cb6712120eacca55f5a768f962eb",
+      "width": 2064,
+      "height": 2752,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/ipad-convert.png",
+      "rawSha256": "fd8d0ee087a49723dea9172e457e2ef8b6292bd3ecbce530d8587c1165eb1a18",
+      "caption": "Everyday units. Instant answers.",
+      "detail": "Type a value. Convert as you go.",
+      "sourceCrop": [
+        0,
+        54,
+        2064,
+        2698
+      ]
+    },
+    {
+      "file": "ipad/02-toolkit.png",
+      "sha256": "d0288397cd470d5150bb8bbc25cf619a6c739a719c50727a951ad913baf83b67",
+      "width": 2064,
+      "height": 2752,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/ipad-toolkit.png",
+      "rawSha256": "4467740d1f58435b656bef49383a0ad0cff4cf447eda3addb1902c2d705c53af",
+      "caption": "One value. Related units.",
+      "detail": "See related units together in Toolkit.",
+      "sourceCrop": [
+        0,
+        54,
+        2064,
+        2698
+      ]
+    },
+    {
+      "file": "ipad/03-favorites.png",
+      "sha256": "6660fbf5ecc3529896c15563109f3f82a96864f2cbd511bb883344730d15036d",
+      "width": 2064,
+      "height": 2752,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/ipad-favorites.png",
+      "rawSha256": "35098238a8db1876edccfd190c9bb9fd8781e1e3f26fdfb9ae99565e63e25a56",
+      "caption": "Your favorites, ready to use.",
+      "detail": "Keep your go-to pairs at the top of Units.",
+      "sourceCrop": [
+        0,
+        54,
+        2064,
+        2698
+      ]
+    },
+    {
+      "file": "ipad/04-choose.png",
+      "sha256": "837812f96f24ab812df9c7e07c694d1884de9ae6300034eb6c42a3399c2d0b0b",
+      "width": 2064,
+      "height": 2752,
+      "bitsPerChannel": 8,
+      "pngColorType": 2,
+      "alpha": false,
+      "profile": "sRGB",
+      "raw": "raw/ipad-choose.png",
+      "rawSha256": "80aa066d23dbdbfb5c7235e351bdf128da2fbf2dd2d9270d48fe716dbe099850",
+      "caption": "Find the right units.",
+      "detail": "Browse categories or search for a pair.",
+      "sourceCrop": [
+        430,
+        690,
+        1204,
+        1360
+      ]
+    }
+  ]
+}

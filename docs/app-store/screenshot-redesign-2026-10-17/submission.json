@@ -1,0 +1,32 @@
+{
+  "app": "Easy Units",
+  "appID": "6761770180",
+  "version": "2.2",
+  "build": "3",
+  "status": "Waiting for Review",
+  "submissionID": "961269fc-9eb1-46fd-8f0b-6d6ad7a2a840",
+  "submittedAt": "2026-10-17T08:45:00-07:00",
+  "itemsSubmitted": 1,
+  "submissionURL": "https://appstoreconnect.apple.com/apps/6761770180/distribution/reviewsubmissions/details/961269fc-9eb1-46fd-8f0b-6d6ad7a2a840",
+  "screenshots": {
+    "localization": "English (U.S.)",
+    "iphone": 4,
+    "ipad": 4,
+    "iphoneDimensions": [
+      1320,
+      2868
+    ],
+    "ipadDimensions": [
+      2064,
+      2752
+    ],
+    "iphoneMediumInheritsLarge": true,
+    "ipadOtherSizesInherit13inch": true,
+    "previews": 0
+  },
+  "whatsNew": "A refreshed app icon for Easy Units.",
+  "releaseSettings": "Automatic release after approval; immediate update; retain ratings",
+  "publicVersionAtSubmission": "2.1.1 (2)",
+  "automation": "PAUSED",
+  "appBehaviorChanged": false
+}

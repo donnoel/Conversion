@@ -1,0 +1,89 @@
+Window: "App Store Connect", App: Safari.
+0 standard window App Store Connect, ID: SafariWindow?IsSecure=true&UUID=6B3DCCB4-BB21-46D1-B3D7-2444A0BD28D0, Secondary Actions: Raise
+	1 split group
+		2 splitter (disabled, settable, float) -1
+		3 tab group
+			4 scroll area
+				5 HTML content Description: App Store Connect, URL: appstoreconnect.apple.com/apps/6761770180/distribution/reviewsubmissions/details/961269fc-9eb1-46fd-8f0b-6d6ad7a2a840
+					6 container App Store Connect
+						7 heading 1
+							8 link Description: App Store Connect, Value: appstoreconnect.apple.com/
+						9 container Global
+							10 content list
+								11 link Apps, Value: appstoreconnect.apple.com/apps
+								12 link Xcode Cloud, Value: appstoreconnect.apple.com/teams/a7d6ed44-3c4b-4dcf-b24a-a284df0bc533/xcode-cloud
+								13 link Trends, Value: appstoreconnect.apple.com/trends
+								14 link Reports, Value: appstoreconnect.apple.com/itc/payments_and_financial_reports
+								15 link Business, Value: appstoreconnect.apple.com/business
+								16 link Users and Access, Value: appstoreconnect.apple.com/access/users
+						17 button Don Noel Don Noel Account name menu
+					18 pop up button Apps menu, Easy Units, selected
+					19 container Apps
+						20 content list
+							21 link Distribution, Value: appstoreconnect.apple.com/apps/6761770180/distribution
+							22 link Analytics, Value: appstoreconnect.apple.com/apps/6761770180/analytics
+							23 link TestFlight, Value: appstoreconnect.apple.com/teams/a7d6ed44-3c4b-4dcf-b24a-a284df0bc533/apps/6761770180/testflight
+					24 container
+						25 link App Review, Value: appstoreconnect.apple.com/apps/6761770180/distribution/reviewsubmissions
+						26 heading iOS Submission, Value: 2
+							27 text iOS Submission
+						28 text Waiting for Review
+						29 heading Items Submitted (1), Value: 3
+							30 text Items Submitted (1)
+						31 table
+							32 row (selectable) ITEM
+TYPE
+REVIEW STATUS
+							33 row (selectable)
+								34 cell (selectable) Description: App Icon, App Icon
+2.2 (3), Value: iOS App 2.2
+2.2 (3)
+								35 cell (selectable) App Version
+								36 cell (selectable) Waiting for Review
+								37 cell (selectable)
+								38 cell (selectable)
+						39 text Date Submitted Oct 17, 2026 at 8:45 AM Submission ID 961269fc-9eb1-46fd-8f0b-6d6ad7a2a840 Submitted By Don Noel
+						40 button Cancel Submission
+					41 container
+						42 link App Store Connect, Value: appstoreconnect.apple.com/apps
+						43 container
+							44 text Copyright © 2026 Apple Inc. All rights reserved. |
+						45 container
+							46 link Terms of Service, Value: appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/wa/termsOfService
+							47 text |
+						48 container
+							49 link Privacy Policy, Value: apple.com/legal/privacy
+							50 text |
+						51 link Contact Us, Value: appstoreconnect.apple.com/contact-us
+				52 scroll bar (settable, float) 0
+	53 toolbar
+		54 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			55 button Description: show sidebar, Help: Show sidebar, ID: SidebarButton
+			56 menu button Description: Tab Group picker, ID: TabGroupPickerButton?TabGroup=
+		57 container BackForwardSegmentedControl
+			58 button Description: Go back, Help: Show the previous page, ID: BackButton
+			59 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		60 button Description: Start Page, Secondary Actions: Move previous, Move next, Remove from toolbar
+		61 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			62 button Page Menu, ID: AssistantButton
+			63 button (disabled) Add page to Favorites, ID: OneStepBookmarkingButton
+			64 text field (settable) Description: smart search field, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD, Value: https://appstoreconnect.apple.com/apps/6761770180/distribution/reviewsubmissions/details/961269fc-9eb1-46fd-8f0b-6d6ad7a2a840
+			65 button Reload this page, ID: ReloadButton
+		66 button Description: Downloads, ID: DownloadsButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		67 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		68 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		69 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	70 close button
+	71 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	72 minimize button
+73 menu bar
+	74 Safari
+	75 File
+	76 Edit
+	77 View, ID: SafariViewMenu
+	78 History
+	79 Bookmarks, ID: SafariBookmarksMenu
+	80 Window, ID: SafariWindowMenu
+	81 Help, ID: SafariHelpMenu
+
+The focused UI element is 5 HTML content Description: App Store Connect, URL: appstoreconnect.apple.com/apps/6761770180/distribution/reviewsubmissions/details/961269fc-9eb1-46fd-8f0b-6d6ad7a2a840

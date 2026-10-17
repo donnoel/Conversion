@@ -1,0 +1,40 @@
+{
+  "approvedBy": "Don Noel",
+  "approvedAt": "2026-10-17T15:32:56.976197+00:00",
+  "authorization": "I'm ok with this if you are, you can submit and commit and push.",
+  "scope": "All eight proposed screenshot exports; publish using two-part marketing version 2.2; commit and push scoped release work.",
+  "approvedExports": [
+    {
+      "file": "iphone/01-convert.png",
+      "sha256": "815c749ad34d3f68a66d39ef7d2df6098aa396c166ce14e7d7e40573d7ae673f"
+    },
+    {
+      "file": "iphone/02-toolkit.png",
+      "sha256": "0fa0d63d6e5277ae39ca79411f75f15ee54d96d4dd96389daf9a65ce0502ed98"
+    },
+    {
+      "file": "iphone/03-favorites.png",
+      "sha256": "14c1342aba1369df97f7ca52db65ba1de132dbf8c7a487fe496325fbf8ddd6b4"
+    },
+    {
+      "file": "iphone/04-choose.png",
+      "sha256": "49799dc22083eb7751282e1d72d61a45e22c0e7a5f4f5de46f9eb79855f0e3bf"
+    },
+    {
+      "file": "ipad/01-convert.png",
+      "sha256": "1cb3ed0cfcdadbf0619d1bf99d5cef6eb069cb6712120eacca55f5a768f962eb"
+    },
+    {
+      "file": "ipad/02-toolkit.png",
+      "sha256": "d0288397cd470d5150bb8bbc25cf619a6c739a719c50727a951ad913baf83b67"
+    },
+    {
+      "file": "ipad/03-favorites.png",
+      "sha256": "6660fbf5ecc3529896c15563109f3f82a96864f2cbd511bb883344730d15036d"
+    },
+    {
+      "file": "ipad/04-choose.png",
+      "sha256": "837812f96f24ab812df9c7e07c694d1884de9ae6300034eb6c42a3399c2d0b0b"
+    }
+  ]
+}

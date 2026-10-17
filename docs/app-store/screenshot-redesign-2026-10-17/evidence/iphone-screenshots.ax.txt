@@ -1,0 +1,140 @@
+Window: "App Store Connect", App: Safari.
+0 standard window App Store Connect, ID: SafariWindow?IsSecure=true&UUID=6B3DCCB4-BB21-46D1-B3D7-2444A0BD28D0, Secondary Actions: Raise
+	1 split group
+		2 splitter (disabled, settable, float) -1
+		3 tab group
+			4 scroll area
+				5 HTML content Description: App Store Connect, URL: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/iphone
+					6 container App Store Connect
+						7 heading 1
+							8 link Description: App Store Connect, Value: appstoreconnect.apple.com/
+						9 container Global
+							10 content list
+								11 link Apps, Value: appstoreconnect.apple.com/apps
+								12 link Xcode Cloud, Value: appstoreconnect.apple.com/teams/a7d6ed44-3c4b-4dcf-b24a-a284df0bc533/xcode-cloud
+								13 link Trends, Value: appstoreconnect.apple.com/trends
+								14 link Reports, Value: appstoreconnect.apple.com/itc/payments_and_financial_reports
+								15 link Business, Value: appstoreconnect.apple.com/business
+								16 link Users and Access, Value: appstoreconnect.apple.com/access/users
+						17 button Don Noel Don Noel Account name menu
+					18 pop up button Apps menu, Easy Units, selected
+					19 container Apps
+						20 content list
+							21 link Distribution, Value: appstoreconnect.apple.com/apps/6761770180/distribution
+							22 link Analytics, Value: appstoreconnect.apple.com/apps/6761770180/analytics
+							23 link TestFlight, Value: appstoreconnect.apple.com/teams/a7d6ed44-3c4b-4dcf-b24a-a284df0bc533/apps/6761770180/testflight
+					24 container
+						25 text iOS App 2.2
+						26 heading Media Manager, Value: 2
+							27 text Media Manager
+						28 link iPhone, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/iphone
+						29 link iPad, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/ipad
+						30 link Apple Watch, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/apple-watch
+						31 link iMessage App, Value: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/imessage
+						32 pop up button (disabled) English (U.S.)
+						33 button ?
+						34 text Use app previews and screenshots to visually communicate your app's user experience. Screenshots will automatically scale down to smaller device sizes unless you add specific app previews and screenshots for other device sizes and localizations. Screenshots must show your app in use or primarily depict your app's user experience.
+						35 link Learn more..., Value: developer.apple.com/app-store/asset-best-practices/#screenshots
+						36 heading Required, Value: 3
+							37 text Required
+						38 text App previews and screenshots are required to accurately represent your app on these devices.
+						39 button DropZone
+						40 text iPhone with Dynamic Island (medium display)
+						41 container
+							42 container Screenshot 01-convert.png
+								43 button Screenshot 01-convert.png
+							44 container Screenshot 02-toolkit.png
+								45 button Screenshot 02-toolkit.png
+							46 container Screenshot 03-favorites.png
+								47 button Screenshot 03-favorites.png
+							48 container Screenshot 04-choose.png
+								49 button Screenshot 04-choose.png
+							50 text Using Existing Assets
+							51 pop up button More information
+						52 text 0 of 3 App Previews
+						53 text 0 of 10 App Screenshots
+						54 pop up button Browse Assets
+						55 button Upload
+						56 pop up button (disabled) Remove All
+						57 text Drag and drop to add assets or choose from your Asset Library for iPhone 6.1" or 6.3" displays. Supported sizes for app previews include 1920 × 886px and 886 × 1920px. For app screenshots, supported sizes include 2556 × 1179px, 1179 × 2556px, 2622 × 1206px and 1206 × 2622px.
+						58 heading Optional, Value: 3
+							59 text Optional
+						60 text You can add app previews and screenshots to better represent your app on these devices.
+						61 button DropZone
+						62 button (expanded) iPhone with Dynamic Island (large display), Secondary Actions: Collapse
+							63 container iPhone with Dynamic Island (large display)
+								64 container
+									65 Draggable item. Press space bar to lift Screenshot 01-convert.png
+									66 Draggable item. Press space bar to lift Screenshot 02-toolkit.png
+									67 Draggable item. Press space bar to lift Screenshot 03-favorites.png
+									68 Draggable item. Press space bar to lift Screenshot 04-choose.png
+								69 text 0 of 3 App Previews
+								70 text 4 of 10 App Screenshots
+								71 pop up button Browse Assets
+								72 button Upload
+								73 pop up button Remove All
+								74 text Drag and drop to add assets or choose from your Asset Library for iPhone 6.5", 6.7", or 6.9" displays. Supported sizes for app previews include 1920 × 886px and 886 × 1920px. For app screenshots, supported sizes include 2796 × 1290px, 1290 × 2796px, 2868 × 1320px, 1320 × 2868px, 2736 × 1260px and 1260 × 2736px.
+						75 button DropZone
+						76 button (collapsed) iPhone with Face ID (large display), Secondary Actions: Expand
+							77 container iPhone with Face ID (large display)
+						78 button DropZone
+						79 button (collapsed) iPhone Duo, Secondary Actions: Expand
+							80 container iPhone Duo
+						81 button DropZone
+						82 button (collapsed) iPhone with Face ID (medium display), Secondary Actions: Expand
+							83 container iPhone with Face ID (medium display)
+						84 button DropZone
+						85 button (collapsed) iPhone with Home Button (large display), Secondary Actions: Expand
+							86 container iPhone with Home Button (large display)
+						87 button DropZone
+						88 button (collapsed) iPhone with Home Button (medium display), Secondary Actions: Expand
+							89 container iPhone with Home Button (medium display)
+						90 button DropZone
+						91 button (collapsed) iPhone with Home Button (4" display), Secondary Actions: Expand
+							92 container iPhone with Home Button (4" display)
+						93 button DropZone
+						94 button (collapsed) iPhone with Home Button (3.5" display), Secondary Actions: Expand
+							95 container iPhone with Home Button (3.5" display)
+					96 container
+						97 link App Store Connect, Value: appstoreconnect.apple.com/apps
+						98 container
+							99 text Copyright © 2026 Apple Inc. All rights reserved. |
+						100 container
+							101 link Terms of Service, Value: appstoreconnect.apple.com/WebObjects/iTunesConnect.woa/wa/termsOfService
+							102 text |
+						103 container
+							104 link Privacy Policy, Value: apple.com/legal/privacy
+							105 text |
+						106 link Contact Us, Value: appstoreconnect.apple.com/contact-us
+				107 scroll bar (settable, float) 0
+	108 toolbar
+		109 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			110 button Description: show sidebar, Help: Show sidebar, ID: SidebarButton
+			111 menu button Description: Tab Group picker, ID: TabGroupPickerButton?TabGroup=
+		112 container BackForwardSegmentedControl
+			113 button Description: Go back, Help: Show the previous page, ID: BackButton
+			114 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		115 button Description: Start Page, Secondary Actions: Move previous, Move next, Remove from toolbar
+		116 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			117 button Page Menu, ID: AssistantButton
+			118 button (disabled) Add page to Favorites, ID: OneStepBookmarkingButton
+			119 text field (settable) Description: smart search field, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD, Value: https://appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/iphone
+			120 button Reload this page, ID: ReloadButton
+		121 button Description: Downloads, ID: DownloadsButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		122 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		123 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		124 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	125 close button
+	126 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	127 minimize button
+128 menu bar
+	129 Safari
+	130 File
+	131 Edit
+	132 View, ID: SafariViewMenu
+	133 History
+	134 Bookmarks, ID: SafariBookmarksMenu
+	135 Window, ID: SafariWindowMenu
+	136 Help, ID: SafariHelpMenu
+
+The focused UI element is 5 HTML content Description: App Store Connect, URL: appstoreconnect.apple.com/apps/6761770180/distribution/ios/version/inflight/media-manager/iphone
