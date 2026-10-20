@@ -14,7 +14,7 @@
 
 ---
 
-## ✨ Overview
+## 🧭 Overview
 
 A polished Apple-native unit conversion app for iPhone and iPad, built with SwiftUI + MVVM.
 
