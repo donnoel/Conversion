@@ -1,4 +1,6 @@
-# Easy Unit
+# **Easy Units**
+
+### *Everyday conversions. Clear answers. Less friction.*
 
 <p align="center">
   <img src="https://img.shields.io/badge/Swift-6.0-orange?logo=swift&logoColor=white" alt="Swift 6.0">
@@ -10,9 +12,28 @@
   <img src="https://img.shields.io/badge/Pairs-34-A2845E" alt="34 conversion pairs">
 </p>
 
+---
+
+## ✨ Overview
+
 A polished Apple-native unit conversion app for iPhone and iPad, built with SwiftUI + MVVM.
 
-## Phase 1 features
+## 💎 Core Features
+
+| Feature | What it does |
+| --- | --- |
+| **Focused conversion** | Convert values with reversible directions and instant results. |
+| **Unit browser** | Search categories and keep favorite units close at hand. |
+| **Toolkit** | Compare one input against multiple units in a category. |
+| **Session restoration** | Restore navigation and preferences while clearing the input on relaunch. |
+
+<details>
+<summary>Feature details and controls</summary>
+
+<a id="phase-1-features"></a>
+
+### Phase 1 features
+
 - Friendly home converter with one focused conversion surface
 - Dedicated `Units` tab with search and category sections
 - Dedicated `Toolkit` tab for one-input, many-output conversion within a chosen category
@@ -26,7 +47,10 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - Clean numeric output formatting capped at 3 fractional digits
 - iOS/iPadOS Settings app entry shows dynamic app `Version (Build)`
 
-## Supported conversion pairs (reversible)
+<a id="supported-conversion-pairs-reversible"></a>
+
+### Supported conversion pairs (reversible)
+
 - `cm <-> inches`
 - `meters <-> centimeters`
 - `kg <-> lbs`
@@ -62,15 +86,16 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - `mL <-> cups`
 - `fl oz <-> mL`
 
-## Architecture
-- `ConversionCatalog` is the single source of truth for supported converters.
-- `ConversionRule` is backed by Foundation `Measurement` / `Unit` conversions.
-- `ConversionsViewModel` handles selected pair, input, swap state, search, and output.
-- `ToolkitViewModel` handles category/source-unit selection and multi-output conversion rows.
-- `FavoritesStore` + `FavoritesPersistenceService` handle local favorites persistence.
-- `SessionStateStore` restores tab/search state plus last-used pair and per-pair session state.
+</details>
 
-## Build and test
+---
+
+## 🚀 Getting Started
+
+<a id="build-and-test"></a>
+
+### Build and test
+
 Build:
 ```bash
 xcodebuild -scheme Conversion -project Conversion.xcodeproj -destination 'generic/platform=iOS Simulator' build
@@ -81,7 +106,23 @@ Run unit tests:
 xcodebuild -scheme Conversion -project Conversion.xcodeproj -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' -only-testing:ConversionTests -skip-testing:ConversionUITests test
 ```
 
-## Project structure
+## 🧠 How It Works
+
+<a id="architecture"></a>
+
+### Architecture
+
+- `ConversionCatalog` is the single source of truth for supported converters.
+- `ConversionRule` is backed by Foundation `Measurement` / `Unit` conversions.
+- `ConversionsViewModel` handles selected pair, input, swap state, search, and output.
+- `ToolkitViewModel` handles category/source-unit selection and multi-output conversion rows.
+- `FavoritesStore` + `FavoritesPersistenceService` handle local favorites persistence.
+- `SessionStateStore` restores tab/search state plus last-used pair and per-pair session state.
+
+<a id="project-structure"></a>
+
+### Project structure
+
 ```text
 Conversion/
 ├── Models/
@@ -93,6 +134,19 @@ Conversion/
 └── ContentView.swift
 ```
 
-## Credits
+## 🔒 Data and Privacy
+
+Favorites and last-session preferences are persisted locally. The conversion input is deliberately cleared on relaunch; restored navigation does not restore the previous value.
+
+## 📚 Documentation
+
+- [Repository guidance](AGENTS.md)
+- [Project guide](AGENTS.project.md)
+
+---
+
+## 🤝 Credits
+
+<a id="credits"></a>
 
 Built with care by **Don Noel** and Codex collaboration.
