@@ -138,6 +138,10 @@ Conversion/
 
 Favorites and last-session preferences are persisted locally. The conversion input is deliberately cleared on relaunch; restored navigation does not restore the previous value.
 
+## Work tracking
+
+[GitHub Issues](https://github.com/donnoel/Conversion/issues) is the authoritative place for open work, priorities, and ownership. Documentation describes the product and preserves reference/history; it is not a separate backlog. Check existing and closed issues before adding follow-ups. Optional ideas are not implementation commitments.
+
 ## 📚 Documentation
 
 - [Repository guidance](AGENTS.md)
