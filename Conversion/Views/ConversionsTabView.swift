@@ -10,22 +10,24 @@ struct ConversionsTabView: View {
 
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @EnvironmentObject private var favoritesStore: FavoritesStore
     @EnvironmentObject private var sessionStateStore: SessionStateStore
     @FocusState private var isInputFocused: Bool
     @State private var isShowingPairPicker = false
     @State private var usesPreciseOutput = false
+    @State private var copiedOutput: String?
+    @ScaledMetric(relativeTo: .largeTitle) private var inputFontSize = 48.0
+    @ScaledMetric(relativeTo: .largeTitle) private var outputFontSize = 54.0
 
     private var outputDisplayText: String {
-        guard let outputValue = viewModel.outputValue else { return "" }
+        guard let outputValue = viewModel.outputValue, outputValue.isFinite else { return "" }
         return usesPreciseOutput ? NumberFormatting.precise(outputValue) : viewModel.outputText
     }
 
-    private var outputAccessibilityLabel: String {
-        guard viewModel.outputValue != nil else {
-            return "No converted value available. Enter \(viewModel.inputUnit) to convert to \(viewModel.outputUnit)"
-        }
-        return "Converted result \(outputDisplayText) \(viewModel.outputUnit), from \(viewModel.inputUnit)"
+    private var copyText: String? {
+        guard !outputDisplayText.isEmpty else { return nil }
+        return "\(outputDisplayText) \(viewModel.outputUnit)"
     }
 
     private var favoritePairs: [ConversionPair] {
@@ -57,24 +59,22 @@ struct ConversionsTabView: View {
             LiquidGlassTheme.homeCanvasGradient(for: colorScheme)
                 .ignoresSafeArea()
 
-            Group {
-                if horizontalSizeClass == .regular {
-                    VStack(spacing: 0) {
-                        converterContent
-                    }
-                    .frame(maxWidth: 520)
-                    .padding(.horizontal, 40)
-                    .padding(.vertical, 24)
-                } else {
-                    VStack(spacing: 0) {
-                        converterContent
-                    }
+            ScrollView {
+                converterContent
+                    .frame(maxWidth: 480)
                     .padding(.horizontal, 24)
-                    .padding(.vertical, 20)
-                }
+                    .padding(.vertical, 24)
+                    .frame(maxWidth: .infinity)
             }
+            .defaultScrollAnchor(horizontalSizeClass == .regular ? .center : .top, for: .alignment)
+            .scrollDismissesKeyboard(.interactively)
         }
         .toolbar(.hidden, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                Button("Done") { dismissKeyboard() }
+            }
+        }
         .sheet(isPresented: $isShowingPairPicker) {
             PairPickerSheet(
                 viewModel: viewModel,
@@ -82,28 +82,21 @@ struct ConversionsTabView: View {
             )
             .environmentObject(favoritesStore)
         }
-        .simultaneousGesture(
-            TapGesture().onEnded {
-                dismissKeyboard()
-            }
-        )
+        .onChange(of: copyText) { copiedOutput = nil }
+        .task(id: copiedOutput) {
+            guard copiedOutput != nil else { return }
+            try? await Task.sleep(for: .seconds(2))
+            if !Task.isCancelled { copiedOutput = nil }
+        }
     }
 
     private var converterContent: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 16) {
             header
-
+            inputField
+            outputContent
+            relatedUnitsButton
             shortcutsRow
-                .padding(.top, 18)
-
-            Spacer(minLength: 30)
-
-            VStack(spacing: 18) {
-                inputField
-                outputButton
-            }
-
-            Spacer(minLength: 0)
         }
     }
 
@@ -116,29 +109,38 @@ struct ConversionsTabView: View {
 
             HStack(spacing: 8) {
                 Button {
+                    dismissKeyboard()
                     isShowingPairPicker = true
                 } label: {
-                    Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
-                        .font(.system(.title2, design: .rounded).weight(.semibold))
-                        .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
+                    HStack(spacing: 8) {
+                        Text("\(viewModel.inputUnit) to \(viewModel.outputUnit)")
+                            .font(.system(.title2, design: .rounded).weight(.semibold))
+                            .fixedSize(horizontal: false, vertical: true)
+                        Image(systemName: "chevron.down")
+                            .font(.footnote.weight(.semibold))
+                            .accessibilityHidden(true)
+                    }
+                    .foregroundStyle(.primary)
+                    .padding(.horizontal, 14)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .liquidGlassSurfaceStyle(cornerRadius: 18)
                 .accessibilityLabel("Choose conversion pair. Current pair is \(viewModel.inputUnit) to \(viewModel.outputUnit)")
                 .accessibilityHint("Opens the unit picker")
                 .accessibilityIdentifier("converter.choosePair.\(viewModel.selectedPair.id)")
 
                 Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
                         viewModel.swapUnits()
                     }
                 } label: {
                     Image(systemName: "arrow.left.arrow.right")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(colorScheme == .dark ? .white.opacity(0.82) : .secondary)
-                        .frame(width: 34, height: 34)
-                        .contentShape(Circle())
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Swap \(viewModel.inputUnit) and \(viewModel.outputUnit)")
@@ -146,26 +148,21 @@ struct ConversionsTabView: View {
                 .accessibilityIdentifier("converter.swap.\(viewModel.selectedPair.id)")
             }
         }
-        .padding(.top, 16)
     }
 
+    @ViewBuilder
     private var shortcutsRow: some View {
-        Group {
-            if shortcutPairs.isEmpty {
-                relatedUnitsButton
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(shortcutPairs) { pair in
-                            shortcutButton(for: pair)
-                        }
-
-                        relatedUnitsButton
+        if !shortcutPairs.isEmpty {
+            ScrollView(.horizontal) {
+                HStack(spacing: 8) {
+                    ForEach(shortcutPairs) { pair in
+                        shortcutButton(for: pair)
                     }
-                    .padding(.horizontal, 2)
-                    .padding(.vertical, 2)
                 }
+                .padding(.horizontal, 2)
+                .padding(.vertical, 2)
             }
+            .defaultScrollAnchor(.center, for: .alignment)
         }
     }
 
@@ -177,7 +174,8 @@ struct ConversionsTabView: View {
                 .font(.system(.caption, design: .rounded).weight(.semibold))
                 .labelStyle(.titleAndIcon)
                 .padding(.horizontal, 12)
-                .frame(height: 34)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .liquidGlassSurfaceStyle(cornerRadius: 17)
@@ -195,17 +193,18 @@ struct ConversionsTabView: View {
                 .foregroundStyle(colorScheme == .dark ? .white.opacity(0.92) : .primary)
                 .lineLimit(1)
                 .padding(.horizontal, 12)
-                .frame(height: 34)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .liquidGlassSurfaceStyle(cornerRadius: 17)
-        .accessibilityLabel("Open \(displayTitle(for: pair))")
+        .accessibilityLabel("Open \(pair.spokenTitle)")
         .accessibilityIdentifier("converter.shortcut.\(pair.id)")
     }
 
     private var inputField: some View {
         TextField("Enter value", text: $viewModel.inputText)
-            .font(.system(size: 52, weight: .semibold, design: .rounded).monospacedDigit())
+            .font(.system(size: inputFontSize, weight: .semibold, design: .rounded).monospacedDigit())
             .foregroundStyle(colorScheme == .dark ? .white : .primary)
             .multilineTextAlignment(.center)
             .keyboardType(.numbersAndPunctuation)
@@ -223,33 +222,59 @@ struct ConversionsTabView: View {
                     .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.18 : 0.48), lineWidth: 0.7)
             )
             .frame(maxWidth: 380)
-            .accessibilityLabel("Input value in \(viewModel.inputUnit)")
+            .accessibilityLabel("Input value in \(ConversionCatalog.unitName(for: viewModel.inputUnit))")
             .accessibilityIdentifier("converter.input.\(viewModel.selectedPair.id)")
+    }
+
+    @ViewBuilder
+    private var outputContent: some View {
+        if copyText != nil {
+            outputButton
+        } else {
+            Text(outputStatus)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(minHeight: 44)
+        }
+    }
+
+    private var outputStatus: String {
+        if viewModel.outputValue?.isFinite == false { return "Result is out of range" }
+        if NumericInputParser.isIncomplete(viewModel.inputText) { return "Result in \(viewModel.outputUnit)" }
+        return "Enter a valid number"
     }
 
     private var outputButton: some View {
         Button {
             copyOutput()
         } label: {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text(outputDisplayText)
-                    .font(.system(size: 58, weight: .semibold, design: .rounded))
-                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.96) : .primary)
-                    .monospacedDigit()
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.55)
-                    .accessibilityIdentifier("converter.output.\(viewModel.selectedPair.id)")
+            VStack(spacing: 4) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(outputDisplayText)
+                        .font(.system(size: outputFontSize, weight: .semibold, design: .rounded))
+                        .foregroundStyle(colorScheme == .dark ? .white.opacity(0.96) : .primary)
+                        .monospacedDigit()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.55)
+                        .accessibilityIdentifier("converter.output.\(viewModel.selectedPair.id)")
 
-                Text(viewModel.outputUnit)
-                    .font(.system(.title3, design: .rounded).weight(.semibold))
-                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.82) : .secondary)
-                    .lineLimit(1)
+                    Text(viewModel.outputUnit)
+                        .font(.system(.title3, design: .rounded).weight(.semibold))
+                        .foregroundStyle(colorScheme == .dark ? .white.opacity(0.82) : .secondary)
+                        .lineLimit(1)
+                }
+
+                Label(copiedOutput == nil ? "Copy Result" : "Copied", systemImage: copiedOutput == nil ? "doc.on.doc" : "checkmark")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.secondary)
             }
+            .padding(.vertical, 4)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .disabled(viewModel.outputValue == nil)
-        .accessibilityLabel(outputAccessibilityLabel)
-        .accessibilityHint(viewModel.outputValue == nil ? "" : "Copies the converted result")
+        .accessibilityLabel("Copy result, \(outputDisplayText) \(ConversionCatalog.unitName(for: viewModel.outputUnit))")
+        .accessibilityValue(copiedOutput == nil ? "" : "Copied")
         .accessibilityIdentifier("converter.output.copy")
         .contextMenu {
             Button {
@@ -268,7 +293,6 @@ struct ConversionsTabView: View {
             }
         }
         .onLongPressGesture {
-            guard viewModel.outputValue != nil else { return }
             usesPreciseOutput.toggle()
         }
     }
@@ -279,6 +303,7 @@ struct ConversionsTabView: View {
     }
 
     private func openToolkitForCurrentConverter() {
+        dismissKeyboard()
         toolkitViewModel.useConverter(
             pair: viewModel.selectedPair,
             inputText: viewModel.inputText,
@@ -288,9 +313,11 @@ struct ConversionsTabView: View {
     }
 
     private func copyOutput() {
-        guard !outputDisplayText.isEmpty else { return }
+        guard let copyText else { return }
 #if canImport(UIKit)
-        UIPasteboard.general.string = "\(outputDisplayText) \(viewModel.outputUnit)"
+        UIPasteboard.general.string = copyText
+        copiedOutput = copyText
+        AccessibilityNotification.Announcement("Result copied").post()
 #endif
     }
 
@@ -301,75 +328,8 @@ struct ConversionsTabView: View {
 #endif
     }
 
-    private func displayTitle(for pair: ConversionPair) -> String {
-        "\(fullUnitName(for: pair.unitA)) <-> \(fullUnitName(for: pair.unitB))"
-    }
-
     private func shortTitle(for pair: ConversionPair) -> String {
-        "\(pair.unitA) <-> \(pair.unitB)"
-    }
-
-    private func fullUnitName(for symbol: String) -> String {
-        switch symbol {
-        case "cm": "centimeters"
-        case "in": "inches"
-        case "kg": "kilograms"
-        case "lb": "pounds"
-        case "c": "celsius"
-        case "f": "fahrenheit"
-        case "K": "kelvin"
-        case "mm": "millimeters"
-        case "m": "meters"
-        case "ft": "feet"
-        case "km": "kilometers"
-        case "mi": "miles"
-        case "g": "grams"
-        case "oz": "ounces"
-        case "L": "liters"
-        case "pt": "pints"
-        case "qt": "quarts"
-        case "gal": "gallons"
-        case "tsp": "teaspoons"
-        case "tbsp": "tablespoons"
-        case "mph": "miles per hour"
-        case "kph": "kilometers per hour"
-        case "m/s": "meters per second"
-        case "psi": "pounds per square inch"
-        case "bar": "bar"
-        case "kPa": "kilopascals"
-        case "ac": "acres"
-        case "ha": "hectares"
-        case "sq ft": "square feet"
-        case "sq m": "square meters"
-        case "rad": "radians"
-        case "deg": "degrees"
-        case "hp": "horsepower"
-        case "kw": "kilowatts"
-        case "yd": "yards"
-        case "mL": "milliliters"
-        case "fl oz": "fluid ounces"
-        case "cup": "cups"
-        case "sec": "seconds"
-        case "min": "minutes"
-        case "hr": "hours"
-        case "day": "days"
-        case "KB": "kilobytes"
-        case "MB": "megabytes"
-        case "GB": "gigabytes"
-        case "TB": "terabytes"
-        case "mpg": "miles per gallon"
-        case "L/100km": "liters per 100 kilometers"
-        case "km/L": "kilometers per liter"
-        case "J": "joules"
-        case "cal": "calories"
-        case "kcal": "kilocalories"
-        case "Wh": "watt-hours"
-        case "kWh": "kilowatt-hours"
-        case "Nm": "newton-meters"
-        case "lb-ft": "pound-feet"
-        case "in-lb": "inch-pounds"
-        default: symbol
-        }
+        "\(pair.unitA) ↔ \(pair.unitB)"
     }
 }
 
@@ -382,19 +342,7 @@ private struct PairPickerSheet: View {
     let selectPair: (ConversionPair) -> Void
 
     private var filteredSections: [(category: ConversionCategory, pairs: [ConversionPair])] {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-
-        return viewModel.unitPickerSections.compactMap { section in
-            let pairs = section.pairs.filter { pair in
-                guard !query.isEmpty else { return true }
-                return pair.title.lowercased().contains(query)
-                    || pair.unitA.lowercased().contains(query)
-                    || pair.unitB.lowercased().contains(query)
-                    || section.category.title.lowercased().contains(query)
-            }
-            guard !pairs.isEmpty else { return nil }
-            return (section.category, pairs)
-        }
+        viewModel.unitPickerSections(matching: searchText)
     }
 
     var body: some View {
@@ -409,9 +357,9 @@ private struct PairPickerSheet: View {
                             } label: {
                                 HStack(spacing: 12) {
                                     VStack(alignment: .leading, spacing: 3) {
-                                        Text(pair.title)
+                                        Text(pair.displayTitle)
                                             .font(.system(.body, design: .rounded).weight(.medium))
-                                        Text("\(pair.unitA) <-> \(pair.unitB)")
+                                        Text("\(pair.unitA) ↔ \(pair.unitB)")
                                             .font(.system(.caption, design: .rounded))
                                             .foregroundStyle(.secondary)
                                     }
@@ -432,7 +380,9 @@ private struct PairPickerSheet: View {
                                 }
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel("Choose \(pair.title)")
+                            .accessibilityLabel("Choose \(pair.spokenTitle)")
+                            .accessibilityValue(favoritesStore.isFavorite(pairID: pair.id) ? "Favorite" : "")
+                            .accessibilityAddTraits(pair.id == viewModel.selectedPairID ? .isSelected : [])
                             .accessibilityIdentifier("converter.picker.row.\(pair.id)")
                         }
                     }
@@ -440,6 +390,11 @@ private struct PairPickerSheet: View {
             }
             .navigationTitle("Choose Units")
             .searchable(text: $searchText, prompt: "Search units")
+            .overlay {
+                if filteredSections.isEmpty {
+                    ContentUnavailableView.search(text: searchText)
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") {

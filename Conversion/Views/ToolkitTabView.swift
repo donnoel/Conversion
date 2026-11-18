@@ -8,6 +8,7 @@ struct ToolkitTabView: View {
     @ObservedObject var viewModel: ToolkitViewModel
     @Environment(\.colorScheme) private var colorScheme
     @FocusState private var isInputFocused: Bool
+    @State private var copiedUnit: String?
 
     var body: some View {
         ZStack {
@@ -42,6 +43,14 @@ struct ToolkitTabView: View {
                 dismissKeyboard()
             }
         )
+        .onChange(of: viewModel.inputText) { copiedUnit = nil }
+        .onChange(of: viewModel.sourceUnitSymbol) { copiedUnit = nil }
+        .onChange(of: viewModel.selectedCategory) { copiedUnit = nil }
+        .task(id: copiedUnit) {
+            guard copiedUnit != nil else { return }
+            try? await Task.sleep(for: .seconds(2))
+            if !Task.isCancelled { copiedUnit = nil }
+        }
     }
 
     private var headerCard: some View {
@@ -127,55 +136,89 @@ struct ToolkitTabView: View {
                 .font(.system(.headline, design: .rounded).weight(.semibold))
                 .foregroundStyle(colorScheme == .dark ? .white.opacity(0.92) : .primary)
 
-            if viewModel.conversionResults.isEmpty {
+            if !NumericInputParser.isIncomplete(viewModel.inputText), NumericInputParser.parse(viewModel.inputText) == nil {
+                Text("Enter a valid number")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else if viewModel.conversionResults.isEmpty {
                 Text("No available outputs for this category.")
                     .font(.system(.subheadline, design: .rounded))
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(viewModel.conversionResults) { result in
-                    HStack(spacing: 12) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(result.unitName.capitalized)
-                                .font(.system(.body, design: .rounded).weight(.medium))
-                                .foregroundStyle(.primary)
-
-                            Text(result.unitSymbol)
-                                .font(.system(.caption, design: .rounded).weight(.medium))
-                                .foregroundStyle(.secondary)
-                        }
-
-                        Spacer(minLength: 8)
-
-                        HStack(alignment: .firstTextBaseline, spacing: 6) {
-                            Text(result.outputText)
-                                .font(.system(.title3, design: .rounded).weight(.semibold))
-                                .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
-                                .monospacedDigit()
-
-                            Text(result.unitSymbol)
-                                .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(Color.white.opacity(colorScheme == .dark ? 0.08 : 0.46))
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.14 : 0.38), lineWidth: 0.6)
-                    )
-                    .accessibilityIdentifier("toolkit.output.\(result.unitSymbol)")
-                    .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(outputAccessibilityLabel(for: result))
+                    resultRow(result)
                 }
             }
         }
         .padding(LiquidGlassTheme.cardPadding)
         .liquidGlassCardStyle()
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("toolkit.outputs")
+    }
+
+    @ViewBuilder
+    private func resultRow(_ result: ToolkitConversionResult) -> some View {
+        if let copyText = result.copyText {
+            Button {
+#if canImport(UIKit)
+                UIPasteboard.general.string = copyText
+                copiedUnit = result.id
+                AccessibilityNotification.Announcement("Result copied").post()
+#endif
+            } label: {
+                resultRowContent(result)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Copy \(outputAccessibilityLabel(for: result))")
+            .accessibilityValue(copiedUnit == result.id ? "Copied" : "")
+            .accessibilityIdentifier("toolkit.output.\(result.unitSymbol)")
+        } else {
+            resultRowContent(result)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(outputAccessibilityLabel(for: result))
+                .accessibilityIdentifier("toolkit.output.\(result.unitSymbol)")
+        }
+    }
+
+    private func resultRowContent(_ result: ToolkitConversionResult) -> some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(result.unitName.capitalized)
+                    .font(.system(.body, design: .rounded).weight(.medium))
+                    .foregroundStyle(.primary)
+
+                Text(result.unitSymbol)
+                    .font(.system(.caption, design: .rounded).weight(.medium))
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer(minLength: 8)
+
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text(result.outputText)
+                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                    .foregroundStyle(colorScheme == .dark ? .white.opacity(0.95) : .primary)
+                    .monospacedDigit()
+
+                if result.copyText != nil {
+                    Image(systemName: copiedUnit == result.id ? "checkmark" : "doc.on.doc")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(LiquidGlassTheme.tint)
+                        .accessibilityHidden(true)
+                }
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color.white.opacity(colorScheme == .dark ? 0.08 : 0.46))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.14 : 0.38), lineWidth: 0.6)
+        )
     }
 
     private func dismissKeyboard() {
@@ -186,9 +229,10 @@ struct ToolkitTabView: View {
     }
 
     private func outputAccessibilityLabel(for result: ToolkitConversionResult) -> String {
-        guard result.outputValue != nil else {
+        guard let outputValue = result.outputValue else {
             return "\(result.unitName), no converted value"
         }
+        guard outputValue.isFinite else { return "\(result.unitName), result is out of range" }
 
         return "\(result.outputText) \(result.unitName)"
     }

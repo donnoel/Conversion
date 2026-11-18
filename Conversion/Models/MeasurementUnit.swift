@@ -23,7 +23,7 @@ enum MeasurementUnit: Hashable, Sendable {
         case let (.mass(from), .mass(to)):
             return Measurement(value: value, unit: from.foundationUnit).converted(to: to.foundationUnit).value
         case let (.temperature(from), .temperature(to)):
-            return Measurement(value: value, unit: from.foundationUnit).converted(to: to.foundationUnit).value
+            return from.convert(value, to: to)
         case let (.volume(from), .volume(to)):
             return from.convert(value, to: to)
         case let (.speed(from), .speed(to)):
@@ -98,11 +98,16 @@ enum TemperatureUnit: Hashable, Sendable {
     case fahrenheit
     case kelvin
 
-    var foundationUnit: UnitTemperature {
-        switch self {
-        case .celsius: .celsius
-        case .fahrenheit: .fahrenheit
-        case .kelvin: .kelvin
+    func convert(_ value: Double, to target: TemperatureUnit) -> Double {
+        // Subtract the reference point before scaling so exact zeros stay zero.
+        switch (self, target) {
+        case (.fahrenheit, .celsius): (value - 32) * (5.0 / 9.0)
+        case (.celsius, .fahrenheit): value * (9.0 / 5.0) + 32
+        case (.kelvin, .celsius): value - 273.15
+        case (.celsius, .kelvin): value + 273.15
+        case (.fahrenheit, .kelvin): (value + 459.67) * (5.0 / 9.0)
+        case (.kelvin, .fahrenheit): value * (9.0 / 5.0) - 459.67
+        default: value
         }
     }
 }

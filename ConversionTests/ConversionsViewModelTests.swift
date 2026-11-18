@@ -64,6 +64,17 @@ final class ConversionsViewModelTests: XCTestCase {
         XCTAssertEqual(Set(viewModel.visiblePairs.map(\.id)), ["pressure.psi-bar", "pressure.psi-kpa"])
     }
 
+    func testUnitsAndPairPickerFindTheSamePairsByNameSymbolAndCategory() {
+        let viewModel = ConversionsViewModel()
+        for query in ["  Kilometers per hour  ", "kph", "speed", "not a unit"] {
+            viewModel.searchText = query
+            let browserPairs = Set(viewModel.unitPickerSearchResults.map(\.id))
+            let pickerPairs = Set(viewModel.unitPickerSections(matching: query).flatMap(\.pairs).map(\.id))
+            XCTAssertEqual(browserPairs, pickerPairs, "Search disagreement for \(query)")
+            XCTAssertEqual(browserPairs.contains("speed.mph-kph"), query != "not a unit")
+        }
+    }
+
     func testClearingSearchReturnsToSelectedCategory() {
         let viewModel = ConversionsViewModel()
         viewModel.selectedGroup = .category(.temperature)

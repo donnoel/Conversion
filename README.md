@@ -44,7 +44,7 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 - Last-session state restoration (tab, last used pair, search, per-pair swap direction)
 - Converter input value is cleared when the app relaunches
 - Instant conversion updates while typing
-- Clean numeric output formatting capped at 3 fractional digits
+- Compact results with adaptive precision for small values and tap-to-copy confirmation in Conversion and Toolkit
 - iOS/iPadOS Settings app entry shows dynamic app `Version (Build)`
 
 <a id="supported-conversion-pairs-reversible"></a>
@@ -95,6 +95,8 @@ A polished Apple-native unit conversion app for iPhone and iPad, built with Swif
 <a id="build-and-test"></a>
 
 ### Build and test
+
+Easy Units uses two-component marketing versions such as `2.3` and a separate integer build number.
 
 Build:
 ```bash

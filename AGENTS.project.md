@@ -29,7 +29,7 @@ Current scope is Phase 1.
 - Zero build warnings
 - Stable keyboard/input behavior during typing
 - Deterministic conversion rules from one catalog source
-- Conversion results display at most 3 fractional digits for readability
+- Conversion results default to at most 3 fractional digits. Small nonzero results use more digits or scientific notation.
 
 4) Testing priorities
 - Conversion rule coverage and reversibility
@@ -78,6 +78,7 @@ Current scope is Phase 1.
 
 ## Build/run notes
 - Platforms: iPhone + iPad (`TARGETED_DEVICE_FAMILY = 1,2`)
+- Marketing versions use two components (`major.minor`, such as `2.3`). Increment the separate integer build number for each distributed build.
 - Swift language mode: 6.0 (Swift 6.2 toolchain)
 - Warning policy: zero warnings
 - Local unit tests command:

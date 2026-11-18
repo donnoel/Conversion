@@ -87,6 +87,22 @@ final class ToolkitViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.conversionResults.allSatisfy { $0.outputValue == nil })
     }
 
+    func testToolkitCopiesDisplayedTinyValuesAndExcludesNonFiniteResults() throws {
+        let viewModel = ToolkitViewModel(defaultCategory: .data)
+        viewModel.sourceUnitSymbol = "KB"
+        viewModel.inputText = "1"
+        let gigabytes = try XCTUnwrap(viewModel.conversionResults.first { $0.unitSymbol == "GB" })
+        XCTAssertEqual(gigabytes.outputValue, 0.000_001)
+        XCTAssertEqual(gigabytes.copyText, "\(gigabytes.outputText) GB")
+
+        viewModel.selectedCategory = .fuelEconomy
+        viewModel.sourceUnitSymbol = "mpg"
+        viewModel.inputText = "0"
+        let fuelConsumption = try XCTUnwrap(viewModel.conversionResults.first { $0.unitSymbol == "L/100km" })
+        XCTAssertEqual(fuelConsumption.outputText, "Out of range")
+        XCTAssertNil(fuelConsumption.copyText)
+    }
+
     func testCategoryChangeResetsSourceToValidUnitWhenNeeded() {
         let viewModel = ToolkitViewModel(defaultCategory: .power)
         viewModel.sourceUnitSymbol = "hp"

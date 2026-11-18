@@ -82,6 +82,12 @@ final class ConversionMathTests: XCTestCase {
         XCTAssertEqual(pair.convert(32, isReversed: true), 0, accuracy: 0.000_001)
     }
 
+    func testTemperatureReferencePointsConvertToExactZero() {
+        XCTAssertEqual(TemperatureUnit.fahrenheit.convert(32, to: .celsius), 0)
+        XCTAssertEqual(TemperatureUnit.kelvin.convert(273.15, to: .celsius), 0)
+        XCTAssertEqual(TemperatureUnit.fahrenheit.convert(-459.67, to: .kelvin), 0)
+    }
+
     func testNewPracticalPairsConvertCorrectly() throws {
         let cases: [(id: String, input: Double, reversed: Bool, expected: Double, accuracy: Double)] = [
             ("volume.tsp-ml", 1, false, 4.928_92, 0.000_01),
@@ -153,5 +159,22 @@ final class ConversionMathTests: XCTestCase {
     func testPreciseNumberFormattingKeepsAdditionalUsefulDigits() {
         let locale = Locale(identifier: "en_US_POSIX")
         XCTAssertEqual(NumberFormatting.precise(1.0 / 3.0, locale: locale), "0.33333333")
+    }
+
+    func testSmallResultsRemainVisibleInBothPrecisionModes() {
+        let locale = Locale(identifier: "en_US_POSIX")
+        XCTAssertEqual(NumberFormatting.display(0.000_001, locale: locale), "0.000001")
+        XCTAssertEqual(NumberFormatting.display(-0.000_5, locale: locale), "-0.0005")
+        XCTAssertEqual(NumberFormatting.display(-0.0, locale: locale), "0")
+        XCTAssertEqual(NumberFormatting.display(0.000_000_001, locale: locale), "1E-9")
+        XCTAssertEqual(NumberFormatting.precise(0.000_000_001, locale: locale), "1E-9")
+        XCTAssertEqual(NumberFormatting.display(0.000_001, locale: Locale(identifier: "de_DE")), "0,000001")
+    }
+
+    func testNumericInputRejectsNonFiniteValues() {
+        XCTAssertNil(NumericInputParser.parse("inf"))
+        XCTAssertNil(NumericInputParser.parse("nan"))
+        XCTAssertNil(NumericInputParser.parse("1e999"))
+        XCTAssertEqual(NumericInputParser.parse("-5"), -5)
     }
 }

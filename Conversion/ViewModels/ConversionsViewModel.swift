@@ -85,7 +85,7 @@ final class ConversionsViewModel: ObservableObject {
             return pairs(for: selectedGroup)
         }
 
-        return allPairs.filter(matchesSearch)
+        return allPairs.filter { $0.matchesSearch(normalizedSearchText) }
     }
 
     var visibleSectionTitle: String {
@@ -121,13 +121,18 @@ final class ConversionsViewModel: ObservableObject {
     }
 
     var unitPickerSections: [(category: ConversionCategory, pairs: [ConversionPair])] {
+        unitPickerSections(matching: "")
+    }
+
+    func unitPickerSections(matching searchText: String) -> [(category: ConversionCategory, pairs: [ConversionPair])] {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         let categories = ConversionCategory.allCases.sorted {
             $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
         }
 
         return categories.compactMap { category in
             let categoryPairs = allPairs
-                .filter { $0.category == category }
+                .filter { $0.category == category && $0.matchesSearch(query) }
                 .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
             guard !categoryPairs.isEmpty else { return nil }
             return (category, categoryPairs)
@@ -136,7 +141,7 @@ final class ConversionsViewModel: ObservableObject {
 
     var unitPickerSearchResults: [ConversionPair] {
         allPairs
-            .filter(matchesSearch)
+            .filter { $0.matchesSearch(normalizedSearchText) }
             .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
     }
 
@@ -152,17 +157,7 @@ final class ConversionsViewModel: ObservableObject {
     }
 
     private var normalizedSearchText: String {
-        searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-    }
-
-    private func matchesSearch(_ pair: ConversionPair) -> Bool {
-        let query = normalizedSearchText
-        guard !query.isEmpty else { return true }
-
-        return pair.title.lowercased().contains(query)
-            || pair.unitA.lowercased().contains(query)
-            || pair.unitB.lowercased().contains(query)
-            || pair.category.title.lowercased().contains(query)
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func loadStateForSelectedPair() {

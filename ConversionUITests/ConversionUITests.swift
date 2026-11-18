@@ -34,6 +34,53 @@ final class ConversionUITests: XCTestCase {
     }
 
     @MainActor
+    func testTinyResultAndCopyConfirmationInConversionAndToolkit() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing-reset-state", "-ui-testing-seed-converter", "data.kb-mb", "0.1"]
+        app.launch()
+
+        let converterCopy = app.buttons["converter.output.copy"]
+        XCTAssertTrue(converterCopy.waitForExistence(timeout: 5))
+        XCTAssertTrue(converterCopy.label.contains("0.0001"))
+        converterCopy.tap()
+        XCTAssertEqual(converterCopy.value as? String, "Copied")
+
+        app.buttons["converter.openToolkit"].tap()
+        let toolkitCopy = app.buttons["toolkit.output.GB"]
+        scrollToElementIfNeeded(toolkitCopy, in: app)
+        XCTAssertTrue(toolkitCopy.isHittable, app.debugDescription)
+        XCTAssertTrue(toolkitCopy.label.contains("0.0000001"))
+        toolkitCopy.tap()
+        XCTAssertEqual(toolkitCopy.value as? String, "Copied")
+    }
+
+    @MainActor
+    func testBothSearchSurfacesFindFullUnitNames() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing-reset-state"]
+        app.launch()
+
+        app.buttons["converter.choosePair.length.cm-in"].tap()
+        let pickerSearch = app.searchFields.firstMatch
+        XCTAssertTrue(pickerSearch.waitForExistence(timeout: 5))
+        pickerSearch.tap()
+        pickerSearch.typeText("kilometers per hour")
+        let pickerSpeed = app.buttons["converter.picker.row.speed.mph-kph"]
+        XCTAssertTrue(pickerSpeed.waitForExistence(timeout: 5))
+        pickerSpeed.tap()
+
+        app.buttons["Units"].firstMatch.tap()
+        let unitsSearch = app.searchFields.firstMatch
+        XCTAssertTrue(unitsSearch.waitForExistence(timeout: 5))
+        unitsSearch.tap()
+        unitsSearch.typeText("kilometers per hour")
+        XCTAssertTrue(app.buttons["units.row.speed.mph-kph"].waitForExistence(timeout: 5))
+        unitsSearch.typeText(" unlikely unit")
+        let emptyState = app.staticTexts.containing(NSPredicate(format: "label BEGINSWITH[c] %@", "No Results")).firstMatch
+        XCTAssertTrue(emptyState.waitForExistence(timeout: 5))
+    }
+
+    @MainActor
     private func dismissKeyboardIfNeeded(in app: XCUIApplication) {
         guard app.keyboards.count > 0 else { return }
 

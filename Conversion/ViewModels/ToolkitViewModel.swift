@@ -14,7 +14,12 @@ struct ToolkitConversionResult: Identifiable, Equatable {
         guard let outputValue else {
             return "--"
         }
-        return NumberFormatting.display(outputValue)
+        return outputValue.isFinite ? NumberFormatting.display(outputValue) : "Out of range"
+    }
+
+    var copyText: String? {
+        guard outputValue?.isFinite == true else { return nil }
+        return "\(outputText) \(unitSymbol)"
     }
 }
 
@@ -50,66 +55,6 @@ final class ToolkitViewModel: ObservableObject {
         .fuelEconomy: ["mpg", "L/100km", "km/L"],
         .energy: ["kWh", "Wh", "kcal", "cal", "J"],
         .torque: ["Nm", "lb-ft", "in-lb"]
-    ]
-
-    private static let unitDisplayNames: [String: String] = [
-        "cm": "centimeters",
-        "in": "inches",
-        "kg": "kilograms",
-        "lb": "pounds",
-        "c": "celsius",
-        "f": "fahrenheit",
-        "K": "kelvin",
-        "mm": "millimeters",
-        "m": "meters",
-        "ft": "feet",
-        "km": "kilometers",
-        "mi": "miles",
-        "g": "grams",
-        "oz": "ounces",
-        "L": "liters",
-        "pt": "pints",
-        "qt": "quarts",
-        "gal": "gallons",
-        "tsp": "teaspoons",
-        "tbsp": "tablespoons",
-        "mph": "miles per hour",
-        "kph": "kilometers per hour",
-        "m/s": "meters per second",
-        "psi": "pounds per square inch",
-        "bar": "bar",
-        "kPa": "kilopascals",
-        "ac": "acres",
-        "ha": "hectares",
-        "sq ft": "square feet",
-        "sq m": "square meters",
-        "rad": "radians",
-        "deg": "degrees",
-        "hp": "horsepower",
-        "kw": "kilowatts",
-        "yd": "yards",
-        "mL": "milliliters",
-        "fl oz": "fluid ounces",
-        "cup": "cups",
-        "sec": "seconds",
-        "min": "minutes",
-        "hr": "hours",
-        "day": "days",
-        "KB": "kilobytes",
-        "MB": "megabytes",
-        "GB": "gigabytes",
-        "TB": "terabytes",
-        "mpg": "miles per gallon",
-        "L/100km": "liters per 100 kilometers",
-        "km/L": "kilometers per liter",
-        "J": "joules",
-        "cal": "calories",
-        "kcal": "kilocalories",
-        "Wh": "watt-hours",
-        "kWh": "kilowatt-hours",
-        "Nm": "newton-meters",
-        "lb-ft": "pound-feet",
-        "in-lb": "inch-pounds"
     ]
 
     var categories: [ConversionCategory] {
@@ -154,7 +99,7 @@ final class ToolkitViewModel: ObservableObject {
     }
 
     func unitDisplayName(for symbol: String) -> String {
-        Self.unitDisplayNames[symbol] ?? symbol
+        ConversionCatalog.unitName(for: symbol)
     }
 
     func useConverter(pair: ConversionPair, inputText: String, isReversed: Bool) {

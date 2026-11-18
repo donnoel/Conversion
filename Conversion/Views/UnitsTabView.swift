@@ -7,13 +7,17 @@ struct UnitsTabView: View {
     @EnvironmentObject private var sessionStateStore: SessionStateStore
 
     private var favoritePairs: [ConversionPair] {
-        viewModel.allPairs
+        let candidates = viewModel.isSearching ? viewModel.unitPickerSearchResults : viewModel.allPairs
+        return candidates
             .filter { favoritesStore.isFavorite(pairID: $0.id) }
             .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
     }
 
     var body: some View {
         let favoriteIDs = Set(favoritePairs.map(\.id))
+        let searchResults = viewModel.isSearching
+            ? viewModel.unitPickerSearchResults.filter { !favoriteIDs.contains($0.id) }
+            : []
 
         List {
             if !favoritePairs.isEmpty {
@@ -23,8 +27,6 @@ struct UnitsTabView: View {
             }
 
             if viewModel.isSearching {
-                let searchResults = viewModel.unitPickerSearchResults
-                    .filter { !favoriteIDs.contains($0.id) }
                 if !searchResults.isEmpty {
                     Section("Search Results") {
                         pairRows(searchResults)
@@ -49,6 +51,11 @@ struct UnitsTabView: View {
         .background(LiquidGlassTheme.gentleCanvasGradient(for: colorScheme))
         .navigationTitle("Units")
         .searchable(text: $viewModel.searchText, prompt: "Search units")
+        .overlay {
+            if viewModel.isSearching && favoriteIDs.isEmpty && searchResults.isEmpty {
+                ContentUnavailableView.search(text: viewModel.searchText)
+            }
+        }
     }
 
     @ViewBuilder
@@ -61,7 +68,7 @@ struct UnitsTabView: View {
                 } label: {
                     VStack(alignment: .leading, spacing: 3) {
                         HStack(spacing: 6) {
-                            Text(displayTitle(for: pair))
+                            Text(pair.displayTitle)
                                 .font(.system(.body, design: .rounded).weight(.medium))
                                 .foregroundStyle(.primary)
 
@@ -81,8 +88,9 @@ struct UnitsTabView: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Choose \(displayTitle(for: pair))")
+                .accessibilityLabel("Choose \(pair.spokenTitle)")
                 .accessibilityHint("Opens this converter on the home screen")
+                .accessibilityAddTraits(pair.id == viewModel.selectedPairID ? .isSelected : [])
                 .accessibilityIdentifier("units.row.\(pair.id)")
 
                 Spacer(minLength: 8)
@@ -97,7 +105,7 @@ struct UnitsTabView: View {
                                 ? LiquidGlassTheme.favoriteTint
                                 : .secondary.opacity(0.75)
                         )
-                        .frame(width: 34, height: 34)
+                        .frame(width: 44, height: 44)
                         .background(
                             Circle()
                                 .fill(Color.white.opacity(colorScheme == .dark ? 0.10 : 0.52))
@@ -111,80 +119,11 @@ struct UnitsTabView: View {
     }
 
     private func favoriteAccessibilityLabel(for pair: ConversionPair) -> String {
-        let pairName = displayTitle(for: pair).replacingOccurrences(of: "<->", with: "and")
+        let pairName = pair.spokenTitle
         if favoritesStore.isFavorite(pairID: pair.id) {
             return "Remove \(pairName) from favorites"
         }
         return "Add \(pairName) to favorites"
-    }
-
-    private func displayTitle(for pair: ConversionPair) -> String {
-        let unitAName = fullUnitName(for: pair.unitA)
-        let unitBName = fullUnitName(for: pair.unitB)
-        return "\(unitAName) <-> \(unitBName)"
-    }
-
-    private func fullUnitName(for symbol: String) -> String {
-        switch symbol {
-        case "cm": "centimeters"
-        case "in": "inches"
-        case "kg": "kilograms"
-        case "lb": "pounds"
-        case "c": "celsius"
-        case "f": "fahrenheit"
-        case "K": "kelvin"
-        case "mm": "millimeters"
-        case "m": "meters"
-        case "ft": "feet"
-        case "km": "kilometers"
-        case "mi": "miles"
-        case "g": "grams"
-        case "oz": "ounces"
-        case "L": "liters"
-        case "pt": "pints"
-        case "qt": "quarts"
-        case "gal": "gallons"
-        case "tsp": "teaspoons"
-        case "tbsp": "tablespoons"
-        case "mph": "miles per hour"
-        case "kph": "kilometers per hour"
-        case "m/s": "meters per second"
-        case "psi": "pounds per square inch"
-        case "bar": "bar"
-        case "kPa": "kilopascals"
-        case "ac": "acres"
-        case "ha": "hectares"
-        case "sq ft": "square feet"
-        case "sq m": "square meters"
-        case "rad": "radians"
-        case "deg": "degrees"
-        case "hp": "horsepower"
-        case "kw": "kilowatts"
-        case "yd": "yards"
-        case "mL": "milliliters"
-        case "fl oz": "fluid ounces"
-        case "cup": "cups"
-        case "sec": "seconds"
-        case "min": "minutes"
-        case "hr": "hours"
-        case "day": "days"
-        case "KB": "kilobytes"
-        case "MB": "megabytes"
-        case "GB": "gigabytes"
-        case "TB": "terabytes"
-        case "mpg": "miles per gallon"
-        case "L/100km": "liters per 100 kilometers"
-        case "km/L": "kilometers per liter"
-        case "J": "joules"
-        case "cal": "calories"
-        case "kcal": "kilocalories"
-        case "Wh": "watt-hours"
-        case "kWh": "kilowatt-hours"
-        case "Nm": "newton-meters"
-        case "lb-ft": "pound-feet"
-        case "in-lb": "inch-pounds"
-        default: symbol
-        }
     }
 }
 
