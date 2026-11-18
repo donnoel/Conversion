@@ -49,13 +49,13 @@ struct UnitsTabView: View {
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(LiquidGlassTheme.gentleCanvasGradient(for: colorScheme))
-        .navigationTitle("Units")
-        .searchable(text: $viewModel.searchText, prompt: "Search units")
         .overlay {
             if viewModel.isSearching && favoriteIDs.isEmpty && searchResults.isEmpty {
                 ContentUnavailableView.search(text: viewModel.searchText)
             }
         }
+        .navigationTitle("Units")
+        .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search units")
     }
 
     @ViewBuilder
